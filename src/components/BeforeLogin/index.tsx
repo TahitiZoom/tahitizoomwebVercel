@@ -2,10 +2,15 @@ import React from 'react'
 
 const BeforeLogin: React.FC = () => {
   return (
-    <div>
-      <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+      <img
+        src="/logo.png"
+        alt="Tahiti Zoom"
+        style={{ maxWidth: '280px', width: '100%' }}
+      />
+      <p style={{ textAlign: 'center', margin: 0 }}>
+        <b>Ia Ora Na !</b>
+        {' Bienvenue sur la gestion du site Tahiti Zoom.'}
       </p>
     </div>
   )
