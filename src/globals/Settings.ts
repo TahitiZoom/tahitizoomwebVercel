@@ -4,6 +4,9 @@ export const Settings: GlobalConfig = {
   slug: 'settings',
   label: 'Paramètres du site',
   admin: { group: 'Paramètres' },
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: 'maintenanceMode',
