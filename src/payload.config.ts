@@ -90,7 +90,6 @@ export default buildConfig({
   plugins: [
     ...plugins,
   ],
-  globals: [Header, Footer],
   i18n: {
     supportedLanguages: { fr },
     fallbackLanguage: 'fr',
