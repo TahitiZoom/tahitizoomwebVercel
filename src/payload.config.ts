@@ -16,11 +16,13 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  globals: [Header, Footer, Settings],
   email: nodemailerAdapter({
     defaultFromAddress: process.env.SMTP_FROM || 'contact@tahitizoom.pf',
     defaultFromName: 'Tahiti Zoom',
