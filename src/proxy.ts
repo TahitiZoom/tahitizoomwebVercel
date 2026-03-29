@@ -14,19 +14,25 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  const maintenanceCookie = request.cookies.get('maintenance-bypass')
+  if (maintenanceCookie?.value === process.env.PAYLOAD_SECRET) {
+    return NextResponse.next()
+  }
+
   try {
-    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+    const serverUrl = 'http://127.0.0.1:3000'
     const res = await fetch(`${serverUrl}/api/globals/settings?depth=0`, {
-      headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     })
     const data = await res.json()
 
     if (data?.maintenanceMode === true) {
-      return NextResponse.rewrite(new URL('/maintenance', request.url))
+      const url = request.nextUrl.clone()
+      url.pathname = '/maintenance'
+      return NextResponse.redirect(url, { status: 302 })
     }
-  } catch {
-    // En cas d'erreur, on laisse passer
+  } catch (e) {
+    console.error('Proxy error:', e)
   }
 
   return NextResponse.next()
