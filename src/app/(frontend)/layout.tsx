@@ -54,6 +54,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
   metadataBase: new URL(getServerSideURL()),
   title: {
     template: '%s | Tahiti Zoom',
