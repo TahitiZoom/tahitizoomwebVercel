@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { ContactForm } from '@/components/ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -11,7 +13,7 @@ export default function ContactPage() {
 
       {/* Hero */}
       <section style={{ paddingTop: '100px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem 0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
             letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>
             Travaillons ensemble
@@ -27,7 +29,6 @@ export default function ContactPage() {
         <div style={{ position: 'relative', width: '100%', height: '60vh', overflow: 'hidden' }}>
           <img src="/images/contact-hero.jpg" alt="Contact"
             style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} />
-          {/* Crédit photo */}
           <div style={{
             position: 'absolute', bottom: '1rem', right: '1rem',
             writingMode: 'vertical-rl', textOrientation: 'mixed',
@@ -65,9 +66,7 @@ export default function ContactPage() {
                 </p>
                 {item.href ? (
                   <a href={item.href} target="_blank" rel="noopener noreferrer"
-                    style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#111',
-                      textDecoration: 'none' }}
-                    className="hover:opacity-60 transition-opacity">
+                    style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#111', textDecoration: 'none' }}>
                     {item.value}
                   </a>
                 ) : (
@@ -86,50 +85,6 @@ export default function ContactPage() {
               Envoyez un message
             </p>
             <ContactForm />
-	  </div> 
-              style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {[
-                { name: 'name',    label: 'Nom', type: 'text',  placeholder: 'Votre nom' },
-                { name: 'email',   label: 'Email', type: 'email', placeholder: 'votre@email.com' },
-                { name: 'subject', label: 'Sujet', type: 'text',  placeholder: 'Objet de votre message' },
-              ].map((field) => (
-                <div key={field.name}>
-                  <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                    letterSpacing: '0.2em', textTransform: 'uppercase', color: '#999',
-                    display: 'block', marginBottom: '0.5rem' }}>
-                    {field.label}
-                  </label>
-                  <input type={field.type} name={field.name} placeholder={field.placeholder}
-                    style={{ width: '100%', padding: '0.8rem 0',
-                      fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#111',
-                      background: 'transparent', border: 'none',
-                      borderBottom: '1px solid rgba(0,0,0,0.15)', outline: 'none',
-                      boxSizing: 'border-box' }} />
-                </div>
-              ))}
-              <div>
-                <label style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                  letterSpacing: '0.2em', textTransform: 'uppercase', color: '#999',
-                  display: 'block', marginBottom: '0.5rem' }}>
-                  Message
-                </label>
-                <textarea name="message" placeholder="Décrivez votre projet..." rows={5}
-                  style={{ width: '100%', padding: '0.8rem 0',
-                    fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#111',
-                    background: 'transparent', border: 'none', resize: 'vertical',
-                    borderBottom: '1px solid rgba(0,0,0,0.15)', outline: 'none',
-                    boxSizing: 'border-box' }} />
-              </div>
-              <button type="submit"
-                style={{ alignSelf: 'flex-start', marginTop: '1rem',
-                  fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                  letterSpacing: '0.3em', textTransform: 'uppercase',
-                  border: '1px solid #111', padding: '0.9rem 2.5rem',
-                  background: 'transparent', color: '#111', cursor: 'pointer' }}
-                className="hover:bg-black hover:text-white transition-all duration-300">
-                Envoyer →
-              </button>
-            </form>
           </div>
 
         </div>
