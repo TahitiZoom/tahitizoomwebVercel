@@ -15,7 +15,7 @@ export default async function EditorialPage() {
   try {
     const payload = await getPayload({ config: configPromise })
     const res = await payload.find({
-      collection: 'editorial',
+      collection: 'posts',
       sort: '-publishedAt',
       limit: 20,
     })
