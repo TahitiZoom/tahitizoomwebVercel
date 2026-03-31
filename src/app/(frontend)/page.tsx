@@ -25,49 +25,59 @@ export default async function HomePage() {
     <div style={{ background: 'white', color: '#111' }}>
 
       {/* Hero */}
-      <section style={{ paddingTop: '120px', paddingBottom: '0', overflow: 'hidden' }}>
-        
-        {/* Ligne 1 */}
-        <div style={{ padding: '0 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+      <section style={{ paddingTop: '100px', overflow: 'hidden' }}>
+
+        {/* Ligne 1 - alignée à droite */}
+        <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', letterSpacing: '0.35em',
-            textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>
+            textTransform: 'uppercase', color: '#999', marginBottom: '0.75rem' }}>
             Reporter Photographe · Polynésie française
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(5rem,13vw,12rem)',
-            lineHeight: 0.88, letterSpacing: '0.03em', color: '#111', fontWeight: 400,
-            marginBottom: '1.5rem' }}>
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(4rem,11vw,10rem)',
+            lineHeight: 0.9,
+            letterSpacing: '0.04em',
+            color: '#111',
+            fontWeight: 400,
+            marginBottom: '1rem',
+          }}>
             LÀ OÙ L'IMAGE
           </h1>
         </div>
 
         {/* Carousel intercalé */}
         {posts.length > 0 && (
-          <div style={{ margin: '1.5rem 0' }}>
+          <div style={{ margin: '1rem 0' }}>
             <EditorialCarousel posts={posts} />
           </div>
         )}
 
-        {/* Ligne 2 */}
-        <div style={{ padding: '1.5rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(5rem,13vw,12rem)',
-            lineHeight: 0.88, letterSpacing: '0.03em', color: '#111', fontWeight: 400,
-            marginBottom: '3rem' }}>
+        {/* Ligne 2 - alignée à droite */}
+        <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(4rem,11vw,10rem)',
+            lineHeight: 0.9,
+            letterSpacing: '0.04em',
+            color: '#111',
+            fontWeight: 400,
+            marginBottom: '2.5rem',
+          }}>
             RENCONTRE LE CODE
           </h2>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Link href="/editorial" style={{
               fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.3em',
               textTransform: 'uppercase', border: '1px solid #111', padding: '0.8rem 2rem',
-              color: '#111', textDecoration: 'none', transition: 'all 0.3s',
-            }}
-            className="hover:bg-black hover:text-white">
+              color: '#111', textDecoration: 'none',
+            }}>
               Éditorial
             </Link>
             <Link href="/contact" style={{
               fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.3em',
               textTransform: 'uppercase', color: '#999', textDecoration: 'none',
-            }}
-            className="hover:text-black transition-colors">
+            }}>
               Contact →
             </Link>
           </div>
@@ -88,13 +98,12 @@ export default async function HomePage() {
             { n: '04', t: 'Infographie',   d: 'Identité visuelle, logos, supports print.' },
           ].map((s) => (
             <Link key={s.n} href="/services"
-              className="group flex items-center justify-between py-6 hover:bg-black/3 transition-all px-2 -mx-2"
-              style={{ borderTop: '1px solid rgba(0,0,0,0.08)', textDecoration: 'none' }}>
+              className="group flex items-center justify-between py-6 hover:bg-black/5 transition-all px-2 -mx-2"
+              style={{ borderTop: '1px solid rgba(0,0,0,0.08)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem', color: '#ccc', letterSpacing: '0.2em' }}>/{s.n}</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,5vw,4rem)',
-                  color: '#111', letterSpacing: '0.05em' }}
-                  className="group-hover:opacity-50 transition-opacity">{s.t}</span>
+                  color: '#111', letterSpacing: '0.05em', fontWeight: 400 }}>{s.t}</span>
               </div>
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#999' }}
                 className="hidden md:block">{s.d}</span>
@@ -102,7 +111,6 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
-
     </div>
   )
 }
