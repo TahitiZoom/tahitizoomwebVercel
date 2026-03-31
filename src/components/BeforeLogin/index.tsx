@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import Link from 'next/link'
 
 export const BeforeLogin: React.FC = () => {
   return (
@@ -10,15 +11,17 @@ export const BeforeLogin: React.FC = () => {
       marginBottom: '2rem',
       marginTop: '-2rem',
     }}>
-      {/* Logo favicon TZ */}
-      <img
-        src="/logo-tz.png"
-        alt="Tahiti Zoom"
-        style={{ width: '64px', height: '64px', marginBottom: '1.2rem' }}
-      />
+      {/* Logo favicon TZ — lien vers home */}
+      <Link href="/">
+        <img
+          src="/Logo-Tahiti-Zoom-144x144.png"
+          alt="Tahiti Zoom"
+          style={{ width: '64px', height: '64px', marginBottom: '1.2rem', cursor: 'pointer' }}
+        />
+      </Link>
       {/* Logo signature */}
       <img
-        src="/logo.svg"
+        src="/logo-tz.png"
         alt="Stéphane Sayeb"
         style={{ width: '220px', marginBottom: '1rem' }}
       />
