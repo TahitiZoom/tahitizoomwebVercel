@@ -118,7 +118,7 @@ export default function AProposPage() {
             {[
               { year: '2024 —', title: 'Développeur Full Stack indépendant', desc: 'Conception et développement de sites et applications web sur mesure pour clients locaux et internationaux.' },
               { year: '2015 —', title: 'Photographe reporter indépendant', desc: 'Reportages documentaires en Polynésie française. Collaborations avec médias locaux et publications internationales.' },
-              { year: '2010 —', title: 'Installation en Polynésie française', desc: "Arrivée à Faaa, Tahiti. Début de l'immersion dans la culture polynésienne et le photojournalisme local." },
+              { year: '1995 —', title: 'Résident permanent en Polynésie française', desc: "Installé définitivement à Tahiti depuis 1995, après une première découverte du Fenua à la fin des années 70. Une terre d'adoption devenue source d'inspiration permanente." },
             ].map((item, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '160px 1fr',
                 gap: '2rem', padding: '2rem 0', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
