@@ -85,7 +85,7 @@ export default async function HomePage() {
         </div>
       </section>
       {/* Services */}
-      <section style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+      <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
             textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
