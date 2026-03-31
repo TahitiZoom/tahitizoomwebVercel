@@ -23,9 +23,7 @@ export function ServicesMenu() {
   const handleEnter = useCallback((i: number) => {
     if (hideTimer.current) clearTimeout(hideTimer.current)
     setActive(i)
-
     if (prevIndex.current !== i) {
-      // Chaque changement de rubrique = nouvelle clé = nouvelle animation
       setImgSrc(services[i].img)
       setImgKey(k => k + 1)
       setImgVisible(true)
@@ -36,22 +34,22 @@ export function ServicesMenu() {
   const handleLeave = useCallback(() => {
     setActive(null)
     prevIndex.current = null
-    hideTimer.current = setTimeout(() => setImgVisible(false), 600)
+    hideTimer.current = setTimeout(() => setImgVisible(false), 800)
   }, [])
 
   return (
     <>
       <style>{`
         @keyframes tzFlipIn {
-          0%   { opacity: 0; transform: perspective(1000px) rotateX(-70deg) scale(0.85); }
-          50%  { opacity: 1; transform: perspective(1000px) rotateX( 10deg) scale(1.02); }
-          100% { opacity: 1; transform: perspective(1000px) rotateX(  0deg) scale(1);    }
+          0%   { opacity: 1; transform: perspective(1000px) rotateY(90deg)  scale(0.9); }
+          60%  { opacity: 1; transform: perspective(1000px) rotateY(-8deg)  scale(1.02); }
+          100% { opacity: 1; transform: perspective(1000px) rotateY(0deg)   scale(1); }
         }
         @keyframes tzFadeOut {
-          0%   { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1);    }
-          100% { opacity: 0; transform: perspective(1000px) rotateX(60deg) scale(0.85); }
+          0%   { opacity: 1; transform: perspective(1000px) rotateY(0deg)   scale(1); }
+          100% { opacity: 0; transform: perspective(1000px) rotateY(-90deg) scale(0.9); }
         }
-        .tz-flip-in  { animation: tzFlipIn  2s cubic-bezier(0.22,1,0.36,1) both; }
+        .tz-flip-in  { animation: tzFlipIn  3s cubic-bezier(0.22,1,0.36,1) both; }
         .tz-fade-out { animation: tzFadeOut 1.4s cubic-bezier(0.55,0,1,0.45) both; }
       `}</style>
 
@@ -72,7 +70,7 @@ export function ServicesMenu() {
               borderRadius: '6px',
               overflow: 'hidden',
               boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
-              transformOrigin: 'center bottom',
+              transformOrigin: 'left center',
             }}>
             <img src={imgSrc} alt=""
               style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
