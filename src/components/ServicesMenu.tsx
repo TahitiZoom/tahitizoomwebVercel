@@ -36,7 +36,7 @@ export function ServicesMenu() {
       flipTimer.current = setTimeout(() => {
         setDisplayed(i)
         setFlipping(false)
-      }, 250) // mi-chemin du flip
+      }, 600) // mi-chemin du flip
     }
 
     setActive(i)
@@ -69,7 +69,7 @@ export function ServicesMenu() {
           from { opacity: 1; transform: scale(1); }
           to   { opacity: 0; transform: scale(0.92); }
         }
-        .thumb-flip   { animation: flipChange 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
+        .thumb-flip   { animation: flipChange 1.2s cubic-bezier(0.4,0,0.2,1) forwards; }
         .thumb-fadein { animation: fadeIn     0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
         .thumb-fadeout{ animation: fadeOut    0.35s cubic-bezier(0.55,0,1,0.45) forwards; }
       `}</style>
