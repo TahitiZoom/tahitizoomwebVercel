@@ -162,6 +162,15 @@ export const Posts: CollectionConfig<'posts'> = {
       ],
     },
     {
+      name: 'facebookUrl',
+      type: 'text',
+      label: 'URL du post Facebook',
+      admin: {
+        position: 'sidebar',
+        description: 'Collez le lien du post Facebook',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
