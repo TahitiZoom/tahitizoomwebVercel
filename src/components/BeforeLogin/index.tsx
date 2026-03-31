@@ -14,7 +14,7 @@ export const BeforeLogin: React.FC = () => {
       {/* Logo favicon TZ — lien vers home */}
       <Link href="/">
         <img
-          src="/logo-tz.svg"
+          src="/logo-tz.png"
           alt="Tahiti Zoom"
           style={{ width: '64px', height: '64px', marginBottom: '1.2rem', cursor: 'pointer' }}
         />
