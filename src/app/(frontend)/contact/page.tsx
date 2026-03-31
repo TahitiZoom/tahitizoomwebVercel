@@ -16,7 +16,7 @@ export default function ContactPage() {
             letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>
             Travaillons ensemble
           </p>
-          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,8vw,7rem)',
+          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2rem,5vw,4.5rem)',
             fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
             letterSpacing: '0.03em', marginBottom: '3rem' }}>
             VOTRE PROJET<br />COMMENCE ICI
