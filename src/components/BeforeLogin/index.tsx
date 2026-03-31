@@ -18,7 +18,7 @@ export const BeforeLogin: React.FC = () => {
       />
       {/* Logo signature */}
       <img
-        src="/logo-signature.png"
+        src="/logo.svg"
         alt="Stéphane Sayeb"
         style={{ width: '220px', marginBottom: '1rem' }}
       />
