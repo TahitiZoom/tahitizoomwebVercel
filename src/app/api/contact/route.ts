@@ -3,11 +3,7 @@ import nodemailer from 'nodemailer'
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.formData()
-    const name    = formData.get('name')    as string
-    const email   = formData.get('email')   as string
-    const subject = formData.get('subject') as string
-    const message = formData.get('message') as string
+    const { name, email, subject, message } = await req.json()
 
     if (!name || !email || !message) {
       return NextResponse.json({ message: 'Champs requis manquants' }, { status: 400 })
@@ -38,7 +34,7 @@ export async function POST(req: NextRequest) {
       `,
     })
 
-    return NextResponse.redirect(new URL('/contact?sent=1', req.url))
+    return NextResponse.json({ message: 'Email envoyé' }, { status: 200 })
   } catch (error) {
     console.error('Contact form error:', error)
     return NextResponse.json({ message: 'Erreur envoi email' }, { status: 500 })

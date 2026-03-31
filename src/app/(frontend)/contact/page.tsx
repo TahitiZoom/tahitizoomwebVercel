@@ -85,7 +85,7 @@ export default function ContactPage() {
               textTransform: 'uppercase', color: '#999', marginBottom: '3rem' }}>
               Envoyez un message
             </p>
-            <form action="/api/contact" method="POST"
+            <ContactForm />
               style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {[
                 { name: 'name',    label: 'Nom', type: 'text',  placeholder: 'Votre nom' },
