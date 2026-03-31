@@ -68,7 +68,7 @@ export function ClientsCarousel() {
               <img
                 src={client.logo}
                 alt={client.name}
-                style={{ height: '40px', width: 'auto', objectFit: 'contain',
+                style={{ height: '60px', width: 'auto', objectFit: 'contain',
                   filter: 'grayscale(100%)', opacity: 0.5,
                   transition: 'opacity 0.3s, filter 0.3s' }}
                 onError={(e) => {
