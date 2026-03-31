@@ -5,7 +5,7 @@ import Link from 'next/link'
 export function EditorialCarousel({ posts }: { posts: any[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const animRef = useRef<number>()
+  const animRef = useRef<number | null>(null)
   const posRef = useRef(0)
   const speedRef = useRef(0.5)
   const pausedRef = useRef(false)
