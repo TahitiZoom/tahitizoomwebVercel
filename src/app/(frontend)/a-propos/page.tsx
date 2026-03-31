@@ -19,6 +19,9 @@ export default function AProposPage() {
             <img src="/images/portrait-stephane.jpg" alt="Stéphane Sayeb"
               style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover',
                 borderRadius: '4px', filter: 'grayscale(20%)' }} />
+            <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)', fontFamily: 'var(--font-body)', fontSize: '0.6rem', letterSpacing: '0.15em', color: 'rgba(255,255,255,0.6)', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+              © Kevin Manhein
+            </div>
             <div style={{ position: 'absolute', bottom: '-1.5rem', right: '-1.5rem',
               background: 'white', padding: '1rem 1.5rem', border: '1px solid rgba(0,0,0,0.08)' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
