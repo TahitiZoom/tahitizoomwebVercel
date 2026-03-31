@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 
 const services = [
@@ -31,57 +31,63 @@ const services = [
 
 export function ServicesMenu() {
   const [active, setActive] = useState<number | null>(null)
+  const [visible, setVisible] = useState(false)
+  const [animState, setAnimState] = useState<'in' | 'out' | 'idle'>('idle')
   const [pos, setPos] = useState({ x: 0, y: 0 })
-  const [flipped, setFlipped] = useState(false)
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleMove = (e: React.MouseEvent) => {
     setPos({ x: e.clientX, y: e.clientY })
   }
 
   const handleEnter = (i: number) => {
+    if (hideTimer.current) clearTimeout(hideTimer.current)
     setActive(i)
-    setFlipped(false)
-    setTimeout(() => setFlipped(true), 50)
+    setVisible(true)
+    setAnimState('in')
   }
 
   const handleLeave = () => {
-    setFlipped(false)
-    setTimeout(() => setActive(null), 300)
+    setAnimState('out')
+    hideTimer.current = setTimeout(() => {
+      setVisible(false)
+      setActive(null)
+      setAnimState('idle')
+    }, 600)
   }
 
   return (
     <>
-      {/* Style keyframes */}
       <style>{`
         @keyframes flipIn {
-          0%   { transform: perspective(600px) rotateY(-90deg) scale(0.8); opacity: 0; }
-          100% { transform: perspective(600px) rotateY(0deg)  scale(1);   opacity: 1; }
+          0%   { transform: perspective(800px) rotateY(-80deg) scale(0.75); opacity: 0; }
+          60%  { transform: perspective(800px) rotateY(8deg)   scale(1.02); opacity: 1; }
+          100% { transform: perspective(800px) rotateY(0deg)   scale(1);    opacity: 1; }
         }
         @keyframes flipOut {
-          0%   { transform: perspective(600px) rotateY(0deg)  scale(1);   opacity: 1; }
-          100% { transform: perspective(600px) rotateY(90deg) scale(0.8); opacity: 0; }
+          0%   { transform: perspective(800px) rotateY(0deg)   scale(1);    opacity: 1; }
+          100% { transform: perspective(800px) rotateY(80deg)  scale(0.75); opacity: 0; }
         }
-        .flip-in  { animation: flipIn  0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
-        .flip-out { animation: flipOut 0.25s cubic-bezier(0.55,0,1,0.45) forwards; }
+        .anim-in  { animation: flipIn  0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .anim-out { animation: flipOut 0.5s cubic-bezier(0.55,0,1,0.45) forwards; }
       `}</style>
 
       <div onMouseMove={handleMove} style={{ position: 'relative' }}>
 
-        {/* Vignette flottante avec flip */}
-        {active !== null && (
+        {visible && active !== null && (
           <div
-            className={flipped ? 'flip-in' : 'flip-out'}
+            className={animState === 'in' ? 'anim-in' : animState === 'out' ? 'anim-out' : ''}
             style={{
               position: 'fixed',
               left: pos.x - 140,
               top: pos.y - 100,
-              width: '220px',
-              height: '160px',
+              width: '240px',
+              height: '170px',
               pointerEvents: 'none',
               zIndex: 100,
               borderRadius: '6px',
               overflow: 'hidden',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.18)',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.2)',
               transformOrigin: 'center center',
             }}>
             <img
@@ -91,8 +97,8 @@ export function ServicesMenu() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                transform: flipped ? 'scale(1)' : 'scale(1.15)',
-                transition: 'transform 0.5s cubic-bezier(0.22,1,0.36,1)',
+                transform: animState === 'in' ? 'scale(1)' : 'scale(1.1)',
+                transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
               }}
             />
           </div>
@@ -111,40 +117,31 @@ export function ServicesMenu() {
               padding: '1.5rem 0.5rem',
               borderTop: '1px solid rgba(0,0,0,0.08)',
               textDecoration: 'none',
-              transition: 'background 0.2s',
+              transition: 'background 0.3s',
               background: active === i ? 'rgba(0,0,0,0.02)' : 'transparent',
               cursor: 'pointer',
             }}>
-
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
               <span style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.6rem',
+                fontFamily: 'var(--font-body)', fontSize: '0.6rem',
                 color: active === i ? '#111' : '#ccc',
-                letterSpacing: '0.2em',
-                transition: 'color 0.3s',
+                letterSpacing: '0.2em', transition: 'color 0.3s',
               }}>/{s.n}</span>
               <span style={{
                 fontFamily: 'Manrope, sans-serif',
                 fontSize: 'clamp(2rem,4vw,3.5rem)',
-                fontWeight: 300,
-                textTransform: 'uppercase',
+                fontWeight: 300, textTransform: 'uppercase',
                 letterSpacing: '0.05em',
                 color: active === i ? '#111' : '#aaa',
-                transition: 'color 0.3s',
+                transition: 'color 0.4s',
               }}>{s.t}</span>
             </div>
-
             <span style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.9rem',
+              fontFamily: 'var(--font-body)', fontSize: '0.9rem',
               color: active === i ? '#555' : '#bbb',
-              maxWidth: '320px',
-              textAlign: 'right',
-              lineHeight: '1.5',
-              transition: 'color 0.3s',
+              maxWidth: '320px', textAlign: 'right',
+              lineHeight: '1.5', transition: 'color 0.3s',
             }} className="hidden md:block">{s.d}</span>
-
           </Link>
         ))}
       </div>
