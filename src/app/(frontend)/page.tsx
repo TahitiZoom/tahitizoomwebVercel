@@ -2,6 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { EditorialCarousel } from '@/components/EditorialCarousel'
 import Link from 'next/link'
+import { ServicesMenu } from '@/components/ServicesMenu'
 
 export const revalidate = 60
 
@@ -83,7 +84,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Services */}
       <section style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
@@ -91,24 +91,7 @@ export default async function HomePage() {
             textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
             Ce que je propose
           </p>
-          {[
-            { n: '01', t: 'Photographie',  d: 'Reportages, portraits, culture polynésienne.' },
-            { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs, CMS sur mesure.' },
-            { n: '03', t: 'Web Design',    d: 'Interfaces élégantes et expériences mémorables.' },
-            { n: '04', t: 'Infographie',   d: 'Identité visuelle, logos, supports print.' },
-          ].map((s) => (
-            <Link key={s.n} href="/services"
-              className="group flex items-center justify-between py-6 hover:bg-black/5 transition-all px-2 -mx-2"
-              style={{ borderTop: '1px solid rgba(0,0,0,0.08)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem', color: '#ccc', letterSpacing: '0.2em' }}>/{s.n}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,5vw,4rem)',
-                  color: '#111', letterSpacing: '0.05em', fontWeight: 400 }}>{s.t}</span>
-              </div>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#999' }}
-                className="hidden md:block">{s.d}</span>
-            </Link>
-          ))}
+          <ServicesMenu />
         </div>
       </section>
     </div>
