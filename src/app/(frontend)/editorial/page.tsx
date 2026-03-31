@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default async function EditorialPage() {
-  let articles: any[] = []
+  let posts: any[] = []
 
   try {
     const payload = await getPayload({ config: configPromise })
@@ -18,53 +18,87 @@ export default async function EditorialPage() {
       collection: 'posts',
       sort: '-publishedAt',
       limit: 20,
+      where: { _status: { equals: 'published' } },
     })
-    articles = res.docs
+    posts = res.docs
   } catch {}
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-black text-white" data-theme="dark">
-      <div className="container">
+      <div className="container max-w-4xl mx-auto">
+
+        {/* Header */}
         <div className="mb-16">
           <p className="text-xs tracking-widest uppercase text-white/40 mb-4">Reportages & Articles</p>
           <h1 className="text-5xl md:text-7xl font-light tracking-tight">Éditorial</h1>
         </div>
 
-        {articles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article: any) => (
-              <div key={article.id} className="flex flex-col gap-3">
-                {article.category && (
-                  <p className="text-xs tracking-widest uppercase text-white/40">{article.category}</p>
+        {/* Posts */}
+        {posts.length > 0 ? (
+          <div className="flex flex-col gap-12">
+            {posts.map((post: any) => (
+              <article key={post.id} className="border-t border-white/10 pt-8">
+                {/* Meta */}
+                <div className="flex items-center gap-4 mb-4">
+                  {post.categories?.length > 0 && (
+                    <span className="text-xs tracking-widest uppercase text-white/40">
+                      {post.categories[0]?.title || ''}
+                    </span>
+                  )}
+                  {post.publishedAt && (
+                    <span className="text-xs text-white/30">
+                      {new Date(post.publishedAt).toLocaleDateString('fr-FR', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                      })}
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="text-2xl font-light text-white mb-6">{post.title}</h2>
+
+                {/* oEmbed Facebook responsive */}
+                {post.facebookUrl ? (
+                  <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    maxWidth: '500px',
+                    margin: '0 auto',
+                  }}>
+                    <iframe
+                      src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(post.facebookUrl)}&show_text=true&width=500&lazy=true`}
+                      style={{
+                        width: '100%',
+                        minHeight: '600px',
+                        border: 'none',
+                        overflow: 'hidden',
+                        borderRadius: '8px',
+                        background: '#fff',
+                      }}
+                      scrolling="no"
+                      frameBorder="0"
+                      allowFullScreen
+                      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    />
+                  </div>
+                ) : (
+                  post.heroImage?.url && (
+                    <img src={post.heroImage.url} alt={post.title}
+                      className="w-full rounded-lg object-cover" style={{ maxHeight: '500px' }} />
+                  )
                 )}
-                {article.publishedAt && (
-                  <p className="text-xs text-white/30">
-                    {new Date(article.publishedAt).toLocaleDateString('fr-FR', {
-                      year: 'numeric', month: 'long', day: 'numeric'
-                    })}
-                  </p>
-                )}
-                <iframe
-                  src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(article.facebookUrl)}&show_text=true&width=500`}
-                  width="100%"
-                  height="500"
-                  style={{ border: 'none', overflow: 'hidden', borderRadius: '8px' }}
-                  scrolling="no"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                />
-              </div>
+
+              </article>
             ))}
           </div>
         ) : (
           <div className="text-center py-32">
             <p className="text-white/20 text-3xl font-light mb-4">Aucun article</p>
             <p className="text-xs text-white/30 tracking-widest uppercase">
-              Ajoutez vos liens Facebook depuis l'<a href="/admin" className="text-white/50 hover:text-white">admin</a>
+              Ajoutez vos posts depuis l'<a href="/admin" className="text-white/50 hover:text-white">admin</a>
             </p>
           </div>
         )}
+
       </div>
     </div>
   )
