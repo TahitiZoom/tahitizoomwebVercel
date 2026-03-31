@@ -17,14 +17,15 @@ export async function Footer() {
           <Link href="/">
             <Logo className="" />
           </Link>
-          <nav style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-            {navItems.map(({ link }, i) => (
-              <CMSLink key={i} {...link}
-                style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', letterSpacing: '0.15em',
-                  textTransform: 'uppercase', color: '#666', fontWeight: 500 }} />
-            ))}
-          </nav>
-        </div>
+        <nav style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+	  {navItems.map(({ link }, i) => (
+    	   <span key={i} style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+      	    letterSpacing: '0.15em', textTransform: 'uppercase', color: '#666', fontWeight: 500 }}>
+      	    <CMSLink {...link} />
+    	  </span>
+  	 ))}
+	</nav>
+	</div>
         <div style={{ borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: '1.5rem', textAlign: 'center' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.2em',
             textTransform: 'uppercase', color: '#999' }}>
