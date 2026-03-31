@@ -36,10 +36,10 @@ export function ServicesMenu() {
           <img src={s.img} alt={s.t}
             style={{
               position: 'fixed',
-              left: pos.x - 157,
-              top: pos.y - 182,
-              width: '315px',
-              height: '365px',
+              left: pos.x - 100,
+              top: pos.y - 120,
+              width: '200px',
+              height: '240px',
               objectFit: 'cover',
               pointerEvents: 'none',
               zIndex: 100,
