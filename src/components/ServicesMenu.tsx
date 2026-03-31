@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
 
 const services = [
@@ -10,121 +10,111 @@ const services = [
 ]
 
 export function ServicesMenu() {
-  const [active, setActive]       = useState<number | null>(null)
-  const [displayed, setDisplayed] = useState<number | null>(null)
-  const [phase, setPhase]         = useState<'idle'|'enter'|'flip-out'|'flip-in'|'exit'>('idle')
-  const [pos, setPos]             = useState({ x: 0, y: 0 })
-  const prevActive                = useRef<number | null>(null)
-  const timer                     = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [active, setActive]         = useState<number | null>(null)
+  const [imgKey, setImgKey]         = useState(0)
+  const [imgSrc, setImgSrc]         = useState('')
+  const [imgVisible, setImgVisible] = useState(false)
+  const [pos, setPos]               = useState({ x: 0, y: 0 })
+  const hideTimer                   = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const prevIndex                   = useRef<number | null>(null)
 
   const handleMove = (e: React.MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
 
-  const handleEnter = (i: number) => {
-    if (timer.current) clearTimeout(timer.current)
-
-    if (prevActive.current === null) {
-      setDisplayed(i)
-      setPhase('enter')
-    } else if (prevActive.current !== i) {
-      setPhase('flip-out')
-      timer.current = setTimeout(() => {
-        setDisplayed(i)
-        setPhase('flip-in')
-      }, 400)
-    }
-
+  const handleEnter = useCallback((i: number) => {
+    if (hideTimer.current) clearTimeout(hideTimer.current)
     setActive(i)
-    prevActive.current = i
-  }
 
-  const handleLeave = () => {
+    if (prevIndex.current !== i) {
+      // Chaque changement de rubrique = nouvelle clé = nouvelle animation
+      setImgSrc(services[i].img)
+      setImgKey(k => k + 1)
+      setImgVisible(true)
+    }
+    prevIndex.current = i
+  }, [])
+
+  const handleLeave = useCallback(() => {
     setActive(null)
-    prevActive.current = null
-    setPhase('exit')
-    timer.current = setTimeout(() => {
-      setDisplayed(null)
-      setPhase('idle')
-    }, 500)
-  }
-
-  const thumbStyle = (): React.CSSProperties => {
-    const base: React.CSSProperties = {
-      position: 'fixed',
-      left: pos.x - 130,
-      top: pos.y - 110,
-      width: '240px',
-      height: '170px',
-      pointerEvents: 'none',
-      zIndex: 100,
-      borderRadius: '6px',
-      overflow: 'hidden',
-      boxShadow: '0 16px 48px rgba(0,0,0,0.18)',
-      transformOrigin: 'center center',
-      transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.5s ease',
-    }
-    switch (phase) {
-      case 'enter':    return { ...base, transform: 'perspective(900px) rotateX(0deg) scale(1)',    opacity: 1 }
-      case 'flip-out': return { ...base, transform: 'perspective(900px) rotateX(90deg) scale(0.8)', opacity: 0 }
-      case 'flip-in':  return { ...base, transform: 'perspective(900px) rotateX(0deg) scale(1)',    opacity: 1 }
-      case 'exit':     return { ...base, transform: 'perspective(900px) rotateX(0deg) scale(0.9)',  opacity: 0 }
-      default:         return { ...base, transform: 'perspective(900px) rotateX(90deg) scale(0.8)', opacity: 0 }
-    }
-  }
+    prevIndex.current = null
+    hideTimer.current = setTimeout(() => setImgVisible(false), 600)
+  }, [])
 
   return (
-    <div onMouseMove={handleMove} style={{ position: 'relative' }}>
+    <>
+      <style>{`
+        @keyframes tzFlipIn {
+          0%   { opacity: 0; transform: perspective(1000px) rotateX(-70deg) scale(0.85); }
+          50%  { opacity: 1; transform: perspective(1000px) rotateX( 10deg) scale(1.02); }
+          100% { opacity: 1; transform: perspective(1000px) rotateX(  0deg) scale(1);    }
+        }
+        @keyframes tzFadeOut {
+          0%   { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1);    }
+          100% { opacity: 0; transform: perspective(1000px) rotateX(60deg) scale(0.85); }
+        }
+        .tz-flip-in  { animation: tzFlipIn  0.7s cubic-bezier(0.22,1,0.36,1) both; }
+        .tz-fade-out { animation: tzFadeOut 0.5s cubic-bezier(0.55,0,1,0.45) both; }
+      `}</style>
 
-      {displayed !== null && (
-        <div style={thumbStyle()}>
-          <img
-            src={services[displayed].img}
-            alt={services[displayed].t}
+      <div onMouseMove={handleMove} style={{ position: 'relative' }}>
+
+        {imgSrc && (
+          <div
+            key={imgKey}
+            className={imgVisible ? 'tz-flip-in' : 'tz-fade-out'}
             style={{
-              width: '100%', height: '100%', objectFit: 'cover',
-              transform: phase === 'flip-out' ? 'scale(1.1)' : 'scale(1)',
-              transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)',
-            }}
-          />
-        </div>
-      )}
-
-      {services.map((s, i) => (
-        <Link
-          key={s.n}
-          href="/services"
-          onMouseEnter={() => handleEnter(i)}
-          onMouseLeave={handleLeave}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '1.2rem 0.5rem',
-            borderTop: '1px solid rgba(0,0,0,0.08)',
-            textDecoration: 'none',
-            background: active === i ? 'rgba(0,0,0,0.02)' : 'transparent',
-            transition: 'background 0.3s',
-          }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.55rem',
-              color: active === i ? '#111' : '#ccc',
-              letterSpacing: '0.2em', transition: 'color 0.3s',
-            }}>/{s.n}</span>
-            <span style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(1.4rem,2.8vw,2.4rem)',
-              fontWeight: 300, textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              color: active === i ? '#111' : '#aaa',
-              transition: 'color 0.4s',
-            }}>{s.t}</span>
+              position: 'fixed',
+              left: pos.x - 130,
+              top: pos.y - 110,
+              width: '240px',
+              height: '170px',
+              pointerEvents: 'none',
+              zIndex: 100,
+              borderRadius: '6px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+              transformOrigin: 'center bottom',
+            }}>
+            <img src={imgSrc} alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
-          <span style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.82rem',
-            color: active === i ? '#555' : '#bbb',
-            maxWidth: '320px', textAlign: 'right', lineHeight: '1.6',
-            transition: 'color 0.3s',
-          }} className="hidden md:block">{s.d}</span>
-        </Link>
-      ))}
-    </div>
+        )}
+
+        {services.map((s, i) => (
+          <Link key={s.n} href="/services"
+            onMouseEnter={() => handleEnter(i)}
+            onMouseLeave={handleLeave}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '1.2rem 0.5rem',
+              borderTop: '1px solid rgba(0,0,0,0.08)',
+              textDecoration: 'none',
+              background: active === i ? 'rgba(0,0,0,0.02)' : 'transparent',
+              transition: 'background 0.3s',
+            }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
+              <span style={{
+                fontFamily: 'var(--font-body)', fontSize: '0.55rem',
+                color: active === i ? '#111' : '#ccc',
+                letterSpacing: '0.2em', transition: 'color 0.3s',
+              }}>/{s.n}</span>
+              <span style={{
+                fontFamily: 'Manrope, sans-serif',
+                fontSize: 'clamp(1.4rem,2.8vw,2.4rem)',
+                fontWeight: 300, textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                color: active === i ? '#111' : '#aaa',
+                transition: 'color 0.4s',
+              }}>{s.t}</span>
+            </div>
+            <span style={{
+              fontFamily: 'var(--font-body)', fontSize: '0.82rem',
+              color: active === i ? '#555' : '#bbb',
+              maxWidth: '320px', textAlign: 'right', lineHeight: '1.6',
+              transition: 'color 0.3s',
+            }} className="hidden md:block">{s.d}</span>
+          </Link>
+        ))}
+      </div>
+    </>
   )
 }
