@@ -67,7 +67,7 @@ export function ServicesMenu() {
           </div>
 
           <span style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.82rem',
+            fontFamily: 'var(--font-body)', fontSize: '1rem',
             color: active === i ? '#555' : '#bbb',
             maxWidth: '320px', textAlign: 'right', lineHeight: '1.6',
             transition: 'color 0.3s',
