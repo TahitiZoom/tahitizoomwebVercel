@@ -51,8 +51,8 @@ export function ServicesMenu() {
           0%   { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1);    }
           100% { opacity: 0; transform: perspective(1000px) rotateX(60deg) scale(0.85); }
         }
-        .tz-flip-in  { animation: tzFlipIn  0.7s cubic-bezier(0.22,1,0.36,1) both; }
-        .tz-fade-out { animation: tzFadeOut 0.5s cubic-bezier(0.55,0,1,0.45) both; }
+        .tz-flip-in  { animation: tzFlipIn  1.4s cubic-bezier(0.22,1,0.36,1) both; }
+        .tz-fade-out { animation: tzFadeOut 0.9s cubic-bezier(0.55,0,1,0.45) both; }
       `}</style>
 
       <div onMouseMove={handleMove} style={{ position: 'relative' }}>
