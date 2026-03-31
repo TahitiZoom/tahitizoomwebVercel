@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, DM_Sans } from 'next/font/google'
+import { Bebas_Neue, DM_Sans, Manrope } from 'next/font/google'
 import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
@@ -18,6 +18,13 @@ const display = Bebas_Neue({
   display: 'swap',
 })
 
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-manrope',
+  display: 'swap',
+})
+
 const body = DM_Sans({
   subsets: ['latin'],
   weight: ['300', '400', '500'],
@@ -29,7 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={`${display.variable} ${body.variable}`} lang="fr" suppressHydrationWarning>
+    <html className={`${display.variable} ${body.variable} ${manrope.variable}`} lang="fr" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />

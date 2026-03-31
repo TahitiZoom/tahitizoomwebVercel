@@ -34,14 +34,14 @@ export default async function HomePage() {
             Reporter Photographe · Polynésie française
           </p>
           <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem,11vw,10rem)',
-            lineHeight: 0.9,
-            letterSpacing: '0.04em',
-            color: '#111',
-            fontWeight: 400,
-            marginBottom: '1rem',
-          }}>
+          fontFamily: 'Manrope, sans-serif',
+  	  fontSize: '76px',
+          lineHeight: '76px',
+          fontWeight: 300,
+          textTransform: 'uppercase',
+          color: '#111',
+          marginBottom: '1rem',
+	  }}>
             LÀ OÙ L'IMAGE
           </h1>
         </div>
@@ -56,14 +56,14 @@ export default async function HomePage() {
         {/* Ligne 2 - alignée à droite */}
         <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
           <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem,11vw,10rem)',
-            lineHeight: 0.9,
-            letterSpacing: '0.04em',
-            color: '#111',
-            fontWeight: 400,
-            marginBottom: '2.5rem',
-          }}>
+          fontFamily: 'Manrope, sans-serif',
+  	  fontSize: '76px',
+          lineHeight: '76px',
+          fontWeight: 300,
+          textTransform: 'uppercase',
+          color: '#111',
+          marginBottom: '1rem',
+	  }}>
             RENCONTRE LE CODE
           </h2>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
