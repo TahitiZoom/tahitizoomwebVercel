@@ -27,7 +27,7 @@ export function ServicesMenu() {
             padding: '1.2rem 0.5rem',
             borderTop: '1px solid rgba(0,0,0,0.08)',
             textDecoration: 'none',
-            background: active === i ? 'rgba(0,0,0,0.02)' : 'transparent',
+            background: active === i ? 'rgba(0,0,0,0.06)' : 'transparent',
             transition: 'background 0.3s',
             position: 'relative',
           }}>
