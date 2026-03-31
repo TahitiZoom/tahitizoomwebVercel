@@ -86,6 +86,7 @@ export default function ContactPage() {
               Envoyez un message
             </p>
             <ContactForm />
+	  </div> 
               style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {[
                 { name: 'name',    label: 'Nom', type: 'text',  placeholder: 'Votre nom' },
