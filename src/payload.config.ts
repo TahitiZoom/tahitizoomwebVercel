@@ -11,7 +11,6 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
-import { Portfolio } from './collections/Portfolio'
 import { Services } from './collections/Services'
 import { Editorial } from './collections/Editorial'
 import { Footer } from './Footer/config'
@@ -88,7 +87,7 @@ export default buildConfig({
         },
     push: process.env.NODE_ENV !== 'production',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Portfolio, Services, Editorial],
+  collections: [Pages, Posts, Media, Categories, Users, Services, Editorial],
   cors: [getServerSideURL()].filter(Boolean),
   plugins: [
     ...plugins,
