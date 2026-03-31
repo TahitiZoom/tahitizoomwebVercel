@@ -1,16 +1,34 @@
+'use client'
 import React from 'react'
 
-const BeforeLogin: React.FC = () => {
+export const BeforeLogin: React.FC = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginBottom: '2rem',
+      marginTop: '-2rem',
+    }}>
+      {/* Logo favicon TZ */}
       <img
-        src="/logo.png"
+        src="/logo-tz.png"
         alt="Tahiti Zoom"
-        style={{ maxWidth: '280px', width: '100%' }}
+        style={{ width: '64px', height: '64px', marginBottom: '1.2rem' }}
       />
-      <p style={{ textAlign: 'center', margin: 0 }}>
-        <b>Ia Ora Na !</b>
-        {' Bienvenue sur la gestion du site Tahiti Zoom.'}
+      {/* Logo signature */}
+      <img
+        src="/logo-sayeb-signature.png"
+        alt="Stéphane Sayeb"
+        style={{ width: '220px', marginBottom: '1rem' }}
+      />
+      <p style={{
+        fontFamily: 'sans-serif',
+        fontSize: '0.85rem',
+        color: '#555',
+        textAlign: 'center',
+      }}>
+        <strong>Ia Ora Na !</strong> Bienvenue sur la gestion du site Tahiti Zoom.
       </p>
     </div>
   )
