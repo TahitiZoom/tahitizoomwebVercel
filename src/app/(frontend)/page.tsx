@@ -85,8 +85,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <ClientsCarousel />
-
       {/* Services */}
       <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
