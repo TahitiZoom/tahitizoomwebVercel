@@ -51,8 +51,8 @@ export default async function EditorialPage() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                    {date && <p className="text-xs text-black/40 tracking-widest mb-1">{date}</p>}
-                    <h2 className="text-base font-light text-black">{post.title}</h2>
+                    {date && <p className="text-xs text-white/60 tracking-widest mb-1">{date}</p>}
+                    <h2 className="text-base font-light text-white">{post.title}</h2>
                   </div>
                 </Link>
               )
