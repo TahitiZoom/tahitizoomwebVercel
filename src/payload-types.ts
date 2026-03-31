@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    editorial: Editorial;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    editorial: EditorialSelect<false> | EditorialSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -784,6 +786,24 @@ export interface Form {
   createdAt: string;
 }
 /**
+ * Collez simplement le lien de votre post Facebook.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "editorial".
+ */
+export interface Editorial {
+  id: number;
+  title: string;
+  /**
+   * Ex: https://www.facebook.com/TahitiZoom/posts/xxxxx
+   */
+  facebookUrl: string;
+  publishedAt: string;
+  category?: ('reportage' | 'culture' | 'portraits') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -992,6 +1012,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'editorial';
+        value: number | Editorial;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1357,6 +1381,18 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "editorial_select".
+ */
+export interface EditorialSelect<T extends boolean = true> {
+  title?: T;
+  facebookUrl?: T;
+  publishedAt?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
