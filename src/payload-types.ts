@@ -230,7 +230,7 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
-  content: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -244,7 +244,7 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   meta?: {
@@ -255,6 +255,10 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
   };
+  /**
+   * Photo affichée sur la carte éditoriale
+   */
+  coverImage?: (number | null) | Media;
   /**
    * Collez le lien du post Facebook
    */
@@ -1211,6 +1215,7 @@ export interface PostsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  coverImage?: T;
   facebookUrl?: T;
   publishedAt?: T;
   authors?: T;

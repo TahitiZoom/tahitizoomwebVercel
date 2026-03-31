@@ -162,6 +162,16 @@ export const Posts: CollectionConfig<'posts'> = {
       ],
     },
     {
+      name: 'coverImage',
+      type: 'upload',
+      label: 'Photo de couverture',
+      relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+        description: 'Photo affichée sur la carte éditoriale',
+      },
+    },
+    {
       name: 'facebookUrl',
       type: 'text',
       label: 'URL du post Facebook',
