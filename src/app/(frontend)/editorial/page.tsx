@@ -30,7 +30,10 @@ export default async function EditorialPage() {
         <div className="mb-16">
           <p className="text-xs tracking-widest uppercase text-black/40 mb-4">Reportages & Articles</p>
           <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black">Éditorial</h1>
-        </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: '#777', maxWidth: '600px', lineHeight: '1.8', marginTop: '1.5rem' }}>
+            Chaque image raconte une histoire. À travers mes reportages du quotidien polynésien — marchés animés, visages authentiques, instants de grâce — je tisse une narration visuelle du Fenua tel qu'il vit, respire et se transforme.
+          </p>
+	</div>
 
         {posts.length > 0 ? (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
