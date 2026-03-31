@@ -95,6 +95,7 @@ export default async function HomePage() {
           <ServicesMenu />
         </div>
       </section>
+      <ClientsCarousel />
     </div>
   )
 }
