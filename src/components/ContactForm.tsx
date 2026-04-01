@@ -1,7 +1,9 @@
 'use client'
 import { useState } from 'react'
+import { useLocale } from './LocaleProvider'
 
 export function ContactForm() {
+  const { t } = useLocale()
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -14,22 +16,15 @@ export function ContactForm() {
       subject: (form.elements.namedItem('subject') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
     }
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (res.ok) {
-        setStatus('sent')
-        form.reset()
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
-    }
+      if (res.ok) { setStatus('sent'); form.reset() }
+      else setStatus('error')
+    } catch { setStatus('error') }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -49,10 +44,10 @@ export function ContactForm() {
   if (status === 'sent') return (
     <div style={{ padding: '3rem 0' }}>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: '#111', marginBottom: '0.5rem' }}>
-        Message envoyé ✓
+        {t('contact.sent_title')}
       </p>
       <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#999' }}>
-        Merci, je vous répondrai dans les plus brefs délais.
+        {t('contact.sent_desc')}
       </p>
     </div>
   )
@@ -60,9 +55,9 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {[
-        { name: 'name',    label: 'Nom',   type: 'text',  placeholder: 'Votre nom' },
-        { name: 'email',   label: 'Email', type: 'email', placeholder: 'votre@email.com' },
-        { name: 'subject', label: 'Sujet', type: 'text',  placeholder: 'Objet de votre message' },
+        { name: 'name',    label: t('contact.name'),    type: 'text',  placeholder: t('contact.name') },
+        { name: 'email',   label: t('contact.email'),   type: 'email', placeholder: 'email@example.com' },
+        { name: 'subject', label: t('contact.subject'), type: 'text',  placeholder: t('contact.subject') },
       ].map((field) => (
         <div key={field.name}>
           <label style={labelStyle}>{field.label}</label>
@@ -71,14 +66,14 @@ export function ContactForm() {
         </div>
       ))}
       <div>
-        <label style={labelStyle}>Message</label>
-        <textarea name="message" placeholder="Décrivez votre projet..." rows={5} required
+        <label style={labelStyle}>{t('contact.message')}</label>
+        <textarea name="message" placeholder={t('contact.message')} rows={5} required
           style={{ ...inputStyle, resize: 'vertical' }} />
       </div>
 
       {status === 'error' && (
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#c00' }}>
-          Erreur lors de l'envoi. Réessayez ou écrivez directement à contact@tahitizoom.pf
+          {t('contact.error')}
         </p>
       )}
 
@@ -91,7 +86,7 @@ export function ContactForm() {
           color: status === 'sending' ? 'white' : '#111',
           cursor: status === 'sending' ? 'not-allowed' : 'pointer',
           transition: 'all 0.3s' }}>
-        {status === 'sending' ? 'Envoi...' : 'Envoyer →'}
+        {status === 'sending' ? t('contact.sending') : t('contact.send')}
       </button>
     </form>
   )
