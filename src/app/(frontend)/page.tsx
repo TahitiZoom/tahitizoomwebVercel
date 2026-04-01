@@ -60,6 +60,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Services */}
+      <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
+            textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
+            {t('home.services')}
+          </p>
+          <ServicesMenu />
+        </div>
+      </section>
+
       {/* Section devis */}
       <section style={{ padding: '6rem 2rem', background: '#f5f5f5', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -76,17 +87,6 @@ export default function HomePage() {
               background: 'white', transition: 'all 0.3s' }}>
             {t('home.devis_btn')}
           </Link>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
-            textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
-            {t('home.services')}
-          </p>
-          <ServicesMenu />
         </div>
       </section>
 
