@@ -2,6 +2,7 @@
 import React from 'react'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
+import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 
 const navStyle = {
   fontFamily: 'var(--font-body)',
@@ -22,6 +23,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
           <CMSLink {...link} appearance="link" />
         </span>
       ))}
+      <LocaleSwitcher />
     </nav>
   )
 }
