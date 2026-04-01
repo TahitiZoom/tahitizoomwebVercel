@@ -95,6 +95,48 @@ export default async function HomePage() {
           <ServicesMenu />
         </div>
       </section>
+
+      {/* Demander un devis */}
+      <section style={{
+        padding: '8rem 2rem',
+        background: '#111',
+        textAlign: 'center',
+      }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+            letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
+            marginBottom: '2rem' }}>
+            Travaillons ensemble
+          </p>
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,8vw,7rem)',
+            fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
+            letterSpacing: '0.03em', color: 'white', marginBottom: '1.5rem' }}>
+            CRÉONS<br />ENSEMBLE
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem',
+            color: 'rgba(255,255,255,0.5)', marginBottom: '3rem', letterSpacing: '0.05em' }}>
+            J'adorerais travailler avec vous
+          </p>
+          <a href="/contact" style={{
+            fontFamily: 'var(--font-body)', fontSize: '0.75rem',
+            letterSpacing: '0.3em', textTransform: 'uppercase',
+            border: '1px solid rgba(255,255,255,0.4)', padding: '1.2rem 4rem',
+            color: 'white', textDecoration: 'none', display: 'inline-block',
+            transition: 'all 0.3s',
+          }}
+          onMouseEnter={(e) => {
+            (e.target as HTMLElement).style.background = 'white'
+            ;(e.target as HTMLElement).style.color = '#111'
+          }}
+          onMouseLeave={(e) => {
+            (e.target as HTMLElement).style.background = 'transparent'
+            ;(e.target as HTMLElement).style.color = 'white'
+          }}>
+            Demander un devis →
+          </a>
+        </div>
+      </section>
+
       <ClientsCarousel />
     </div>
   )
