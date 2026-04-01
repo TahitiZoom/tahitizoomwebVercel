@@ -98,32 +98,24 @@ export default async function HomePage() {
 
       {/* Demander un devis */}
       <section style={{
-        padding: '8rem 2rem',
-        background: '#111',
+        padding: '6rem 2rem',
+        background: '#f5f5f5',
         textAlign: 'center',
       }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
-            letterSpacing: '0.35em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
-            marginBottom: '2rem' }}>
-            Travaillons ensemble
-          </p>
-          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,8vw,7rem)',
-            fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
-            letterSpacing: '0.03em', color: 'white', marginBottom: '1.5rem' }}>
-            CRÉONS<br />ENSEMBLE
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.5rem,3vw,2.5rem)',
+            fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.1,
+            letterSpacing: '0.08em', color: '#111', marginBottom: '2.5rem' }}>
+            CRÉONS ENSEMBLE
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem',
-            color: 'rgba(255,255,255,0.5)', marginBottom: '3rem', letterSpacing: '0.05em' }}>
-            J'adorerais travailler avec vous
-          </p>
           <Link href="/contact"
-            className="hover:bg-white hover:text-black transition-all duration-300"
+            className="hover:bg-gray-100 transition-all duration-300"
             style={{
               fontFamily: 'var(--font-body)', fontSize: '0.75rem',
               letterSpacing: '0.3em', textTransform: 'uppercase',
-              border: '1px solid rgba(255,255,255,0.4)', padding: '1.2rem 4rem',
-              color: 'white', textDecoration: 'none', display: 'inline-block',
+              border: '1px solid #ccc', padding: '1.2rem 4rem',
+              color: '#444', textDecoration: 'none', display: 'inline-block',
+              background: 'white',
             }}>
             Demander un devis →
           </Link>
