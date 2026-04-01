@@ -138,8 +138,8 @@ export default function AProposPage() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {(timeline[locale] || timeline.fr).map((item, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '160px 1fr',
-                gap: '2rem', padding: '2rem 0', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: 'auto 1fr',
+                gap: '1.5rem', padding: '2rem 0', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem',
                   letterSpacing: '0.15em', color: '#bbb', paddingTop: '0.2rem' }}>{item.year}</span>
                 <div>
