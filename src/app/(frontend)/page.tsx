@@ -109,13 +109,13 @@ export default async function HomePage() {
             CRÉONS ENSEMBLE
           </h2>
           <Link href="/contact"
-            className="hover:bg-gray-100 transition-all duration-300"
+            className="devis-cta"
             style={{
               fontFamily: 'var(--font-body)', fontSize: '0.75rem',
               letterSpacing: '0.3em', textTransform: 'uppercase',
-              border: '1px solid #ccc', padding: '1.2rem 4rem',
+              border: '1px solid #444', padding: '1.2rem 4rem',
               color: '#444', textDecoration: 'none', display: 'inline-block',
-              background: 'white',
+              background: 'white', transition: 'all 0.3s',
             }}>
             Demander un devis →
           </Link>

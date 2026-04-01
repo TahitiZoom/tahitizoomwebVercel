@@ -222,3 +222,11 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+/* Bouton devis — effet inversé au survol */
+.devis-cta:hover,
+.devis-cta:active {
+  background: #444 !important;
+  color: white !important;
+  border-color: #444 !important;
+}
