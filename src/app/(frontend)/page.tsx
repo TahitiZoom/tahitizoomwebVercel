@@ -1,128 +1,97 @@
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { EditorialCarousel } from '@/components/EditorialCarousel'
+'use client'
 import Link from 'next/link'
+import { EditorialCarousel } from '@/components/EditorialCarousel'
 import { ServicesMenu } from '@/components/ServicesMenu'
 import { ClientsCarousel } from '@/components/ClientsCarousel'
+import { useLocale } from '@/components/LocaleProvider'
+import { useEffect, useState } from 'react'
 
-export const revalidate = 60
+export default function HomePage() {
+  const { t } = useLocale()
+  const [posts, setPosts] = useState<any[]>([])
 
-async function getPosts() {
-  try {
-    const payload = await getPayload({ config: configPromise })
-    const res = await payload.find({
-      collection: 'posts',
-      sort: '-publishedAt',
-      limit: 10,
-      where: { _status: { equals: 'published' } },
-    })
-    return res.docs
-  } catch { return [] }
-}
-
-export default async function HomePage() {
-  const posts = await getPosts()
+  useEffect(() => {
+    fetch('/api/posts?limit=10&where[_status][equals]=published&sort=-publishedAt')
+      .then(r => r.json())
+      .then(d => setPosts(d.docs || []))
+      .catch(() => {})
+  }, [])
 
   return (
     <div style={{ background: 'white', color: '#111' }}>
 
       {/* Hero */}
       <section style={{ paddingTop: '100px', overflow: 'hidden' }}>
-
-        {/* Ligne 1 - alignée à droite */}
         <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem', letterSpacing: '0.35em',
             textTransform: 'uppercase', color: '#999', marginBottom: '0.75rem' }}>
-            Reporter Photographe · Polynésie française
+            {t('home.tagline')}
           </p>
-          <h1 style={{
-          fontFamily: 'Manrope, sans-serif',
-  	  fontSize: '76px',
-          lineHeight: '76px',
-          fontWeight: 300,
-          textTransform: 'uppercase',
-          color: '#111',
-          marginBottom: '1rem',
-	  }}>
-            LÀ OÙ L'IMAGE
+          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '76px', lineHeight: '76px',
+            fontWeight: 300, textTransform: 'uppercase', color: '#111', marginBottom: '1rem' }}>
+            {t('home.slogan1')}
           </h1>
         </div>
 
-        {/* Carousel intercalé */}
         {posts.length > 0 && (
           <div style={{ margin: '1rem 0' }}>
             <EditorialCarousel posts={posts} />
           </div>
         )}
 
-        {/* Ligne 2 - alignée à droite */}
         <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
-          <h2 style={{
-          fontFamily: 'Manrope, sans-serif',
-  	  fontSize: '76px',
-          lineHeight: '76px',
-          fontWeight: 300,
-          textTransform: 'uppercase',
-          color: '#111',
-          marginBottom: '1rem',
-	  }}>
-            RENCONTRE LE CODE
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '76px', lineHeight: '76px',
+            fontWeight: 300, textTransform: 'uppercase', color: '#111', marginBottom: '2.5rem' }}>
+            {t('home.slogan2')}
           </h2>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Link href="/editorial" style={{
               fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.3em',
               textTransform: 'uppercase', border: '1px solid #111', padding: '0.8rem 2rem',
-              color: '#111', textDecoration: 'none',
-            }}>
-              Éditorial
+              color: '#111', textDecoration: 'none' }}>
+              {t('home.editorial')}
             </Link>
             <Link href="/contact" style={{
               fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.3em',
-              textTransform: 'uppercase', color: '#999', textDecoration: 'none',
-            }}>
-              Contact →
+              textTransform: 'uppercase', color: '#999', textDecoration: 'none' }}>
+              {t('home.contact')}
             </Link>
           </div>
         </div>
       </section>
+
+      {/* Section devis */}
+      <section style={{ padding: '6rem 2rem', background: '#f5f5f5', textAlign: 'center' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.5rem,3vw,2.5rem)',
+            fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.1,
+            letterSpacing: '0.08em', color: '#111', marginBottom: '2.5rem' }}>
+            {t('home.devis')}
+          </h2>
+          <Link href="/contact" className="devis-cta"
+            style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem',
+              letterSpacing: '0.3em', textTransform: 'uppercase',
+              border: '1px solid #444', padding: '1.2rem 4rem',
+              color: '#444', textDecoration: 'none', display: 'inline-block',
+              background: 'white', transition: 'all 0.3s' }}>
+            {t('home.devis_btn')}
+          </Link>
+        </div>
+      </section>
+
       {/* Services */}
       <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
             textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
-            Ce que je propose
+            {t('home.services')}
           </p>
           <ServicesMenu />
         </div>
       </section>
 
-      {/* Demander un devis */}
-      <section style={{
-        padding: '6rem 2rem',
-        background: '#f5f5f5',
-        textAlign: 'center',
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.5rem,3vw,2.5rem)',
-            fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.1,
-            letterSpacing: '0.08em', color: '#111', marginBottom: '2.5rem' }}>
-            CRÉONS ENSEMBLE
-          </h2>
-          <Link href="/contact"
-            className="devis-cta"
-            style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.75rem',
-              letterSpacing: '0.3em', textTransform: 'uppercase',
-              border: '1px solid #444', padding: '1.2rem 4rem',
-              color: '#444', textDecoration: 'none', display: 'inline-block',
-              background: 'white', transition: 'all 0.3s',
-            }}>
-            Demander un devis →
-          </Link>
-        </div>
-      </section>
-
       <ClientsCarousel />
+
     </div>
   )
 }
