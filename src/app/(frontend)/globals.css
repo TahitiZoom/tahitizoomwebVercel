@@ -230,3 +230,11 @@ html[data-theme='light'] {
   color: white !important;
   border-color: #444 !important;
 }
+
+/* Menu mobile — forcer couleur des liens */
+.mobile-nav a,
+.mobile-nav span,
+.mobile-nav button {
+  color: #111 !important;
+  text-decoration: none !important;
+}

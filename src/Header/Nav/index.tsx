@@ -28,7 +28,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
   const { locale } = useLocale()
 
   if (mobile) return (
-    <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <nav className="mobile-nav" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {navItems.map(({ link }, i) => {
         const label = link.label || ''
         const translated = translations[label]?.[locale] || label
