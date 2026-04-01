@@ -1,57 +1,43 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
+'use client'
+import { useLocale } from '@/components/LocaleProvider'
 import { ContactForm } from '@/components/ContactForm'
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Contactez Stéphane Sayeb — Reporter photographe et développeur full stack en Polynésie française.',
-}
-
 export default function ContactPage() {
+  const { t } = useLocale()
+
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-
-      {/* Hero */}
       <section style={{ paddingTop: '100px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
             letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>
-            Travaillons ensemble
+            {t('contact.subtitle')}
           </p>
           <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2rem,5vw,4.5rem)',
             fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
-            letterSpacing: '0.03em', marginBottom: '3rem' }}>
-            VOTRE PROJET<br />COMMENCE ICI
+            letterSpacing: '0.03em', marginBottom: '3rem', whiteSpace: 'pre-line' }}>
+            {t('contact.title')}
           </h1>
         </div>
-
-        {/* Photo pleine largeur */}
         <div style={{ position: 'relative', width: '100%', height: '60vh', overflow: 'hidden' }}>
           <img src="/images/contact-hero.jpg" alt="Contact"
             style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} />
-          <div style={{
-            position: 'absolute', bottom: '1rem', right: '1rem',
-            writingMode: 'vertical-rl', textOrientation: 'mixed',
-            transform: 'rotate(180deg)',
-            fontFamily: 'var(--font-body)', fontSize: '0.6rem',
-            letterSpacing: '0.15em', color: 'rgba(255,255,255,0.6)',
-            textShadow: '0 1px 3px rgba(0,0,0,0.5)',
-          }}>
+          <div style={{ position: 'absolute', bottom: '1rem', right: '1rem',
+            writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)',
+            fontFamily: 'var(--font-body)', fontSize: '0.6rem', letterSpacing: '0.15em',
+            color: 'rgba(255,255,255,0.6)', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
             © Ludovic Chan
           </div>
         </div>
       </section>
 
-      {/* Formulaire + infos */}
       <section style={{ padding: '6rem 2rem' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto',
           display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem' }}>
-
-          {/* Infos contact */}
           <div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
               textTransform: 'uppercase', color: '#999', marginBottom: '3rem' }}>
-              Coordonnées
+              {t('contact.coordinates')}
             </p>
             {[
               { label: 'Email', value: 'contact@tahitizoom.pf', href: 'mailto:contact@tahitizoom.pf' },
@@ -77,19 +63,15 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-
-          {/* Formulaire */}
           <div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
               textTransform: 'uppercase', color: '#999', marginBottom: '3rem' }}>
-              Envoyez un message
+              {t('contact.send_message')}
             </p>
             <ContactForm />
           </div>
-
         </div>
       </section>
-
     </div>
   )
 }
