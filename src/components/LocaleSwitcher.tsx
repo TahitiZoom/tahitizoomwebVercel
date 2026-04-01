@@ -10,7 +10,7 @@ export function LocaleSwitcher() {
         onClick={() => setLocale('fr')}
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
+          fontSize: '0.82rem',
           fontWeight: locale === 'fr' ? 700 : 400,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
@@ -28,7 +28,7 @@ export function LocaleSwitcher() {
         onClick={() => setLocale('en')}
         style={{
           fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
+          fontSize: '0.82rem',
           fontWeight: locale === 'en' ? 700 : 400,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
