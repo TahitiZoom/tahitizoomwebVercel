@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
-import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 
 interface HeaderClientProps { data: Header }
@@ -25,13 +24,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
       transition: 'box-shadow 0.3s',
     }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem',
+      <div style={{
+        maxWidth: '1400px', margin: '0 auto',
+        padding: '0 1rem',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '70px' }}>
+        height: '64px',
+      }}>
 
-        {/* Logo */}
-        <Link href="/" style={{ flexShrink: 0 }}>
-          <Logo loading="eager" priority="high" className="max-w-[160px] h-[50px] object-contain" />
+        {/* Logo — favicon sur mobile, signature sur desktop */}
+        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+          {/* Mobile : favicon */}
+          <img src="/Logo-Tahiti-Zoom-144x144.png" alt="Tahiti Zoom"
+            style={{ height: '40px', width: '40px', objectFit: 'contain', display: 'block' }}
+            className="block md:hidden" />
+          {/* Desktop : logo signature */}
+          <img src="/logo-tz.png" alt="Tahiti Zoom"
+            style={{ height: '50px', width: 'auto', objectFit: 'contain', display: 'none' }}
+            className="hidden md:block" />
         </Link>
 
         {/* Nav desktop */}
@@ -41,27 +50,44 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         {/* Hamburger mobile */}
         <button
-          className="flex md:hidden flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen(!menuOpen)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 60 }}>
-          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
-            transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none' }} />
-          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
-            transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
-            transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none' }} />
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '0.5rem', display: 'flex', flexDirection: 'column',
+            gap: '5px', alignItems: 'center', justifyContent: 'center',
+          }}
+          className="flex md:hidden">
+          <span style={{
+            display: 'block', width: '22px', height: '2px', background: '#111',
+            transition: 'all 0.3s',
+            transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'
+          }} />
+          <span style={{
+            display: 'block', width: '22px', height: '2px', background: '#111',
+            transition: 'all 0.3s', opacity: menuOpen ? 0 : 1
+          }} />
+          <span style={{
+            display: 'block', width: '22px', height: '2px', background: '#111',
+            transition: 'all 0.3s',
+            transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'
+          }} />
         </button>
       </div>
 
       {/* Menu mobile déroulant */}
-      {menuOpen && (
-        <div className="flex md:hidden flex-col"
-          style={{ background: 'white', borderTop: '1px solid rgba(0,0,0,0.06)',
-            padding: '1.5rem', gap: '1.5rem' }}
+      <div className="flex md:hidden"
+        style={{
+          background: 'white',
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+          overflow: 'hidden',
+          maxHeight: menuOpen ? '400px' : '0',
+          transition: 'max-height 0.3s ease',
+        }}>
+        <div style={{ padding: '1.5rem 1.5rem 2rem' }}
           onClick={() => setMenuOpen(false)}>
           <HeaderNav data={data} mobile />
         </div>
-      )}
+      </div>
     </header>
   )
 }
