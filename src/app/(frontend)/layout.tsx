@@ -6,6 +6,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { LocaleProvider } from '@/components/LocaleProvider'
+import { CookieBanner } from '@/components/CookieBanner'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
@@ -49,7 +50,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           {children}
           <Footer />
-        </LocaleProvider>
+          <CookieBanner />
+          </LocaleProvider>
           </Providers>
       </body>
     </html>
