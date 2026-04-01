@@ -33,7 +33,7 @@ export default function ContactPage() {
 
       <section style={{ padding: '6rem 2rem' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto',
-          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem' }}>
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem' }}>
           <div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
               textTransform: 'uppercase', color: '#999', marginBottom: '3rem' }}>

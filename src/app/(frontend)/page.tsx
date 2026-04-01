@@ -27,7 +27,7 @@ export default function HomePage() {
             textTransform: 'uppercase', color: '#999', marginBottom: '0.75rem' }}>
             {t('home.tagline')}
           </p>
-          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '76px', lineHeight: '76px',
+          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2.5rem,10vw,76px)', lineHeight: '1.0',
             fontWeight: 300, textTransform: 'uppercase', color: '#111', marginBottom: '1rem' }}>
             {t('home.slogan1')}
           </h1>
@@ -40,7 +40,7 @@ export default function HomePage() {
         )}
 
         <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
-          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '76px', lineHeight: '76px',
+          <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2.5rem,10vw,76px)', lineHeight: '1.0',
             fontWeight: 300, textTransform: 'uppercase', color: '#111', marginBottom: '2.5rem' }}>
             {t('home.slogan2')}
           </h2>

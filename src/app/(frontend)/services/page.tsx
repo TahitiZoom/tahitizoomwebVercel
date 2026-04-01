@@ -109,7 +109,7 @@ export default function ServicesPage() {
         <section key={section.n} style={{ padding: '6rem 2rem', borderBottom: '1px solid rgba(0,0,0,0.08)',
           background: idx % 2 === 1 ? '#fafafa' : 'white' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto',
-            display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '6rem', alignItems: 'start' }}>
+            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
             <div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem',
                 letterSpacing: '0.2em', color: '#ccc', marginBottom: '1rem' }}>/{section.n}</p>

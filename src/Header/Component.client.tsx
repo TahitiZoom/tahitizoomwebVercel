@@ -9,6 +9,7 @@ interface HeaderClientProps { data: Header }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
@@ -24,14 +25,43 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
       transition: 'box-shadow 0.3s',
     }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem',
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '80px' }}>
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="max-w-[200px] h-[60px] object-contain" />
+        height: '70px' }}>
+
+        {/* Logo */}
+        <Link href="/" style={{ flexShrink: 0 }}>
+          <Logo loading="eager" priority="high" className="max-w-[160px] h-[50px] object-contain" />
         </Link>
-        <HeaderNav data={data} />
+
+        {/* Nav desktop */}
+        <div className="hidden md:flex">
+          <HeaderNav data={data} />
+        </div>
+
+        {/* Hamburger mobile */}
+        <button
+          className="flex md:hidden flex-col gap-1.5 p-2"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', zIndex: 60 }}>
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
+            transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none' }} />
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
+            transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: 'block', width: '24px', height: '1.5px', background: '#111',
+            transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none' }} />
+        </button>
       </div>
+
+      {/* Menu mobile déroulant */}
+      {menuOpen && (
+        <div className="flex md:hidden flex-col"
+          style={{ background: 'white', borderTop: '1px solid rgba(0,0,0,0.06)',
+            padding: '1.5rem', gap: '1.5rem' }}
+          onClick={() => setMenuOpen(false)}>
+          <HeaderNav data={data} mobile />
+        </div>
+      )}
     </header>
   )
 }

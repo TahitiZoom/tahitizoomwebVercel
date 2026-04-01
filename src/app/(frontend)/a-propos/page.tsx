@@ -50,7 +50,7 @@ export default function AProposPage() {
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
       <section style={{ paddingTop: '120px', paddingBottom: '6rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem',
-          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
           <div style={{ position: 'relative' }}>
             <img src="/images/portrait-stephane.jpg" alt="Stéphane Sayeb"
               style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', borderRadius: '4px', filter: 'grayscale(20%)' }} />
