@@ -1,15 +1,26 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useLocale } from './LocaleProvider'
 
-const services = [
-  { n: '01', t: 'Photographie',  d: 'Reportages documentaires, portraits, événements culturels en Polynésie française.', img: '/images/service-photo.jpeg' },
-  { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.',      img: '/images/service-dev.jpeg' },
-  { n: '03', t: 'Web Design',    d: 'Interfaces élégantes, expériences utilisateur mémorables et identités digitales.',  img: '/images/service-design.jpeg' },
-  { n: '04', t: 'Infographie',   d: 'Identité visuelle complète, logos, affiches, supports print et communication.',     img: '/images/service-infographie.jpeg' },
-]
+const servicesData = {
+  fr: [
+    { n: '01', t: 'Photographie',  d: 'Reportages documentaires, portraits, événements culturels en Polynésie française.', img: '/images/service-photo.jpeg' },
+    { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.',      img: '/images/service-dev.jpeg' },
+    { n: '03', t: 'Web Design',    d: 'Interfaces élégantes, expériences utilisateur mémorables et identités digitales.',  img: '/images/service-design.jpeg' },
+    { n: '04', t: 'Infographie',   d: 'Identité visuelle complète, logos, affiches, supports print et communication.',     img: '/images/service-infographie.jpeg' },
+  ],
+  en: [
+    { n: '01', t: 'Photography',   d: 'Documentary reports, portraits, cultural events in French Polynesia.',             img: '/images/service-photo.jpeg' },
+    { n: '02', t: 'Development',   d: 'Next.js web apps, REST APIs, custom Payload CMS and hosting.',                     img: '/images/service-dev.jpeg' },
+    { n: '03', t: 'Web Design',    d: 'Elegant interfaces, memorable user experiences and digital identities.',           img: '/images/service-design.jpeg' },
+    { n: '04', t: 'Infographics',  d: 'Complete visual identity, logos, posters, print and communication materials.',     img: '/images/service-infographie.jpeg' },
+  ],
+}
 
 export function ServicesMenu() {
+  const { locale } = useLocale()
+  const services = servicesData[locale] || servicesData.fr
   const [active, setActive] = useState<number | null>(null)
   const [pos, setPos]       = useState({ x: 0, y: 0 })
 
@@ -17,7 +28,6 @@ export function ServicesMenu() {
 
   return (
     <div onMouseMove={handleMove} style={{ position: 'relative' }}>
-
       {services.map((s, i) => (
         <Link key={s.n} href="/services"
           onMouseEnter={() => setActive(i)}
@@ -32,7 +42,6 @@ export function ServicesMenu() {
             position: 'relative',
           }}>
 
-          {/* Image — style exact Avision */}
           <img src={s.img} alt={s.t}
             style={{
               position: 'fixed',
@@ -46,32 +55,26 @@ export function ServicesMenu() {
               borderRadius: '4px',
               transform: active === i ? 'rotateX(360deg)' : 'rotateX(270deg)',
               opacity: active === i ? 1 : 0,
-              transition: '0.6s',
+              transition: '0.15s',
             }}
           />
 
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-            <span style={{
-              fontFamily: 'var(--font-body)', fontSize: '0.55rem',
-              color: active === i ? '#111' : '#ccc',
-              letterSpacing: '0.2em', transition: 'color 0.3s',
-            }}>/{s.n}</span>
-            <span style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(1.4rem,2.8vw,2.4rem)',
-              fontWeight: 300, textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              color: active === i ? '#111' : '#aaa',
-              transition: 'color 0.4s',
-            }}>{s.t}</span>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem',
+              color: active === i ? '#111' : '#ccc', letterSpacing: '0.2em',
+              transition: 'color 0.3s' }}>/{s.n}</span>
+            <span style={{ fontFamily: 'Manrope, sans-serif',
+              fontSize: 'clamp(1.4rem,2.8vw,2.4rem)', fontWeight: 300,
+              textTransform: 'uppercase', letterSpacing: '0.05em',
+              color: active === i ? '#111' : '#aaa', transition: 'color 0.4s' }}>
+              {s.t}
+            </span>
           </div>
 
-          <span style={{
-            fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: active === i ? '#555' : '#bbb',
-            maxWidth: '320px', textAlign: 'right', lineHeight: '1.6',
-            transition: 'color 0.3s',
-          }} className="hidden md:block">{s.d}</span>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
+            color: active === i ? '#555' : '#bbb', maxWidth: '320px',
+            textAlign: 'right', lineHeight: '1.6', transition: 'color 0.3s' }}
+            className="hidden md:block">{s.d}</span>
 
         </Link>
       ))}
