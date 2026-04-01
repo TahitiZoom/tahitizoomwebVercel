@@ -117,23 +117,27 @@ export default async function HomePage() {
             color: 'rgba(255,255,255,0.5)', marginBottom: '3rem', letterSpacing: '0.05em' }}>
             J'adorerais travailler avec vous
           </p>
-          <a href="/contact" style={{
-            fontFamily: 'var(--font-body)', fontSize: '0.75rem',
-            letterSpacing: '0.3em', textTransform: 'uppercase',
-            border: '1px solid rgba(255,255,255,0.4)', padding: '1.2rem 4rem',
-            color: 'white', textDecoration: 'none', display: 'inline-block',
-            transition: 'all 0.3s',
-          }}
-          onMouseEnter={(e) => {
-            (e.target as HTMLElement).style.background = 'white'
-            ;(e.target as HTMLElement).style.color = '#111'
-          }}
-          onMouseLeave={(e) => {
-            (e.target as HTMLElement).style.background = 'transparent'
-            ;(e.target as HTMLElement).style.color = 'white'
-          }}>
+          <a href="/contact" className="devis-btn">
             Demander un devis →
           </a>
+          <style>{`
+            .devis-btn {
+              font-family: var(--font-body);
+              font-size: 0.75rem;
+              letter-spacing: 0.3em;
+              text-transform: uppercase;
+              border: 1px solid rgba(255,255,255,0.4);
+              padding: 1.2rem 4rem;
+              color: white;
+              text-decoration: none;
+              display: inline-block;
+              transition: all 0.3s;
+            }
+            .devis-btn:hover {
+              background: white;
+              color: #111;
+            }
+          \`}</style>
         </div>
       </section>
 
