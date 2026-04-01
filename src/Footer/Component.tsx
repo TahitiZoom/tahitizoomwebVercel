@@ -41,7 +41,7 @@ export async function Footer() {
                     <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
                   </svg>
                 )},
-                { href: 'https://linkedin.com/in/stephanesayeb', label: 'LinkedIn', icon: (
+                { href: 'https://linkedin.com/in/tahitizoom', label: 'LinkedIn', icon: (
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
                     <circle cx="4" cy="4" r="2"/>
