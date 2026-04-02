@@ -47,8 +47,9 @@ export const Posts: CollectionConfig<'posts'> = {
       description: true,
     },
   },
+  defaultSort: '-publishedAt',
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'publishedAt', 'slug', 'updatedAt'],
     components: {
       beforeListTable: ['@/components/SyncFacebookButton'],
     },

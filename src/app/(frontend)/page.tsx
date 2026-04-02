@@ -11,9 +11,14 @@ export default function HomePage() {
   const [posts, setPosts] = useState<any[]>([])
 
   useEffect(() => {
-    fetch('/api/posts?limit=10&where[_status][equals]=published&sort=-publishedAt')
+    fetch('/api/posts?limit=100&where[_status][equals]=published&select=title,slug,coverImage')
       .then(r => r.json())
-      .then(d => setPosts(d.docs || []))
+      .then(d => {
+        const allPosts = d.docs || []
+        // Shuffle and take 20 random posts
+        const shuffled = [...allPosts].sort(() => Math.random() - 0.5)
+        setPosts(shuffled.slice(0, 20))
+      })
       .catch(() => {})
   }, [])
 

@@ -19,9 +19,9 @@ export default function ContactPage() {
             {t('contact.title')}
           </h1>
         </div>
-        <div style={{ position: 'relative', width: '100%', height: '60vh', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', width: '100%', backgroundColor: '#f5f5f5', display: 'flex', justifyContent: 'center' }}>
           <img src="/images/contact-hero.jpg" alt="Contact"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} />
+            style={{ width: '100%', maxHeight: '70vh', objectFit: 'contain', filter: 'grayscale(20%)' }} />
           <div style={{ position: 'absolute', bottom: '1rem', right: '1rem',
             writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)',
             fontFamily: 'var(--font-body)', fontSize: '0.6rem', letterSpacing: '0.15em',

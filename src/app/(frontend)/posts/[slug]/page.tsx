@@ -51,8 +51,57 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   if (!post) return <PayloadRedirects url={url} />
 
+  // Fetch previous and next posts for navigation
+  const payload = await getPayload({ config: configPromise })
+
+  const [prevResult, nextResult, firstResult, lastResult] = await Promise.all([
+    // Previous post (older)
+    payload.find({
+      collection: 'posts',
+      where: {
+        publishedAt: { less_than: post.publishedAt },
+        _status: { equals: 'published' },
+      },
+      sort: '-publishedAt',
+      limit: 1,
+      select: { title: true, slug: true },
+    }),
+    // Next post (newer)
+    payload.find({
+      collection: 'posts',
+      where: {
+        publishedAt: { greater_than: post.publishedAt },
+        _status: { equals: 'published' },
+      },
+      sort: 'publishedAt',
+      limit: 1,
+      select: { title: true, slug: true },
+    }),
+    // First post (oldest)
+    payload.find({
+      collection: 'posts',
+      where: { _status: { equals: 'published' } },
+      sort: 'publishedAt',
+      limit: 1,
+      select: { title: true, slug: true },
+    }),
+    // Last post (newest)
+    payload.find({
+      collection: 'posts',
+      where: { _status: { equals: 'published' } },
+      sort: '-publishedAt',
+      limit: 1,
+      select: { title: true, slug: true },
+    }),
+  ])
+
+  const prevPost = prevResult.docs[0] || null
+  const nextPost = nextResult.docs[0] || null
+  const firstPost = firstResult.docs[0] || null
+  const lastPost = lastResult.docs[0] || null
+
   return (
-    <article className="pt-16 pb-16">
+    <article className="pt-24 pb-16">
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -73,6 +122,66 @@ export default async function Post({ params: paramsPromise }: Args) {
           )}
         </div>
       </div>
+
+      {/* Post Navigation */}
+      <nav className="container mt-12 py-6 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4">
+          <div className="flex gap-4">
+            {firstPost && firstPost.slug !== post.slug && (
+              <a
+                href={`/posts/${firstPost.slug}`}
+                className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
+                title={firstPost.title}
+              >
+                Premier
+              </a>
+            )}
+            {prevPost && (
+              <a
+                href={`/posts/${prevPost.slug}`}
+                className="text-sm text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1"
+                title={prevPost.title}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+                Precedent
+              </a>
+            )}
+          </div>
+
+          <a
+            href="/editorial"
+            className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
+          >
+            Tous les articles
+          </a>
+
+          <div className="flex gap-4">
+            {nextPost && (
+              <a
+                href={`/posts/${nextPost.slug}`}
+                className="text-sm text-gray-700 hover:text-gray-900 transition-colors flex items-center gap-1"
+                title={nextPost.title}
+              >
+                Suivant
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </a>
+            )}
+            {lastPost && lastPost.slug !== post.slug && (
+              <a
+                href={`/posts/${lastPost.slug}`}
+                className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
+                title={lastPost.title}
+              >
+                Dernier
+              </a>
+            )}
+          </div>
+        </div>
+      </nav>
     </article>
   )
 }
