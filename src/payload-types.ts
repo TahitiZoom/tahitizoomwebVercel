@@ -262,6 +262,10 @@ export interface Post {
    * Collez le lien du post Facebook
    */
   facebookUrl?: string | null;
+  /**
+   * Identifiant unique du post Facebook (rempli automatiquement lors de la synchro)
+   */
+  facebookId?: string | null;
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -1215,6 +1219,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   coverImage?: T;
   facebookUrl?: T;
+  facebookId?: T;
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
