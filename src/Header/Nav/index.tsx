@@ -34,7 +34,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
         const translated = translations[label]?.[locale] || label
         return (
           <span key={i} style={{ ...navStyle, fontSize: '1rem' }}>
-            <CMSLink {...link} label={translated} appearance="link" />
+            <CMSLink {...link} label={translated} appearance="inline" />
           </span>
         )
       })}
@@ -49,7 +49,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
         const translated = translations[label]?.[locale] || label
         return (
           <span key={i} style={navStyle}>
-            <CMSLink {...link} label={translated} appearance="link" />
+            <CMSLink {...link} label={translated} appearance="inline" />
           </span>
         )
       })}

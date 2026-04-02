@@ -3,19 +3,15 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 import { HeaderNav } from './Nav'
-
 interface HeaderClientProps { data: Header }
-
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
-
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
@@ -30,33 +26,30 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         height: '64px',
       }}>
-
-        {/* Logo — favicon sur mobile, signature sur desktop */}
+        {/* Logo */}
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
           {/* Mobile : favicon */}
           <img src="/Logo-Tahiti-Zoom-144x144.png" alt="Tahiti Zoom"
-            style={{ height: '40px', width: '40px', objectFit: 'contain', display: 'block' }}
+            style={{ height: '40px', width: '40px', objectFit: 'contain' }}
             className="block md:hidden" />
           {/* Desktop : logo signature */}
-          <img src="/logo-tz.png" alt="Tahiti Zoom"
-            style={{ height: '50px', width: 'auto', objectFit: 'contain', display: 'none' }}
+          <img src="/logo.png" alt="Tahiti Zoom"
+            style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
             className="hidden md:block" />
         </Link>
-
         {/* Nav desktop */}
         <div className="hidden md:flex">
           <HeaderNav data={data} />
         </div>
-
         {/* Hamburger mobile */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden"
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
             padding: '0.5rem', display: 'flex', flexDirection: 'column',
             gap: '5px', alignItems: 'center', justifyContent: 'center',
-          }}
-          className="flex md:hidden">
+          }}>
           <span style={{
             display: 'block', width: '22px', height: '2px', background: '#111',
             transition: 'all 0.3s',
@@ -73,9 +66,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           }} />
         </button>
       </div>
-
       {/* Menu mobile déroulant */}
-      <div className="flex md:hidden"
+      <div className="md:hidden"
         style={{
           background: 'white',
           borderTop: '1px solid rgba(0,0,0,0.06)',
