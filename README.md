@@ -53,6 +53,9 @@ src/
 │   │   ├── confidentialite/
 │   │   └── [slug]/          # Pages dynamiques CMS
 │   ├── (payload)/           # Admin Payload CMS (/admin)
+│   │   └── api/
+│   │       ├── sync-facebook/        # Import posts Facebook
+│   │       └── update-posts-photos/  # Mise à jour photos posts
 │   └── maintenance/         # Page maintenance
 ├── collections/
 │   ├── Posts/               # Collection articles éditoriaux
@@ -66,15 +69,21 @@ src/
 ├── blocks/                  # Blocs de contenu (Banner, Code, Form, etc.)
 ├── components/              # Composants React réutilisables
 │   ├── ClientsCarousel.tsx  # Carousel logos clients
-│   ├── EditorialCarousel.tsx # Carousel posts éditoriaux
+│   ├── EditorialCarousel.tsx # Carousel posts aléatoires (accueil)
+│   ├── MasonryGallery.tsx   # Galerie masonry avec lightbox
 │   ├── ContactForm.tsx      # Formulaire de contact custom
 │   ├── CookieBanner.tsx     # Bandeau cookies RGPD
 │   ├── FooterClient.tsx     # Footer client-side
 │   ├── LocaleSwitcher.tsx   # Switcher FR/EN
-│   └── ServicesMenu.tsx     # Menu services
+│   ├── ServicesMenu.tsx     # Menu services
+│   └── RichText/
+│       ├── index.tsx        # RichText standard (avec MediaBlocks)
+│       └── withoutMedia.tsx # RichText sans médias (pour masonry)
 ├── providers/               # Providers React (Theme, Locale, Header)
 ├── fields/                  # Champs Payload custom
 ├── hooks/                   # Hooks Payload (revalidation, email)
+├── scripts/                 # Scripts utilitaires
+│   └── update-posts-photos.ts # Mise à jour photos Facebook
 └── migrations/              # Migrations base de données SQLite
 ```
 
@@ -85,15 +94,21 @@ src/
 ### Posts (Éditorial)
 Articles publiés sur la page `/editorial`. Champs principaux :
 - `title` — Titre de l'article
-- `content` — Contenu rich text (Lexical editor)
+- `content` — Contenu rich text (Lexical editor avec MediaBlocks)
 - `coverImage` — Photo de couverture (vignette carte + image hero)
 - `facebookUrl` — Lien vers le post Facebook original
+- `facebookId` — ID unique Facebook (pour sync et déduplication)
 - `publishedAt` — Date de publication
 - `authors` — Auteur(s)
 - `categories` — Catégories (relation)
 - `meta` — SEO (titre, description, image)
 
 Fonctionnalités : drafts, autosave, versioning (max 50), scheduled publish, live preview.
+
+**Affichage article** :
+- Texte du post rendu via `RichTextWithoutMedia`
+- Photos extraites et affichées en galerie masonry sous l'article
+- Lightbox avec navigation pour visualiser les images en grand
 
 ### Pages
 Pages CMS avec layout builder. Navigation configurée :
@@ -148,6 +163,41 @@ Composant `CookieBanner.tsx` bilingue FR/EN, consentement persisté en `localSto
 ### Carousel clients
 Composant `ClientsCarousel.tsx` avec logos des clients : RPI, Pilotage Te Ara Tai, Tiki Village, Mairies, CPS, Maison de la Culture, UPF, La 1ère Polynésie, Conservatoire, Radio 1, TNTV.
 
+### Carousel page d'accueil
+Composant `EditorialCarousel.tsx` :
+- Affiche 20 vignettes aléatoires parmi les posts publiés
+- Animation défilement automatique (pause au survol)
+- Expansion au hover avec titre et lien "Lire"
+- Images mélangées à chaque chargement de page
+
+### Galerie Masonry articles
+Composant `MasonryGallery.tsx` :
+- Layout masonry adaptatif (2/3/4 colonnes selon viewport)
+- Toutes les photos de l'article regroupées en bas (au lieu d'inline)
+- Lightbox plein écran au clic avec navigation gauche/droite
+- Compteur d'images et fermeture au clic extérieur
+- Lazy loading des images
+
+### Synchronisation Facebook
+Système complet d'import des posts Facebook vers Payload CMS :
+
+**Route API `/api/sync-facebook`** :
+- Import automatique des posts de la Page Facebook
+- Téléchargement et création des coverImage
+- Génération des slugs SEO-friendly
+- Détection des doublons via `facebookId`
+- Bouton "Synchro Facebook" dans l'admin Payload
+
+**Script `src/scripts/update-posts-photos.ts`** :
+- Récupère les photos supplémentaires de chaque post Facebook
+- Télécharge et crée les médias dans Payload
+- Ajoute les MediaBlocks au contenu Lexical
+- Usage : `npx tsx src/scripts/update-posts-photos.ts`
+
+**Route API `/api/update-posts-photos`** :
+- Version API du script ci-dessus (nécessite authentification)
+- Endpoint POST pour mise à jour des photos
+
 ---
 
 ## Configuration email (SMTP iCloud+)
@@ -179,6 +229,10 @@ SMTP_PORT=587
 SMTP_USER=ssayeb@icloud.com
 SMTP_PASS=<app-specific-password>
 SMTP_FROM=contact@tahitizoom.pf
+
+# Facebook Graph API
+FB_PAGE_ID=<page_id>
+FB_PAGE_ACCESS_TOKEN=<page_access_token>
 
 # Sécurité
 SYNC_SECRET=<openssl rand -hex 32>

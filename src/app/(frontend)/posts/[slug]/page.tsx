@@ -6,7 +6,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import RichText from '@/components/RichText'
+import RichTextWithoutMedia, { extractMediaFromContent } from '@/components/RichText/withoutMedia'
 
 import type { Post } from '@/payload-types'
 
@@ -14,6 +14,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { MasonryGallery } from '@/components/MasonryGallery'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -100,6 +101,9 @@ export default async function Post({ params: paramsPromise }: Args) {
   const firstPost = firstResult.docs[0] || null
   const lastPost = lastResult.docs[0] || null
 
+  // Extract media from content for masonry gallery
+  const contentMedia = extractMediaFromContent(post.content as any)
+
   return (
     <article className="pt-24 pb-16">
       <PageClient />
@@ -113,7 +117,15 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content ?? { root: { type: "root", children: [], direction: null, format: "", indent: 0, version: 1 } }} enableGutter={false} />
+          <RichTextWithoutMedia className="max-w-[48rem] mx-auto" data={post.content ?? { root: { type: "root", children: [], direction: null, format: "", indent: 0, version: 1 } }} enableGutter={false} />
+
+          {/* Masonry Gallery for post images */}
+          {contentMedia.length > 0 && (
+            <div className="mt-12 max-w-6xl mx-auto">
+              <MasonryGallery images={contentMedia} />
+            </div>
+          )}
+
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
               className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
