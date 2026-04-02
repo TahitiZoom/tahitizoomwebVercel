@@ -49,9 +49,6 @@ export const Posts: CollectionConfig<'posts'> = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    components: {
-      beforeListTable: ['@/components/SyncFacebookButton'],
-    },
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -177,17 +174,6 @@ export const Posts: CollectionConfig<'posts'> = {
       admin: {
         position: 'sidebar',
         description: 'Collez le lien du post Facebook',
-      },
-    },
-    {
-      name: 'facebookId',
-      type: 'text',
-      label: 'ID du post Facebook',
-      unique: true,
-      index: true,
-      admin: {
-        position: 'sidebar',
-        description: 'Identifiant unique du post Facebook (rempli automatiquement lors de la synchro)',
       },
     },
     {
