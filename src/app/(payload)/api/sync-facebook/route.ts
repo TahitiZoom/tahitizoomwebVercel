@@ -158,13 +158,18 @@ async function fetchPostAttachments(
   }
 }
 
-function parseQueryParams(request: NextRequest): { limit: number; since?: number; until?: number } {
+function parseQueryParams(request: NextRequest): { limit: number | null; since?: number; until?: number } {
   const searchParams = request.nextUrl.searchParams
 
-  // Parse limit (default 10, max 50)
-  let limit = parseInt(searchParams.get('limit') || '10', 10)
-  if (isNaN(limit) || limit < 1) limit = 10
-  if (limit > 50) limit = 50
+  // Parse limit: empty = no limit (null), otherwise max 100
+  const limitStr = searchParams.get('limit')
+  let limit: number | null = null
+  if (limitStr && limitStr.trim() !== '') {
+    const parsed = parseInt(limitStr, 10)
+    if (!isNaN(parsed) && parsed > 0) {
+      limit = Math.min(parsed, 100)
+    }
+  }
 
   // Parse since date (YYYY-MM-DD format) to Unix timestamp
   const sinceStr = searchParams.get('since')
@@ -186,6 +191,11 @@ function parseQueryParams(request: NextRequest): { limit: number; since?: number
       untilDate.setHours(23, 59, 59, 999)
       until = Math.floor(untilDate.getTime() / 1000)
     }
+  }
+
+  // Default behavior: if nothing specified, get last 10 posts
+  if (limit === null && !since && !until) {
+    limit = 10
   }
 
   return { limit, since, until }
@@ -225,32 +235,59 @@ export async function GET(request: NextRequest): Promise<Response> {
         // Parse query parameters for filtering
         const { limit, since, until } = parseQueryParams(request)
 
+        // Determine fetch limit per request (100 is Facebook's max)
+        const fetchLimit = limit === null ? 100 : Math.min(limit, 100)
+
         // Build Facebook Graph API URL with filters
-        let fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=${limit}&access_token=${pageAccessToken}`
+        let fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=${fetchLimit}&access_token=${pageAccessToken}`
 
         if (since) fbUrl += `&since=${since}`
         if (until) fbUrl += `&until=${until}`
 
-        send({ type: 'start', total: limit, message: 'Connexion a Facebook...' })
+        send({ type: 'start', total: limit || 0, message: 'Connexion a Facebook...' })
 
-        const fbResponse = await fetch(fbUrl)
+        // Fetch all posts with pagination if no limit specified
+        const allPosts: FacebookPost[] = []
+        let currentUrl: string | null = fbUrl
+        let pageNum = 0
 
-        if (!fbResponse.ok) {
-          const errorText = await fbResponse.text()
-          send({ type: 'error', message: `Erreur API Facebook: ${errorText.slice(0, 200)}` })
-          controller.close()
-          return
+        while (currentUrl) {
+          const fbResponse = await fetch(currentUrl)
+
+          if (!fbResponse.ok) {
+            const errorText = await fbResponse.text()
+            send({ type: 'error', message: `Erreur API Facebook: ${errorText.slice(0, 200)}` })
+            controller.close()
+            return
+          }
+
+          const fbData: FacebookApiResponse = await fbResponse.json()
+
+          if (fbData.error) {
+            send({ type: 'error', message: `Erreur Facebook: ${fbData.error.message}` })
+            controller.close()
+            return
+          }
+
+          allPosts.push(...fbData.data)
+          pageNum++
+
+          // Send pagination progress
+          if (limit === null && fbData.paging?.next) {
+            send({ type: 'info', message: `Page ${pageNum} : ${allPosts.length} posts recuperes...` })
+          }
+
+          // If we have a limit and reached it, stop
+          if (limit !== null && allPosts.length >= limit) {
+            allPosts.splice(limit) // Trim to exact limit
+            break
+          }
+
+          // Continue pagination only if no limit (fetch all)
+          currentUrl = limit === null ? (fbData.paging?.next || null) : null
         }
 
-        const fbData: FacebookApiResponse = await fbResponse.json()
-
-        if (fbData.error) {
-          send({ type: 'error', message: `Erreur Facebook: ${fbData.error.message}` })
-          controller.close()
-          return
-        }
-
-        const total = fbData.data.length
+        const total = allPosts.length
         send({ type: 'start', total, message: `${total} posts trouves. Debut de la synchronisation...` })
 
         // Find or create "Reportage" category
@@ -310,8 +347,8 @@ export async function GET(request: NextRequest): Promise<Response> {
         let errors = 0
 
         // Process each Facebook post
-        for (let i = 0; i < fbData.data.length; i++) {
-          const fbPost = fbData.data[i]
+        for (let i = 0; i < allPosts.length; i++) {
+          const fbPost = allPosts[i]
           const current = i + 1
           const postTitle = fbPost.message?.slice(0, 50) || 'Post Facebook'
 
@@ -550,41 +587,61 @@ export async function POST(request: NextRequest): Promise<NextResponse<SyncResul
     // Parse query parameters for filtering
     const { limit, since, until } = parseQueryParams(request)
 
+    // Determine fetch limit per request (100 is Facebook's max)
+    const fetchLimit = limit === null ? 100 : Math.min(limit, 100)
+
     // Build Facebook Graph API URL with filters
-    let fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=${limit}&access_token=${pageAccessToken}`
+    let fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=${fetchLimit}&access_token=${pageAccessToken}`
 
     if (since) fbUrl += `&since=${since}`
     if (until) fbUrl += `&until=${until}`
 
-    const fbResponse = await fetch(fbUrl)
+    // Fetch all posts with pagination if no limit specified
+    const allPosts: FacebookPost[] = []
+    let currentUrl: string | null = fbUrl
 
-    if (!fbResponse.ok) {
-      const errorText = await fbResponse.text()
-      if (fbResponse.status === 401) {
+    while (currentUrl) {
+      const fbResponse = await fetch(currentUrl)
+
+      if (!fbResponse.ok) {
+        const errorText = await fbResponse.text()
+        if (fbResponse.status === 401) {
+          return NextResponse.json(
+            { ...result, errors: ['Token Facebook invalide ou expire'] },
+            { status: 401 }
+          )
+        }
+        if (fbResponse.status === 429) {
+          return NextResponse.json(
+            { ...result, errors: ['Rate limit Facebook atteint. Reessayez plus tard.'] },
+            { status: 429 }
+          )
+        }
         return NextResponse.json(
-          { ...result, errors: ['Token Facebook invalide ou expire'] },
-          { status: 401 }
+          { ...result, errors: [`Erreur API Facebook: ${errorText}`] },
+          { status: fbResponse.status }
         )
       }
-      if (fbResponse.status === 429) {
+
+      const fbData: FacebookApiResponse = await fbResponse.json()
+
+      if (fbData.error) {
         return NextResponse.json(
-          { ...result, errors: ['Rate limit Facebook atteint. Reessayez plus tard.'] },
-          { status: 429 }
+          { ...result, errors: [`Erreur Facebook: ${fbData.error.message}`] },
+          { status: 400 }
         )
       }
-      return NextResponse.json(
-        { ...result, errors: [`Erreur API Facebook: ${errorText}`] },
-        { status: fbResponse.status }
-      )
-    }
 
-    const fbData: FacebookApiResponse = await fbResponse.json()
+      allPosts.push(...fbData.data)
 
-    if (fbData.error) {
-      return NextResponse.json(
-        { ...result, errors: [`Erreur Facebook: ${fbData.error.message}`] },
-        { status: 400 }
-      )
+      // If we have a limit and reached it, stop
+      if (limit !== null && allPosts.length >= limit) {
+        allPosts.splice(limit)
+        break
+      }
+
+      // Continue pagination only if no limit
+      currentUrl = limit === null ? (fbData.paging?.next || null) : null
     }
 
     // Find or create "Reportage" category
@@ -638,7 +695,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<SyncResul
     const categoryId = cachedCategoryId
 
     // Process each Facebook post
-    for (const fbPost of fbData.data) {
+    for (const fbPost of allPosts) {
       try {
         // Check if post already exists by facebookId
         const existingPost = await payload.find({

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 
 interface SyncProgress {
   type: 'start' | 'progress' | 'complete' | 'error' | 'info'
@@ -37,10 +37,72 @@ export const SyncFacebookButton: React.FC = () => {
   const [duplicatesCount, setDuplicatesCount] = useState<number | null>(null)
   const [deletingDuplicates, setDeletingDuplicates] = useState(false)
 
-  // Filter states
-  const [limit, setLimit] = useState(10)
+  // Filter states - limit is empty string by default (no limit)
+  const [limit, setLimit] = useState('')
   const [sinceDate, setSinceDate] = useState('')
   const [untilDate, setUntilDate] = useState('')
+
+  // Post count state
+  const [postCount, setPostCount] = useState<number | null>(null)
+  const [countLoading, setCountLoading] = useState(false)
+  const [countError, setCountError] = useState(false)
+  const countAbortRef = useRef<AbortController | null>(null)
+
+  // Debounced count fetch
+  const fetchCount = useCallback(async (since: string, until: string) => {
+    // Cancel previous request
+    if (countAbortRef.current) {
+      countAbortRef.current.abort()
+    }
+
+    // If no period specified, reset count
+    if (!since && !until) {
+      setPostCount(null)
+      setCountLoading(false)
+      setCountError(false)
+      return
+    }
+
+    setCountLoading(true)
+    setCountError(false)
+    countAbortRef.current = new AbortController()
+
+    try {
+      const params = new URLSearchParams()
+      if (since) params.set('since', since)
+      if (until) params.set('until', until)
+
+      const response = await fetch(`/api/sync-facebook/count?${params.toString()}`, {
+        credentials: 'include',
+        signal: countAbortRef.current.signal,
+      })
+
+      if (!response.ok) {
+        setCountError(true)
+        setPostCount(null)
+        return
+      }
+
+      const data = await response.json()
+      setPostCount(data.count)
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setCountError(true)
+        setPostCount(null)
+      }
+    } finally {
+      setCountLoading(false)
+    }
+  }, [])
+
+  // Debounce effect for date changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchCount(sinceDate, untilDate)
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [sinceDate, untilDate, fetchCount])
 
   const handleFindDuplicates = async () => {
     setFindingDuplicates(true)
@@ -137,7 +199,13 @@ export const SyncFacebookButton: React.FC = () => {
 
     try {
       const params = new URLSearchParams()
-      params.set('limit', limit.toString())
+      // Only set limit if specified (non-empty)
+      if (limit.trim() !== '') {
+        const parsedLimit = parseInt(limit, 10)
+        if (!isNaN(parsedLimit) && parsedLimit > 0) {
+          params.set('limit', Math.min(parsedLimit, 100).toString())
+        }
+      }
       if (sinceDate) params.set('since', sinceDate)
       if (untilDate) params.set('until', untilDate)
 
@@ -253,11 +321,29 @@ export const SyncFacebookButton: React.FC = () => {
             Nombre de posts
           </label>
           <input
-            type="number"
-            min={1}
-            max={50}
+            type="text"
+            inputMode="numeric"
+            placeholder="Tous"
             value={limit}
-            onChange={(e) => setLimit(Math.min(50, Math.max(1, parseInt(e.target.value) || 10)))}
+            onChange={(e) => {
+              const val = e.target.value
+              // Allow empty or numeric values only
+              if (val === '' || /^\d+$/.test(val)) {
+                setLimit(val)
+              }
+            }}
+            onBlur={(e) => {
+              // Validate on blur: max 100
+              const val = e.target.value
+              if (val !== '') {
+                const num = parseInt(val, 10)
+                if (!isNaN(num) && num > 100) {
+                  setLimit('100')
+                } else if (!isNaN(num) && num < 1) {
+                  setLimit('')
+                }
+              }
+            }}
             disabled={loading}
             style={{
               width: '80px',
@@ -327,7 +413,48 @@ export const SyncFacebookButton: React.FC = () => {
             }}
           />
         </div>
+      </div>
 
+      {/* Post count indicator */}
+      <div
+        style={{
+          marginTop: '12px',
+          marginBottom: '12px',
+          fontSize: '13px',
+          color: 'var(--theme-elevation-600)',
+        }}
+      >
+        {countLoading && (
+          <span style={{ color: 'var(--theme-elevation-500)' }}>
+            Comptage en cours...
+          </span>
+        )}
+        {!countLoading && countError && (
+          <span style={{ color: '#ef4444' }}>
+            Impossible de compter les posts
+          </span>
+        )}
+        {!countLoading && !countError && postCount !== null && (
+          <span style={{ color: '#1877F2', fontWeight: 500 }}>
+            {postCount} post{postCount > 1 ? 's' : ''} {postCount > 1 ? 'trouves' : 'trouve'} dans cette periode
+          </span>
+        )}
+        {!countLoading && !countError && postCount === null && !sinceDate && !untilDate && (
+          <span style={{ color: 'var(--theme-elevation-500)' }}>
+            Derniers posts
+          </span>
+        )}
+      </div>
+
+      {/* Buttons row */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '12px',
+        }}
+      >
         {/* Sync button */}
         {!loading ? (
           <button
@@ -379,11 +506,12 @@ export const SyncFacebookButton: React.FC = () => {
         )}
 
         {/* Clear filters button */}
-        {(sinceDate || untilDate) && !loading && (
+        {(sinceDate || untilDate || limit) && !loading && (
           <button
             onClick={() => {
               setSinceDate('')
               setUntilDate('')
+              setLimit('')
             }}
             style={{
               padding: '10px 14px',
