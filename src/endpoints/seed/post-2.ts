@@ -2,7 +2,7 @@ import { RequiredDataFromCollectionSlug } from 'payload'
 import type { PostArgs } from './post-1'
 
 export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
-  heroImage,
+  coverImage,
   blockImage,
   author,
 }) => {
@@ -219,11 +219,11 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
         version: 1,
       },
     },
-    heroImage: heroImage.id,
+    coverImage: coverImage.id,
     meta: {
       description:
         'Explore the untold and overlooked. A magnified view into the corners of the world, where every story deserves its spotlight.',
-      image: heroImage.id,
+      image: coverImage.id,
       title: 'Global Gaze: Beyond the Headlines',
     },
     relatedPosts: [], // this is populated by the seed script

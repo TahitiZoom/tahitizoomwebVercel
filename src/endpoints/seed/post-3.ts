@@ -2,7 +2,7 @@ import { RequiredDataFromCollectionSlug } from 'payload'
 import type { PostArgs } from './post-1'
 
 export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
-  heroImage,
+  coverImage,
   blockImage,
   author,
 }) => {
@@ -256,10 +256,10 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
         version: 1,
       },
     },
-    heroImage: heroImage.id,
+    coverImage: coverImage.id,
     meta: {
       description: `Money isn't just currency; it's a language. Dive deep into its nuances, where strategy meets intuition in the vast sea of finance.`,
-      image: heroImage.id,
+      image: coverImage.id,
       title: 'Dollar and Sense: The Financial Forecast',
     },
     relatedPosts: [], // this is populated by the seed script

@@ -29,7 +29,7 @@ export default function EditorialPage() {
         {posts.length > 0 ? (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
             {posts.map((post: any) => {
-              const img = post.coverImage?.url || post.heroImage?.url || null
+              const img = post.coverImage?.url || null
               const date = post.publishedAt
                 ? new Date(post.publishedAt).toLocaleDateString('fr-FR', {
                     year: 'numeric', month: 'long', day: 'numeric' })

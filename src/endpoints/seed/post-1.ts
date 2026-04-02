@@ -2,13 +2,13 @@ import type { Media, User } from '@/payload-types'
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 export type PostArgs = {
-  heroImage: Media
+  coverImage: Media
   blockImage: Media
   author: User
 }
 
 export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> = ({
-  heroImage,
+  coverImage,
   blockImage,
   author,
 }) => {
@@ -302,11 +302,11 @@ export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
         version: 1,
       },
     },
-    heroImage: heroImage.id,
+    coverImage: coverImage.id,
     meta: {
       description:
         'Dive into the marvels of modern innovation, where the only constant is change. A journey where pixels and data converge to craft the future.',
-      image: heroImage.id,
+      image: coverImage.id,
       title: 'Digital Horizons: A Glimpse into Tomorrow',
     },
     relatedPosts: [], // this is populated by the seed script

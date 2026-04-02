@@ -36,7 +36,7 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
       onMouseLeave={() => { pausedRef.current = false; setActiveIndex(null) }}>
       <div ref={trackRef} className="flex" style={{ willChange: 'transform' }}>
         {doubled.map((post, i) => {
-          const img = post.coverImage?.url || post.heroImage?.url || null
+          const img = post.coverImage?.url || null
           const idx = i % posts.length
           const isActive = activeIndex === i
 

@@ -76,11 +76,7 @@ export const Posts: CollectionConfig<'posts'> = {
       tabs: [
         {
           fields: [
-            {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-            },
+
             {
               name: 'content',
               type: 'richText',

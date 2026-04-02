@@ -147,7 +147,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
+    data: post1({ coverImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
   })
 
   const post2Doc = await payload.create({
@@ -156,7 +156,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
+    data: post2({ coverImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
   })
 
   const post3Doc = await payload.create({
@@ -165,7 +165,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
+    data: post3({ coverImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
   })
 
   // update each post with related posts
@@ -205,7 +205,7 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
+      data: home({ coverImage: imageHomeDoc, metaImage: image2Doc }),
     }),
     payload.create({
       collection: 'pages',
