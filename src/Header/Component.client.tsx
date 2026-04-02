@@ -44,12 +44,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         {/* Hamburger mobile */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden"
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
             padding: '0.5rem', display: 'flex', flexDirection: 'column',
             gap: '5px', alignItems: 'center', justifyContent: 'center',
-          }}>
+          }}
+          className="hamburger-mobile">
           <span style={{
             display: 'block', width: '22px', height: '2px', background: '#111',
             transition: 'all 0.3s',
