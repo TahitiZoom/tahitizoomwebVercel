@@ -30,6 +30,9 @@ interface SyncResult {
   errors: string[]
 }
 
+// Cache for author ID to avoid repeated queries
+let cachedAuthorId: number | null | undefined = undefined
+
 function createLexicalContent(text: string): object {
   const paragraphs = text.split(/\n\n+/).filter(p => p.trim())
 
@@ -84,6 +87,39 @@ async function downloadImage(url: string): Promise<{ buffer: Buffer; contentType
   }
 }
 
+function parseQueryParams(request: NextRequest): { limit: number; since?: number; until?: number } {
+  const searchParams = request.nextUrl.searchParams
+
+  // Parse limit (default 10, max 50)
+  let limit = parseInt(searchParams.get('limit') || '10', 10)
+  if (isNaN(limit) || limit < 1) limit = 10
+  if (limit > 50) limit = 50
+
+  // Parse since date (YYYY-MM-DD format) to Unix timestamp
+  const sinceStr = searchParams.get('since')
+  let since: number | undefined
+  if (sinceStr) {
+    const sinceDate = new Date(sinceStr)
+    if (!isNaN(sinceDate.getTime())) {
+      since = Math.floor(sinceDate.getTime() / 1000)
+    }
+  }
+
+  // Parse until date (YYYY-MM-DD format) to Unix timestamp
+  const untilStr = searchParams.get('until')
+  let until: number | undefined
+  if (untilStr) {
+    const untilDate = new Date(untilStr)
+    if (!isNaN(untilDate.getTime())) {
+      // Set to end of day
+      untilDate.setHours(23, 59, 59, 999)
+      until = Math.floor(untilDate.getTime() / 1000)
+    }
+  }
+
+  return { limit, since, until }
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse<SyncResult>> {
   const result: SyncResult = {
     success: false,
@@ -115,8 +151,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<SyncResul
       )
     }
 
-    // Fetch posts from Facebook Graph API
-    const fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=50&access_token=${pageAccessToken}`
+    // Parse query parameters for filtering
+    const { limit, since, until } = parseQueryParams(request)
+
+    // Build Facebook Graph API URL with filters
+    let fbUrl = `https://graph.facebook.com/v22.0/${pageId}/posts?fields=id,message,created_time,full_picture,permalink_url&limit=${limit}&access_token=${pageAccessToken}`
+
+    if (since) {
+      fbUrl += `&since=${since}`
+    }
+    if (until) {
+      fbUrl += `&until=${until}`
+    }
 
     const fbResponse = await fetch(fbUrl)
 
@@ -149,22 +195,36 @@ export async function POST(request: NextRequest): Promise<NextResponse<SyncResul
       )
     }
 
-    // Find the author "Stéphane Sayeb"
-    let authorId: number | null = null
-    try {
-      const usersResult = await payload.find({
-        collection: 'users',
-        where: {
-          name: { equals: 'Stéphane Sayeb' },
-        },
-        limit: 1,
-      })
-      if (usersResult.docs.length > 0) {
-        authorId = usersResult.docs[0].id
+    // Find the author "Stéphane Sayeb" (with caching)
+    if (cachedAuthorId === undefined) {
+      try {
+        // Try by name first
+        let usersResult = await payload.find({
+          collection: 'users',
+          where: {
+            name: { equals: 'Stéphane Sayeb' },
+          },
+          limit: 1,
+        })
+
+        // Fallback to email if not found by name
+        if (usersResult.docs.length === 0) {
+          usersResult = await payload.find({
+            collection: 'users',
+            where: {
+              email: { equals: 'contact@tahitizoom.pf' },
+            },
+            limit: 1,
+          })
+        }
+
+        cachedAuthorId = usersResult.docs.length > 0 ? usersResult.docs[0].id : null
+      } catch {
+        cachedAuthorId = null
       }
-    } catch {
-      // Author not found, continue without
     }
+
+    const authorId = cachedAuthorId
 
     // Process each Facebook post
     for (const fbPost of fbData.data) {
