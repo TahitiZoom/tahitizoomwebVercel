@@ -25,3 +25,5 @@ node_modules/
 .env.local
 *.db
 .vercel
+src/collections/Media.ts.bak
+src/scripts/check-schema.ts

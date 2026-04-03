@@ -8,6 +8,35 @@ Site portfolio professionnel combinant galerie photographique, vitrine de servic
 
 ---
 
+## ⚠️ Quick Reference (Infos critiques)
+
+| Environnement | IP | Port | URL |
+|--------------|-----|------|-----|
+| **Dev (LXC 201)** | 192.168.1.62 | 3000 | http://192.168.1.62:3000 |
+| **Prod (LXC 200)** | 192.168.1.53 | 3000 | https://tahitizoom.pf |
+
+| Variable | Valeur |
+|----------|--------|
+| **FB_PAGE_ID** | `649906701713135` |
+| **FB_PAGE_ACCESS_TOKEN** | (voir `.env`) |
+| **Media folder** | `/var/www/tahitizoom/public/media/` |
+
+### 🔄 Synchronisation Media (IMPORTANT)
+
+> **Après chaque import Facebook ou ajout de médias**, synchroniser le dossier `/media` entre les LXC :
+
+```bash
+# Depuis LXC 201 (dev) vers LXC 200 (prod)
+rsync -avz --progress /var/www/tahitizoom/public/media/ root@192.168.1.53:/var/www/tahitizoom/public/media/
+
+# Depuis LXC 200 (prod) vers LXC 201 (dev)
+rsync -avz --progress /var/www/tahitizoom/public/media/ root@192.168.1.62:/var/www/tahitizoom/public/media/
+```
+
+> ⚠️ **Le dossier `public/media/` n'est PAS versionné dans Git.** Les images importées depuis Facebook sont stockées localement. Si vous importez sur dev, les images n'existeront pas sur prod sans synchronisation manuelle.
+
+---
+
 ## Stack technique
 
 | Composant | Version | Rôle |
@@ -296,8 +325,9 @@ npx payload migrate
 # Ne jamais lancer VS Code Remote ou Claude Code sur LXC 200 (prod)
 # MongoDB écarté → Turso SQLite uniquement (incompatibilité AVX sur le hardware)
 # .env non versionné → copier manuellement après clone
-# public/media non versionné → synchroniser via scp entre LXC
+# public/media/ NON VERSIONNÉ → rsync obligatoire après import Facebook (voir Quick Reference)
 # Proxmox upgrade vers 9.1 différé (risque kernel T2 + renommage interfaces)
+# BDD Turso partagée dev/prod → migrations impactent les deux environnements immédiatement
 ```
 
 ---
@@ -319,6 +349,7 @@ App **TahitiZoom Pages** (type Business) configurée pour la lecture de la Page 
 
 | Paramètre | Valeur |
 |-----------|--------|
+| **Page ID** | `649906701713135` |
 | App | TahitiZoom Pages (Business) |
 | Permissions | `pages_show_list`, `pages_read_engagement`, `pages_manage_posts` |
 | Portefeuille | Tahiti Zoom (vérifié) |
