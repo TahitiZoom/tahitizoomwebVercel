@@ -5,16 +5,16 @@ import { useLocale } from './LocaleProvider'
 
 const servicesData = {
   fr: [
-    { n: '01', t: 'Photographie',  d: 'Reportages documentaires, portraits, événements culturels en Polynésie française.', img: '/images/service-photo.jpeg' },
-    { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.',      img: '/images/service-dev.jpeg' },
-    { n: '03', t: 'Web Design',    d: 'Interfaces élégantes, expériences utilisateur mémorables et identités digitales.',  img: '/images/service-design.jpeg' },
-    { n: '04', t: 'Infographie',   d: 'Identité visuelle complète, logos, affiches, supports print et communication.',     img: '/images/service-infographie.jpeg' },
+    { n: '01', t: 'Photographie',  d: 'Reportages documentaires, portraits, événements culturels en Polynésie française.', img: '/images/service-photo.webp' },
+    { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.',      img: '/images/service-dev.webp' },
+    { n: '03', t: 'Web Design',    d: 'Interfaces élégantes, expériences utilisateur mémorables et identités digitales.',  img: '/images/service-design.webp' },
+    { n: '04', t: 'Infographie',   d: 'Identité visuelle complète, logos, affiches, supports print et communication.',     img: '/images/service-infographie.webp' },
   ],
   en: [
-    { n: '01', t: 'Photography',   d: 'Documentary reports, portraits, cultural events in French Polynesia.',             img: '/images/service-photo.jpeg' },
-    { n: '02', t: 'Development',   d: 'Next.js web apps, REST APIs, custom Payload CMS and hosting.',                     img: '/images/service-dev.jpeg' },
-    { n: '03', t: 'Web Design',    d: 'Elegant interfaces, memorable user experiences and digital identities.',           img: '/images/service-design.jpeg' },
-    { n: '04', t: 'Infographics',  d: 'Complete visual identity, logos, posters, print and communication materials.',     img: '/images/service-infographie.jpeg' },
+    { n: '01', t: 'Photography',   d: 'Documentary reports, portraits, cultural events in French Polynesia.',             img: '/images/service-photo.webp' },
+    { n: '02', t: 'Development',   d: 'Next.js web apps, REST APIs, custom Payload CMS and hosting.',                     img: '/images/service-dev.webp' },
+    { n: '03', t: 'Web Design',    d: 'Elegant interfaces, memorable user experiences and digital identities.',           img: '/images/service-design.webp' },
+    { n: '04', t: 'Infographics',  d: 'Complete visual identity, logos, posters, print and communication materials.',     img: '/images/service-infographie.webp' },
   ],
 }
 

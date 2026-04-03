@@ -3,17 +3,17 @@ import { useEffect, useRef } from 'react'
 import { useLocale } from './LocaleProvider'
 
 const clients = [
-  { name: 'TNTV', logo: '/images/clients/tntv.png' },
-  { name: 'Radio 1', logo: '/images/clients/radio1.png' },
-  { name: 'Polynésie La 1ère', logo: '/images/clients/la1ere.png' },
-  { name: 'Tiki Village Moorea', logo: '/images/clients/tiki-village.png' },
-  { name: 'Port Autonome Te Ara Tai', logo: '/images/clients/port-autonome.png' },
-  { name: 'CPS', logo: '/images/clients/cps.png' },
-  { name: 'RPI', logo: '/images/clients/rpi.png' },
-  { name: 'Conservatoire Te Fare Upa Rau', logo: '/images/clients/conservatoire.png' },
-  { name: 'Maison de la Culture Te Fare Tahiti Nui', logo: '/images/clients/maison-culture.png' },
-  { name: 'Université de la Polynésie', logo: '/images/clients/upf.png' },
-  { name: 'Mairies', logo: '/images/clients/mairies.png' },
+  { name: 'TNTV', logo: '/images/clients/tntv.webp' },
+  { name: 'Radio 1', logo: '/images/clients/radio1.webp' },
+  { name: 'Polynésie La 1ère', logo: '/images/clients/la1ere.webp' },
+  { name: 'Tiki Village Moorea', logo: '/images/clients/tiki-village.webp' },
+  { name: 'Port Autonome Te Ara Tai', logo: '/images/clients/port-autonome.webp' },
+  { name: 'CPS', logo: '/images/clients/cps.webp' },
+  { name: 'RPI', logo: '/images/clients/rpi.webp' },
+  { name: 'Conservatoire Te Fare Upa Rau', logo: '/images/clients/conservatoire.webp' },
+  { name: 'Maison de la Culture Te Fare Tahiti Nui', logo: '/images/clients/maison-culture.webp' },
+  { name: 'Université de la Polynésie', logo: '/images/clients/upf.webp' },
+  { name: 'Mairies', logo: '/images/clients/mairies.webp' },
 ]
 
 export function ClientsCarousel() {

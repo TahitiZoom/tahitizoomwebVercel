@@ -20,7 +20,7 @@ export default function ContactPage() {
           </h1>
         </div>
         <div style={{ position: 'relative', width: '100%', backgroundColor: '#f5f5f5', display: 'flex', justifyContent: 'center' }}>
-          <img src="/images/contact-hero.jpg" alt="Contact"
+          <img src="/images/contact-hero.webp" alt="Contact"
             style={{ width: '100%', maxHeight: '70vh', objectFit: 'contain', filter: 'grayscale(20%)' }} />
           <div style={{ position: 'absolute', bottom: '1rem', right: '1rem',
             writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)',
