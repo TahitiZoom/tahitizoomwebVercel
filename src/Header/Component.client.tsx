@@ -29,11 +29,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         {/* Logo */}
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
           {/* Mobile : favicon */}
-          <img src="/Logo-Tahiti-Zoom-144x144.png" alt="Tahiti Zoom"
+          <img src="/Logo-Tahiti-Zoom-144x144.webp" alt="Tahiti Zoom"
             style={{ height: '40px', width: '40px', objectFit: 'contain' }}
             className="block md:hidden" />
           {/* Desktop : logo signature */}
-          <img src="/logo.png" alt="Tahiti Zoom"
+          <img src="/logo.webp" alt="Tahiti Zoom"
             style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
             className="hidden md:block" />
         </Link>
