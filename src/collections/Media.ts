@@ -63,7 +63,6 @@ export const Media: CollectionConfig = {
     ],
   },
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     // Conversion automatique en WebP pour tous les nouveaux uploads
