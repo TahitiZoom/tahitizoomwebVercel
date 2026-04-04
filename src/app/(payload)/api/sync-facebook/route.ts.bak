@@ -214,17 +214,12 @@ export async function GET(request: NextRequest): Promise<Response> {
       try {
         const payload = await getPayload({ config })
 
-        const cronSecret = process.env.CRON_SECRET
-        const authHeader = request.headers.get('authorization')
-        const isCron = Boolean(cronSecret && authHeader === `Bearer ${cronSecret}`)
-
-        if (!isCron) {
-          const authResult = await payload.auth({ headers: request.headers })
-          if (!authResult.user) {
-            send({ type: 'error', message: 'Non authentifie. Veuillez vous connecter.' })
-            controller.close()
-            return
-          }
+        // Check authentication via cookies
+        const authResult = await payload.auth({ headers: request.headers })
+        if (!authResult.user) {
+          send({ type: 'error', message: 'Non authentifie. Veuillez vous connecter.' })
+          controller.close()
+          return
         }
 
         // Get Facebook credentials from environment
@@ -569,18 +564,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<SyncResul
   try {
     const payload = await getPayload({ config })
 
-    const cronSecret = process.env.CRON_SECRET
-    const authHeader = request.headers.get('authorization')
-    const isCron = Boolean(cronSecret && authHeader === `Bearer ${cronSecret}`)
-
-    if (!isCron) {
-      const authResult = await payload.auth({ headers: request.headers })
-      if (!authResult.user) {
-        return NextResponse.json(
-          { ...result, errors: ['Non authentifie. Veuillez vous connecter.'] },
-          { status: 401 }
-        )
-      }
+    // Check authentication via cookies
+    const authResult = await payload.auth({ headers: request.headers })
+    if (!authResult.user) {
+      return NextResponse.json(
+        { ...result, errors: ['Non authentifie. Veuillez vous connecter.'] },
+        { status: 401 }
+      )
     }
 
     // Get Facebook credentials from environment
