@@ -24,16 +24,11 @@ export async function GET(request: NextRequest) {
     const target = new URL('/api/sync-facebook', baseURL)
     target.searchParams.set('limit', '25')
 
-    const protectionBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-
     const response = await fetch(target.toString(), {
       method: 'POST',
       headers: {
         authorization: `Bearer ${cronSecret}`,
         'x-cron-job': 'facebook-sync',
-        ...(protectionBypass
-          ? { 'x-vercel-protection-bypass': protectionBypass }
-          : {}),
       },
       cache: 'no-store',
     })
