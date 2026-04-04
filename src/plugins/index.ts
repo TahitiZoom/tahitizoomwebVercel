@@ -12,6 +12,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { sendContactEmail } from '@/hooks/sendContactEmail'
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Tahiti Zoom — Stéphane Sayeb` : 'Tahiti Zoom — Stéphane Sayeb'
@@ -93,4 +94,37 @@ export const plugins: Plugin[] = [
       },
     },
   }),
+s3Storage({
+  enabled: Boolean(
+    process.env.S3_BUCKET &&
+      process.env.S3_ENDPOINT &&
+      process.env.S3_ACCESS_KEY_ID &&
+      process.env.S3_SECRET_ACCESS_KEY &&
+      process.env.S3_PUBLIC_URL
+  ),
+  collections: {
+    media: {
+      disablePayloadAccessControl: true,
+      prefix: process.env.VERCEL_ENV === 'production' ? 'prod/media' : 'staging/media',
+      generateFileURL: ({ filename, prefix }) => {
+        const base = process.env.S3_PUBLIC_URL?.replace(/\/$/, '')
+        if (!base) {
+          throw new Error('S3_PUBLIC_URL is missing')
+        }
+        const key = prefix ? `${prefix}/${filename}` : filename
+        return `${base}/${key}`
+      },
+    },
+  },
+  bucket: process.env.S3_BUCKET || '',
+  config: {
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
+    },
+    region: process.env.S3_REGION || 'auto',
+    endpoint: process.env.S3_ENDPOINT,
+    forcePathStyle: true,
+  },
+})
 ]
