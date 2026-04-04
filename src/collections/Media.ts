@@ -39,6 +39,29 @@ export const Media: CollectionConfig = {
       }),
     },
   ],
+  hooks: {
+    afterRead: [
+      ({ doc }) => {
+        if (doc?.sizes?.thumbnail?.url) {
+          doc.thumbnailURL = doc.sizes.thumbnail.url
+        }
+
+        if (doc?.sizes?.thumbnail?.filename && doc?.sizes?.thumbnail?.url) {
+          doc.thumbnail_u_r_l = doc.sizes.thumbnail.url
+        }
+
+        if (doc?.url && typeof doc.url === 'string' && doc.url.startsWith('/api/media/file/')) {
+          if (doc.filename && process.env.S3_PUBLIC_URL) {
+            const base = process.env.S3_PUBLIC_URL.replace(/\/$/, '')
+            const prefix = doc.prefix ? `${doc.prefix}/` : ''
+            doc.url = `${base}/${prefix}${doc.filename}`
+          }
+        }
+
+        return doc
+      },
+    ],
+  },
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
