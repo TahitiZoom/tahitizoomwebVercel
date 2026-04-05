@@ -1,372 +1,569 @@
-# Tahiti Zoom — tahitizoom.pf
+# TahitiZoomWebVercel
 
-> **Stéphane Sayeb** — Reporter photographe & Développeur Full Stack  
-> Papeete, Polynésie française  
-> Contact : contact@tahitizoom.pf
+Migration et exploitation de **Tahiti Zoom** sur **Vercel + Payload CMS + Turso + Cloudflare R2**.
 
-Site portfolio professionnel combinant galerie photographique, vitrine de services et plateforme éditoriale, auto-hébergé sur infrastructure Proxmox LXC.
+Ce dépôt est la base de travail pour :
+
+- `staging.tahitizoom.pf`
+- `tahitizoom.pf`
 
 ---
 
-## ⚠️ Quick Reference (Infos critiques)
+## 1. Architecture cible
 
-| Environnement | IP | Port | URL |
-|--------------|-----|------|-----|
-| **Dev (LXC 201)** | 192.168.1.62 | 3000 | http://192.168.1.62:3000 |
-| **Prod (LXC 200)** | 192.168.1.53 | 3000 | https://tahitizoom.pf |
+### Production
+- **App / CMS** : Vercel
+- **Domaine** : `https://tahitizoom.pf`
+- **Base Turso** : `tahitizoom`
+- **Bucket R2** : `tahitizoom-media-prod`
+- **Domaine média** : `https://media.tahitizoom.pf`
 
-| Variable | Valeur |
-|----------|--------|
-| **FB_PAGE_ID** | `649906701713135` |
-| **FB_PAGE_ACCESS_TOKEN** | (voir `.env`) |
-| **Media folder** | `/var/www/tahitizoom/public/media/` |
+### Staging
+- **App / CMS** : Vercel
+- **Domaine** : `https://staging.tahitizoom.pf`
+- **Base Turso** : `tahitizoom-staging`
+- **Bucket R2** : `tahitizoom-media-staging`
+- **Domaine média** : `https://media-staging.tahitizoom.pf`
 
-### 🔄 Synchronisation Media (IMPORTANT)
+---
 
-> **Après chaque import Facebook ou ajout de médias**, synchroniser le dossier `/media` entre les LXC :
+## 2. Bases Turso
+
+### Vérifier les bases existantes
 
 ```bash
-# Depuis LXC 201 (dev) vers LXC 200 (prod)
-rsync -avz --progress /var/www/tahitizoom/public/media/ root@192.168.1.53:/var/www/tahitizoom/public/media/
-
-# Depuis LXC 200 (prod) vers LXC 201 (dev)
-rsync -avz --progress /var/www/tahitizoom/public/media/ root@192.168.1.62:/var/www/tahitizoom/public/media/
+turso db list
+turso db show tahitizoom
+turso db show tahitizoom-staging
 ```
 
-> ⚠️ **Le dossier `public/media/` n'est PAS versionné dans Git.** Les images importées depuis Facebook sont stockées localement. Si vous importez sur dev, les images n'existeront pas sur prod sans synchronisation manuelle.
+### URLs correctes
 
----
-
-## Stack technique
-
-| Composant | Version | Rôle |
-|-----------|---------|------|
-| [Next.js](https://nextjs.org) | 16.2.1 | Framework frontend (App Router) |
-| [Payload CMS](https://payloadcms.com) | 3.80.0 | Backend CMS headless |
-| [Turso](https://turso.tech) (libSQL) | — | Base de données SQLite distante |
-| [Tailwind CSS](https://tailwindcss.com) | 4.x | Styles utilitaires |
-| [shadcn/ui](https://ui.shadcn.com) | — | Composants UI |
-| [TypeScript](https://www.typescriptlang.org) | — | Typage statique |
-| [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/) | — | Exposition HTTPS sans IP fixe |
-| [PM2](https://pm2.keymetrics.io) | — | Process manager Node.js |
-| [Nodemailer](https://nodemailer.com) | — | Envoi email formulaire contact |
-
----
-
-## Infrastructure serveur
-```
-Mac Mini Intel (Macmini8,1 2018, T2) — hostname: tzsrv
-└── Proxmox VE 8.x
-    ├── LXC 200 — Production  (192.168.1.53) — tahitizoom.pf
-    └── LXC 201 — Développement (192.168.1.62) — Debian 12
-```
-
-- **Chemin projet** : `/var/www/tahitizoom` (identique sur les deux LXC)
-- **Process manager** : PM2, service `tahitizoom`
-- **Exposition réseau** : Cloudflare Tunnel `8c941e2c-0eee-43f1-815a-ce69140fb2bd` → `localhost:3000`
-- **Accès dev** : VS Code Remote SSH depuis ThinkPad Windows 11 → LXC 201
-
----
-
-## Architecture du projet
-```
-src/
-├── app/
-│   ├── (frontend)/          # Routes publiques Next.js
-│   │   ├── page.tsx         # Page d'accueil
-│   │   ├── editorial/       # Page éditoriale (posts)
-│   │   ├── services/        # Page services
-│   │   ├── a-propos/        # Page à propos
-│   │   ├── contact/         # Page contact
-│   │   ├── mentions-legales/
-│   │   ├── confidentialite/
-│   │   └── [slug]/          # Pages dynamiques CMS
-│   ├── (payload)/           # Admin Payload CMS (/admin)
-│   │   └── api/
-│   │       ├── sync-facebook/        # Import posts Facebook
-│   │       └── update-posts-photos/  # Mise à jour photos posts
-│   └── maintenance/         # Page maintenance
-├── collections/
-│   ├── Posts/               # Collection articles éditoriaux
-│   ├── Pages/               # Collection pages CMS
-│   ├── Media/               # Collection médias
-│   ├── Categories/          # Taxonomie posts
-│   └── Users/               # Utilisateurs admin
-├── Header/                  # Composant header (nav desktop + mobile)
-├── Footer/                  # Composant footer
-├── heros/                   # Blocs hero (HighImpact, MediumImpact, etc.)
-├── blocks/                  # Blocs de contenu (Banner, Code, Form, etc.)
-├── components/              # Composants React réutilisables
-│   ├── ClientsCarousel.tsx  # Carousel logos clients
-│   ├── EditorialCarousel.tsx # Carousel posts aléatoires (accueil)
-│   ├── MasonryGallery.tsx   # Galerie masonry avec lightbox
-│   ├── ContactForm.tsx      # Formulaire de contact custom
-│   ├── CookieBanner.tsx     # Bandeau cookies RGPD
-│   ├── FooterClient.tsx     # Footer client-side
-│   ├── LocaleSwitcher.tsx   # Switcher FR/EN
-│   ├── ServicesMenu.tsx     # Menu services
-│   └── RichText/
-│       ├── index.tsx        # RichText standard (avec MediaBlocks)
-│       └── withoutMedia.tsx # RichText sans médias (pour masonry)
-├── providers/               # Providers React (Theme, Locale, Header)
-├── fields/                  # Champs Payload custom
-├── hooks/                   # Hooks Payload (revalidation, email)
-├── scripts/                 # Scripts utilitaires
-│   └── update-posts-photos.ts # Mise à jour photos Facebook
-└── migrations/              # Migrations base de données SQLite
-```
-
----
-
-## Collections Payload CMS
-
-### Posts (Éditorial)
-Articles publiés sur la page `/editorial`. Champs principaux :
-- `title` — Titre de l'article
-- `content` — Contenu rich text (Lexical editor avec MediaBlocks)
-- `coverImage` — Photo de couverture (vignette carte + image hero)
-- `facebookUrl` — Lien vers le post Facebook original
-- `facebookId` — ID unique Facebook (pour sync et déduplication)
-- `publishedAt` — Date de publication
-- `authors` — Auteur(s)
-- `categories` — Catégories (relation)
-- `meta` — SEO (titre, description, image)
-
-Fonctionnalités : drafts, autosave, versioning (max 50), scheduled publish, live preview.
-
-**Affichage article** :
-- Texte du post rendu via `RichTextWithoutMedia`
-- Photos extraites et affichées en galerie masonry sous l'article
-- Lightbox avec navigation pour visualiser les images en grand
-
-### Pages
-Pages CMS avec layout builder. Navigation configurée :
-- Home (ID 2) — `/`
-- Portfolio (ID 3) — `/portfolio`
-- Services (ID 4) — `/services`
-- À propos (ID 5) — `/a-propos`
-- Contact (ID 1) — `/contact`
-
-### Media
-Uploads avec redimensionnement automatique et focal point.
-
-### Categories
-Taxonomie pour les posts éditoriaux.
-
----
-
-## Globals Payload CMS
-
-- **Header** — Liens de navigation (`navItems`)
-- **Footer** — Liens footer, réseaux sociaux
-- **Paramètres du site** — Mode maintenance (champ `maintenance: boolean`)
-
----
-
-## Fonctionnalités spécifiques
-
-### Header responsive
-- Logo favicon (`Logo-Tahiti-Zoom-144x144.png`) sur mobile
-- Logo signature (`logo.png`) sur desktop (`md:` breakpoint)
-- Nav desktop masquée sur mobile via classe `.hamburger-mobile` + media query CSS
-- Menu déroulant animé sur mobile
-- Scroll-aware : ombre au scroll via `useState`
-
-### Internationalisation FR/EN
-- `LocaleProvider` et `LocaleSwitcher` custom
-- Traductions dans `Nav/index.tsx` via dictionnaire statique
-- Langue détectée depuis le navigateur
-
-### Formulaire de contact
-Hook custom `sendContactEmail.ts` (Nodemailer + iCloud SMTP) câblé via `formBuilderPlugin` → `formSubmissionOverrides.hooks.afterChange`. Contourne un bug Payload où `"emails":[]` est retourné malgré la config correcte.
-
-### Mode maintenance
-Global `Settings` + middleware `proxy.ts` : redirige tout le trafic vers `/maintenance` si activé depuis l'admin.
-
-### Webhook Facebook
-Route API à `/facebook-webhook` pour réception future des posts Facebook.
-
-### Bannière cookies RGPD
-Composant `CookieBanner.tsx` bilingue FR/EN, consentement persisté en `localStorage`.
-
-### Carousel clients
-Composant `ClientsCarousel.tsx` avec logos des clients : RPI, Pilotage Te Ara Tai, Tiki Village, Mairies, CPS, Maison de la Culture, UPF, La 1ère Polynésie, Conservatoire, Radio 1, TNTV.
-
-### Carousel page d'accueil
-Composant `EditorialCarousel.tsx` :
-- Affiche 20 vignettes aléatoires parmi les posts publiés
-- Animation défilement automatique (pause au survol)
-- Expansion au hover avec titre et lien "Lire"
-- Images mélangées à chaque chargement de page
-
-### Galerie Masonry articles
-Composant `MasonryGallery.tsx` :
-- Layout masonry adaptatif (2/3/4 colonnes selon viewport)
-- Toutes les photos de l'article regroupées en bas (au lieu d'inline)
-- Lightbox plein écran au clic avec navigation gauche/droite
-- Compteur d'images et fermeture au clic extérieur
-- Lazy loading des images
-
-### Synchronisation Facebook
-Système complet d'import des posts Facebook vers Payload CMS :
-
-**Route API `/api/sync-facebook`** :
-- Import automatique des posts de la Page Facebook
-- Téléchargement et création des coverImage
-- Génération des slugs SEO-friendly
-- Détection des doublons via `facebookId`
-- Bouton "Synchro Facebook" dans l'admin Payload
-
-**Script `src/scripts/update-posts-photos.ts`** :
-- Récupère les photos supplémentaires de chaque post Facebook
-- Télécharge et crée les médias dans Payload
-- Ajoute les MediaBlocks au contenu Lexical
-- Usage : `npx tsx src/scripts/update-posts-photos.ts`
-
-**Route API `/api/update-posts-photos`** :
-- Version API du script ci-dessus (nécessite authentification)
-- Endpoint POST pour mise à jour des photos
-
----
-
-## Configuration email (SMTP iCloud+)
+#### Production
 ```env
-SMTP_HOST=smtp.mail.me.com
-SMTP_PORT=587
-SMTP_USER=ssayeb@icloud.com        # Apple ID (pas l'alias domaine)
-SMTP_PASS=<app-specific-password>
-SMTP_FROM=contact@tahitizoom.pf
+TURSO_DATABASE_URL=libsql://tahitizoom-tahitizoom.aws-us-west-2.turso.io
 ```
 
-> ⚠️ `SMTP_USER` doit être l'Apple ID, pas l'alias `contact@tahitizoom.pf`
+#### Staging
+```env
+TURSO_DATABASE_URL=libsql://tahitizoom-staging-tahitizoom.aws-us-west-2.turso.io
+```
+
+### Créer un token Turso
+
+#### Production
+```bash
+turso db tokens create tahitizoom --expiration never
+```
+
+#### Staging
+```bash
+turso db tokens create tahitizoom-staging --expiration never
+```
 
 ---
 
-## Variables d'environnement
-```env
-# Base de données Turso (libSQL)
-DATABASE_URI=libsql://...turso.io
-DATABASE_AUTH_TOKEN=<token>
+## 3. Buckets R2
 
-# Payload
-PAYLOAD_SECRET=<secret>
+### Buckets
+- `tahitizoom-media-prod`
+- `tahitizoom-media-staging`
+
+### Domaines publics
+- `media.tahitizoom.pf`
+- `media-staging.tahitizoom.pf`
+
+### Endpoint R2
+```env
+S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+S3_REGION=auto
+```
+
+---
+
+## 4. Variables d’environnement Vercel
+
+## Production
+
+```env
+PAYLOAD_SECRET=...
 NEXT_PUBLIC_SERVER_URL=https://tahitizoom.pf
 
-# SMTP iCloud+
-SMTP_HOST=smtp.mail.me.com
+TURSO_DATABASE_URL=libsql://tahitizoom-tahitizoom.aws-us-west-2.turso.io
+TURSO_AUTH_TOKEN=...
+
+S3_BUCKET=tahitizoom-media-prod
+S3_REGION=auto
+S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+S3_ACCESS_KEY_ID=...
+S3_SECRET_ACCESS_KEY=...
+S3_PUBLIC_URL=https://media.tahitizoom.pf
+
+FB_PAGE_ID=...
+FB_PAGE_ACCESS_TOKEN=...
+FB_VERIFY_TOKEN=...
+
+CRON_SECRET=...
+VERCEL_AUTOMATION_BYPASS_SECRET=...
+
+SMTP_HOST=...
 SMTP_PORT=587
-SMTP_USER=ssayeb@icloud.com
-SMTP_PASS=<app-specific-password>
+SMTP_USER=...
+SMTP_PASS=...
 SMTP_FROM=contact@tahitizoom.pf
-
-# Facebook Graph API
-FB_PAGE_ID=<page_id>
-FB_PAGE_ACCESS_TOKEN=<page_access_token>
-
-# Sécurité
-SYNC_SECRET=<openssl rand -hex 32>
 ```
 
-> ⚠️ Le fichier `.env` n'est **pas** versionné. Le copier manuellement après tout clone.
+## Preview / Staging
+
+```env
+PAYLOAD_SECRET=...
+NEXT_PUBLIC_SERVER_URL=https://staging.tahitizoom.pf
+
+TURSO_DATABASE_URL=libsql://tahitizoom-staging-tahitizoom.aws-us-west-2.turso.io
+TURSO_AUTH_TOKEN=...
+
+S3_BUCKET=tahitizoom-media-staging
+S3_REGION=auto
+S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+S3_ACCESS_KEY_ID=...
+S3_SECRET_ACCESS_KEY=...
+S3_PUBLIC_URL=https://media-staging.tahitizoom.pf
+
+FB_PAGE_ID=...
+FB_PAGE_ACCESS_TOKEN=...
+FB_VERIFY_TOKEN=...
+
+CRON_SECRET=...
+VERCEL_AUTOMATION_BYPASS_SECRET=...
+
+SMTP_HOST=...
+SMTP_PORT=587
+SMTP_USER=...
+SMTP_PASS=...
+SMTP_FROM=contact@tahitizoom.pf
+```
+
+### Important
+Un changement de variables Vercel **ne se versionne pas dans Git**.  
+Pour garder une trace côté dépôt :
+
+- maintenir un `.env.example` sans secrets
+- maintenir ce `README.md`
+- redéployer après changement de variables si l’app doit les prendre en compte
 
 ---
 
-## Workflow de développement
-```
-ThinkPad Windows 11 (VS Code Remote SSH)
-        ↓
-LXC 201 dev (192.168.1.62) ← développement actif
-        ↓ git push
-   GitHub (TahitiZoom/tahitizoomweb — privé)
-        ↓ git pull
-LXC 200 prod (192.168.1.53) → tahitizoom.pf
+## 5. Important : mapping correct des environnements
+
+### Production
+- `tahitizoom.pf` doit pointer vers :
+  - base Turso `tahitizoom`
+  - bucket `tahitizoom-media-prod`
+  - domaine média `media.tahitizoom.pf`
+
+### Staging
+- `staging.tahitizoom.pf` doit pointer vers :
+  - base Turso `tahitizoom-staging`
+  - bucket `tahitizoom-media-staging`
+  - domaine média `media-staging.tahitizoom.pf`
+
+### Erreur critique rencontrée
+La prod Vercel pointait par erreur sur `tahitizoom-staging`.
+
+Symptômes observés :
+- médias en prod avec URLs `staging/media`
+- aperçus manquants
+- incohérences entre base consultée localement et API prod
+
+Cause racine :
+- `TURSO_DATABASE_URL` de **Production** pointait encore vers `tahitizoom-staging`
+
+---
+
+## 6. Plugin R2 / S3
+
+Le stockage est géré via `@payloadcms/storage-s3`.
+
+Exemple de logique active :
+
+- `prod/media` en production
+- `staging/media` en preview/staging
+
+Vérifier `src/plugins/index.ts` :
+- `S3_BUCKET`
+- `S3_ENDPOINT`
+- `S3_ACCESS_KEY_ID`
+- `S3_SECRET_ACCESS_KEY`
+- `S3_PUBLIC_URL`
+
+---
+
+## 7. Correction durable des thumbnails Payload
+
+Le fichier `src/collections/Media.ts` contient un hook `afterRead` indispensable pour corriger les aperçus dans l’admin :
+
+```ts
+hooks: {
+  afterRead: [
+    ({ doc }) => {
+      if (doc?.sizes?.thumbnail?.url) {
+        doc.thumbnailURL = doc.sizes.thumbnail.url
+      }
+
+      if (doc?.sizes?.thumbnail?.filename && doc?.sizes?.thumbnail?.url) {
+        doc.thumbnail_u_r_l = doc.sizes.thumbnail.url
+      }
+
+      if (doc?.url && typeof doc.url === 'string' && doc.url.startsWith('/api/media/file/')) {
+        if (doc.filename && process.env.S3_PUBLIC_URL) {
+          const base = process.env.S3_PUBLIC_URL.replace(/\/$/, '')
+          const prefix = doc.prefix ? `${doc.prefix}/` : ''
+          doc.url = `${base}/${prefix}${doc.filename}`
+        }
+      }
+
+      return doc
+    },
+  ],
+},
 ```
 
-### Déploiement LXC 201 (dev)
+### Vérifier que le hook est bien présent
+
 ```bash
-cd /var/www/tahitizoom
-pm2 stop tahitizoom
-rm -rf .next
+grep -n -A25 -B2 "hooks:" src/collections/Media.ts
+grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL|startsWith\\('/api/media/file/'\\)" src/collections/Media.ts
+```
+
+---
+
+## 8. Problème historique des aperçus
+
+### Symptôme
+- l’admin affichait des vignettes manquantes
+- certaines URLs pointaient vers `/api/media/file/...`
+- d’autres pointaient encore vers `staging/media`
+
+### Correctif appliqué
+1. correction SQL des URLs
+2. hook `afterRead` dans `Media.ts`
+3. hard refresh navigateur
+
+### Requête utile de vérification
+
+```sql
+SELECT id, filename, prefix, url, thumbnail_u_r_l, sizes_thumbnail_url
+FROM media
+ORDER BY id DESC
+LIMIT 10;
+```
+
+---
+
+## 9. Migration des anciens médias vers R2
+
+### Vérifier les objets dans un bucket
+
+```bash
+aws s3 ls s3://tahitizoom-media-prod/prod/media/ \
+  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
+```
+
+### Sync staging -> prod
+
+Créer un token temporaire R2 avec accès :
+- lecture sur `tahitizoom-media-staging`
+- écriture sur `tahitizoom-media-prod`
+
+Puis :
+
+```bash
+export AWS_ACCESS_KEY_ID="..."
+export AWS_SECRET_ACCESS_KEY="..."
+
+aws s3 sync \
+  s3://tahitizoom-media-staging/staging/media/ \
+  s3://tahitizoom-media-prod/prod/media/ \
+  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+```
+
+### Nettoyage du shell
+
+```bash
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+```
+
+### Important
+Les tokens temporaires affichés ou utilisés pour la migration doivent être supprimés / régénérés après usage.
+
+---
+
+## 10. SQL utiles pour la prod
+
+### Vérifier les résidus staging en prod
+
+```sql
+SELECT COUNT(*) AS remaining_prod_staging_refs
+FROM media
+WHERE prefix = 'staging/media'
+   OR url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR thumbnail_u_r_l LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_thumbnail_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_square_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_small_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_medium_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_large_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_xlarge_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
+   OR sizes_og_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+```
+
+### Mettre à jour prod/media
+
+```sql
+UPDATE media
+SET prefix = 'prod/media'
+WHERE prefix = 'staging/media';
+
+UPDATE media
+SET url = REPLACE(url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET thumbnail_u_r_l = REPLACE(thumbnail_u_r_l, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE thumbnail_u_r_l LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_thumbnail_url = REPLACE(sizes_thumbnail_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_thumbnail_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_square_url = REPLACE(sizes_square_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_square_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_small_url = REPLACE(sizes_small_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_small_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_medium_url = REPLACE(sizes_medium_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_medium_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_large_url = REPLACE(sizes_large_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_large_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_xlarge_url = REPLACE(sizes_xlarge_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_xlarge_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+
+UPDATE media
+SET sizes_og_url = REPLACE(sizes_og_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
+WHERE sizes_og_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
+```
+
+---
+
+## 11. Import map Payload
+
+Après ajout du plugin S3/R2, il faut régénérer l’import map :
+
+```bash
+npm run generate:importmap
 npm run build
-pm2 start tahitizoom
+```
+
+Sinon l’admin peut casser avec une erreur de type :
+- `PayloadComponent not found in importMap`
+
+---
+
+## 12. Cron Facebook sécurisé
+
+### Route
+- `/api/cron/facebook-sync`
+
+### Sécurité
+- `CRON_SECRET`
+- `VERCEL_AUTOMATION_BYPASS_SECRET`
+
+### Important
+Les cron jobs Vercel s’exécutent uniquement en **Production**, pas en Preview.
+
+### Test manuel avec bypass Vercel
+
+```bash
+touch /tmp/vercel-cookie.txt
+
+curl -v -L -c /tmp/vercel-cookie.txt -b /tmp/vercel-cookie.txt \
+  -H "Authorization: Bearer TON_CRON_SECRET" \
+  -H "x-vercel-protection-bypass: TON_BYPASS_SECRET" \
+  -H "x-vercel-set-bypass-cookie: true" \
+  "https://tahitizoom.pf/api/cron/facebook-sync"
+```
+
+Réponse attendue :
+
+```json
+{"success":true,"imported":0,"skipped":25,"errors":[]}
+```
+
+---
+
+## 13. Déploiement
+
+### Staging
+```bash
 git add -A
-git commit -m "feat/fix: description"
+git commit -m "..."
+git push origin staging
+```
+
+### Production
+```bash
+git checkout main
+git merge staging
 git push origin main
 ```
 
-### Déploiement LXC 200 (prod)
+### Forcer un redeploy prod
 ```bash
-cd /var/www/tahitizoom
-git stash          # si fichiers locaux modifiés (ex: public/website-template-OG.webp)
-git pull
-pm2 stop tahitizoom
-rm -rf .next
+git checkout main
+git commit --allow-empty -m "chore: force production redeploy"
+git push origin main
+```
+
+---
+
+## 14. Vérifications post-déploiement
+
+### Staging
+- `https://staging.tahitizoom.pf`
+- `https://staging.tahitizoom.pf/admin`
+- upload image
+- import Facebook
+- aperçu media
+
+### Production
+- `https://tahitizoom.pf`
+- `https://tahitizoom.pf/admin`
+- anciens posts avec images
+- nouveaux uploads
+- import Facebook
+- aperçus media
+
+### Important
+Après corrections thumbnails ou URLs :
+- faire un **hard refresh** du navigateur
+
+---
+
+## 15. Pièges rencontrés
+
+### 1. Production branchée sur la base staging
+Cause :
+- `TURSO_DATABASE_URL` Production pointait sur `tahitizoom-staging`
+
+Effet :
+- URLs `staging/media` en prod
+- aperçus incohérents
+- décalage entre base interrogée localement et API prod
+
+### 2. Admin Payload cassé après ajout du plugin S3
+Cause :
+- import map non régénérée
+
+Fix :
+```bash
+npm run generate:importmap
 npm run build
-pm2 start tahitizoom
 ```
 
-Puis **purger le cache Cloudflare** : Dashboard → `tahitizoom.pf` → Caching → Purge Everything.
+### 3. Aperçus manquants
+Cause :
+- `thumbnailURL` / `thumbnail_u_r_l` mal renseignés
+- URLs `/api/media/file/...`
+- résidus staging/prod
+- cache navigateur
 
-### Migrations base de données
+Fix :
+- SQL
+- hook `afterRead`
+- hard refresh
+
+### 4. Upload en erreur “Something went wrong”
+Cause observée :
+- contrainte SQL sur `media.filename`
+- nom déjà existant
+
+Fix :
+- utiliser un nom de fichier unique
+- recharger complètement la page admin après erreur
+
+### 5. Message “Aucun fichier n’a été téléversé”
+Cause probable :
+- état du formulaire admin corrompu après un premier échec
+
+Fix :
+- hard refresh
+- recréer un nouveau document media
+- retéléverser
+- cliquer une seule fois sur `Save`
+
+---
+
+## 16. Commandes utiles
+
+### Vérifier les bases Turso
 ```bash
-# Créer une migration (après modification de collection)
-npx payload migrate:create --name description_du_changement
-
-# Appliquer les migrations
-npx payload migrate
+turso db list
+turso db show tahitizoom
+turso db show tahitizoom-staging
 ```
 
-> ⚠️ La BDD Turso est **partagée** entre dev et prod. Une migration appliquée sur LXC 201 est immédiatement effective sur LXC 200 aussi.
+### Vérifier les buckets
+```bash
+aws s3 ls s3://tahitizoom-media-prod/prod/media/ \
+  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
 
----
-
-## Règles importantes
-```
-# Ne jamais lancer VS Code Remote ou Claude Code sur LXC 200 (prod)
-# MongoDB écarté → Turso SQLite uniquement (incompatibilité AVX sur le hardware)
-# .env non versionné → copier manuellement après clone
-# public/media/ NON VERSIONNÉ → rsync obligatoire après import Facebook (voir Quick Reference)
-# Proxmox upgrade vers 9.1 différé (risque kernel T2 + renommage interfaces)
-# BDD Turso partagée dev/prod → migrations impactent les deux environnements immédiatement
+aws s3 ls s3://tahitizoom-media-staging/staging/media/ \
+  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
 ```
 
----
-
-## Identité visuelle
-
-- **Marque** : Tahiti Zoom
-- **Slogan principal** : CADRER. CODER. CRÉER.
-- **Baseline** : L'ŒIL ET LE CODE
-- **Voix** : première personne (je/votre), ancrage Fenua/Tahiti
-- **Langue principale** : français
-- **Logo** : signature manuscrite `logo.png` (desktop) + favicon carré `Logo-Tahiti-Zoom-144x144.png` (mobile)
+### Vérifier le hook Media
+```bash
+grep -n -A25 -B2 "hooks:" src/collections/Media.ts
+grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL" src/collections/Media.ts
+```
 
 ---
 
-## Meta API Facebook
+## 17. État final attendu
 
-App **TahitiZoom Pages** (type Business) configurée pour la lecture de la Page Facebook.
+### Production
+- `tahitizoom.pf` sur Vercel
+- base Turso `tahitizoom`
+- bucket `tahitizoom-media-prod`
+- domaine média `media.tahitizoom.pf`
+- uploads OK
+- aperçus OK
+- import Facebook OK
+- cron OK
 
-| Paramètre | Valeur |
-|-----------|--------|
-| **Page ID** | `649906701713135` |
-| App | TahitiZoom Pages (Business) |
-| Permissions | `pages_show_list`, `pages_read_engagement`, `pages_manage_posts` |
-| Portefeuille | Tahiti Zoom (vérifié) |
-
-> L'app Consumer "TahitiZoom API" est conservée pour les usages OAuth utilisateur.
-
----
-
-## Liens utiles
-
-- **Site** : https://tahitizoom.pf
-- **Admin** : https://tahitizoom.pf/admin
-- **Repository** : https://github.com/TahitiZoom/tahitizoomweb (privé)
-- **Payload CMS docs** : https://payloadcms.com/docs
-- **Turso docs** : https://docs.turso.tech
-- **Cloudflare Tunnel** : https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/
+### Staging
+- `staging.tahitizoom.pf` sur Vercel
+- base Turso `tahitizoom-staging`
+- bucket `tahitizoom-media-staging`
+- domaine média `media-staging.tahitizoom.pf`
+- tests et validation avant merge prod
 
 ---
 
-*© 2026 Tahiti Zoom — Made with ♥ by Stéphane Sayeb*
+## 18. Recommandation finale
+
+Ne pas modifier directement la prod sans passer par :
+1. `staging`
+2. validation complète
+3. merge `staging -> main`
+4. déploiement Vercel prod
+5. vérification fonctionnelle
