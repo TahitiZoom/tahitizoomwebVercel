@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { syncFacebook } from '@/lib/facebook/syncFacebook'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -11,41 +12,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
   }
 
-  const baseURL = process.env.NEXT_PUBLIC_SERVER_URL
-
-  if (!baseURL) {
-    return NextResponse.json(
-      { ok: false, error: 'NEXT_PUBLIC_SERVER_URL is missing' },
-      { status: 500 },
-    )
-  }
-
   try {
-    const target = new URL('/api/sync-facebook', baseURL)
-    target.searchParams.set('limit', '25')
-
-    const protectionBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET
-
-    const response = await fetch(target.toString(), {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${cronSecret}`,
-        'x-cron-job': 'facebook-sync',
-        ...(protectionBypass
-          ? { 'x-vercel-protection-bypass': protectionBypass }
-          : {}),
-      },
-      cache: 'no-store',
-    })
-
-    const text = await response.text()
-
-    return new NextResponse(text, {
-      status: response.status,
-      headers: {
-        'content-type': response.headers.get('content-type') || 'application/json',
-      },
-    })
+    const result = await syncFacebook({ limit: 25 })
+    return NextResponse.json(result)
   } catch (error) {
     return NextResponse.json(
       {
