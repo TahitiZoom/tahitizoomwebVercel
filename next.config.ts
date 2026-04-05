@@ -18,7 +18,13 @@ const nextConfig: NextConfig = {
     ],
     qualities: [100],
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
+      ...[
+        NEXT_PUBLIC_SERVER_URL,
+        'https://www.tahitizoom.pf',
+        'https://tahitizoom.pf',
+        'https://media.tahitizoom.pf',
+        'https://media-staging.tahitizoom.pf',
+      ].map((item) => {
         const url = new URL(item)
 
         return {
