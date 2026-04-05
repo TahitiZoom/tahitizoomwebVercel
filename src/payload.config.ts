@@ -39,7 +39,6 @@ export default buildConfig({
   admin: {
     meta: {
       titleSuffix: ' - Tahiti Zoom',
-      favicon: '/favicon.ico',
     },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
