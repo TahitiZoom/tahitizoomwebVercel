@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Bebas_Neue, DM_Sans, Manrope } from 'next/font/google'
 import React from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <CookieBanner />
           </LocaleProvider>
           </Providers>
+        <SpeedInsights />
       </body>
     </html>
   )
