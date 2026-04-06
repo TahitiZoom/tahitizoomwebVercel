@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useLocale } from '@/components/LocaleProvider'
 import { useEffect, useState } from 'react'
 
@@ -121,7 +122,12 @@ export default function EditorialPage() {
           <>
             <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
               {posts.map((post: any) => {
-                const img = post.coverImage?.url || null
+                const img =
+                  post.coverImage?.sizes?.medium?.url ||
+                  post.coverImage?.sizes?.small?.url ||
+                  post.coverImage?.sizes?.thumbnail?.url ||
+                  post.coverImage?.url ||
+                  null
                 const date = post.publishedAt
                   ? new Date(post.publishedAt).toLocaleDateString('fr-FR', {
                       year: 'numeric', month: 'long', day: 'numeric' })
@@ -129,8 +135,18 @@ export default function EditorialPage() {
                 return (
                   <Link key={post.id} href={`/posts/${post.slug}`}
                     className="group block break-inside-avoid mb-4 relative overflow-hidden bg-black/5">
-                    {img && <img src={img} alt={post.title}
-                      className="w-full object-cover transition-transform duration-700 group-hover:scale-105" />}
+                    {img && (
+                      <div className="relative w-full">
+                        <Image
+                          src={img}
+                          alt={post.title}
+                          width={900}
+                          height={600}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                       {date && <p className="text-xs text-white/60 tracking-widest mb-1">{date}</p>}

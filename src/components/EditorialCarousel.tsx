@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function EditorialCarousel({ posts }: { posts: any[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -31,17 +32,31 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
   const doubled = [...posts, ...posts]
 
   return (
-    <div className="w-full overflow-hidden"
-      onMouseEnter={() => { pausedRef.current = true }}
-      onMouseLeave={() => { pausedRef.current = false; setActiveIndex(null) }}>
+    <div
+      className="w-full overflow-hidden"
+      onMouseEnter={() => {
+        pausedRef.current = true
+      }}
+      onMouseLeave={() => {
+        pausedRef.current = false
+        setActiveIndex(null)
+      }}
+    >
       <div ref={trackRef} className="flex" style={{ willChange: 'transform' }}>
         {doubled.map((post, i) => {
-          const img = post.coverImage?.url || null
+          const img =
+            post.coverImage?.sizes?.medium?.url ||
+            post.coverImage?.sizes?.small?.url ||
+            post.coverImage?.sizes?.thumbnail?.url ||
+            post.coverImage?.url ||
+            null
+
           const idx = i % posts.length
           const isActive = activeIndex === i
 
           return (
-            <Link key={`${post.id}-${i}`}
+            <Link
+              key={`${post.id}-${i}`}
               href={`/posts/${post.slug}`}
               onMouseEnter={() => setActiveIndex(i)}
               className="relative flex-shrink-0 overflow-hidden group"
@@ -49,36 +64,47 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
                 width: isActive ? '340px' : '200px',
                 height: '480px',
                 transition: 'width 0.6s cubic-bezier(0.22,1,0.36,1)',
-              }}>
-
-              {/* Image */}
+              }}
+            >
               {img ? (
-                <img src={img} alt={post.title}
+                <Image
+                  src={img}
+                  alt={post.title}
+                  fill
+                  priority={i == 0}
+                  sizes="(max-width: 768px) 200px, 200px"
                   className="absolute inset-0 w-full h-full object-cover"
-                  style={{ transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
-                    transform: isActive ? 'scale(1.05)' : 'scale(1)' }} />
+                  style={{
+                    transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)',
+                    transform: isActive ? 'scale(1.05)' : 'scale(1)',
+                  }}
+                />
               ) : (
                 <div className="absolute inset-0 bg-white/5 flex items-center justify-center">
-                  <span className="text-white/20 text-4xl font-light">{String(idx + 1).padStart(2, '0')}</span>
+                  <span className="text-white/20 text-4xl font-light">
+                    {String(idx + 1).padStart(2, '0')}
+                  </span>
                 </div>
               )}
 
-              {/* Overlay */}
-              <div className="absolute inset-0"
+              <div
+                className="absolute inset-0"
                 style={{
                   background: isActive
                     ? 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)'
                     : 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%)',
                   transition: 'background 0.4s',
-                }} />
+                }}
+              />
 
-              {/* Contenu */}
-              <div className="absolute bottom-0 left-0 right-0 p-4"
+              <div
+                className="absolute bottom-0 left-0 right-0 p-4"
                 style={{
                   opacity: isActive ? 1 : 0,
                   transform: isActive ? 'translateY(0)' : 'translateY(10px)',
                   transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-                }}>
+                }}
+              >
                 <p className="text-xs tracking-widest uppercase text-white/50 mb-1">
                   /{String(idx + 1).padStart(2, '0')}
                 </p>
@@ -86,18 +112,24 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
                 <span className="text-xs tracking-widest uppercase text-white/60 flex items-center gap-1">
                   Lire
                   <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path
+                      d="M2 7h10M7 3l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </span>
               </div>
 
-              {/* Numéro visible quand inactif */}
               {!isActive && (
                 <div className="absolute bottom-4 left-0 right-0 text-center">
-                  <span className="text-xs text-white/40 tracking-widest">/{String(idx + 1).padStart(2, '0')}</span>
+                  <span className="text-xs text-white/40 tracking-widest">
+                    /{String(idx + 1).padStart(2, '0')}
+                  </span>
                 </div>
               )}
-
             </Link>
           )
         })}
