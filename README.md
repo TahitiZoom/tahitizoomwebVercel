@@ -1,11 +1,12 @@
 # TahitiZoomWebVercel
 
-Migration et exploitation de **Tahiti Zoom** sur **Vercel + Payload CMS + Turso + Cloudflare R2**.
+Migration et exploitation de **Tahiti Zoom** sur **Vercel + Payload CMS + Turso + Cloudflare R2 + Meta Webhooks**.
 
 Ce dépôt est la base de travail pour :
 
 - `staging.tahitizoom.pf`
 - `tahitizoom.pf`
+- `www.tahitizoom.pf`
 
 ---
 
@@ -13,7 +14,8 @@ Ce dépôt est la base de travail pour :
 
 ### Production
 - **App / CMS** : Vercel
-- **Domaine** : `https://tahitizoom.pf`
+- **Domaine public** : `https://tahitizoom.pf`
+- **Domaine canonique effectif** : `https://www.tahitizoom.pf`
 - **Base Turso** : `tahitizoom`
 - **Bucket R2** : `tahitizoom-media-prod`
 - **Domaine média** : `https://media.tahitizoom.pf`
@@ -102,6 +104,7 @@ S3_PUBLIC_URL=https://media.tahitizoom.pf
 FB_PAGE_ID=...
 FB_PAGE_ACCESS_TOKEN=...
 FB_VERIFY_TOKEN=...
+FB_WEBHOOK_VERIFY_TOKEN=...
 
 CRON_SECRET=...
 VERCEL_AUTOMATION_BYPASS_SECRET=...
@@ -132,6 +135,7 @@ S3_PUBLIC_URL=https://media-staging.tahitizoom.pf
 FB_PAGE_ID=...
 FB_PAGE_ACCESS_TOKEN=...
 FB_VERIFY_TOKEN=...
+FB_WEBHOOK_VERIFY_TOKEN=...
 
 CRON_SECRET=...
 VERCEL_AUTOMATION_BYPASS_SECRET=...
@@ -153,10 +157,10 @@ Pour garder une trace côté dépôt :
 
 ---
 
-## 5. Important : mapping correct des environnements
+## 5. Mapping correct des environnements
 
 ### Production
-- `tahitizoom.pf` doit pointer vers :
+- `tahitizoom.pf` / `www.tahitizoom.pf` doivent pointer vers :
   - base Turso `tahitizoom`
   - bucket `tahitizoom-media-prod`
   - domaine média `media.tahitizoom.pf`
@@ -180,12 +184,21 @@ Cause racine :
 
 ---
 
-## 6. Plugin R2 / S3
+## 6. Domaine canonique
+
+Le domaine nu `https://tahitizoom.pf` redirige vers `https://www.tahitizoom.pf`.
+
+Important :
+- pour les tests manuels `curl` avec header `Authorization`, utiliser directement `https://www.tahitizoom.pf/...`
+- sinon le header peut être perdu pendant la redirection
+
+---
+
+## 7. Plugin R2 / S3
 
 Le stockage est géré via `@payloadcms/storage-s3`.
 
 Exemple de logique active :
-
 - `prod/media` en production
 - `staging/media` en preview/staging
 
@@ -198,7 +211,7 @@ Vérifier `src/plugins/index.ts` :
 
 ---
 
-## 7. Correction durable des thumbnails Payload
+## 8. Correction durable des thumbnails Payload
 
 Le fichier `src/collections/Media.ts` contient un hook `afterRead` indispensable pour corriger les aperçus dans l’admin :
 
@@ -232,12 +245,12 @@ hooks: {
 
 ```bash
 grep -n -A25 -B2 "hooks:" src/collections/Media.ts
-grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL|startsWith\\('/api/media/file/'\\)" src/collections/Media.ts
+grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL|startsWith\('/api/media/file/'\)" src/collections/Media.ts
 ```
 
 ---
 
-## 8. Problème historique des aperçus
+## 9. Problème historique des aperçus
 
 ### Symptôme
 - l’admin affichait des vignettes manquantes
@@ -260,7 +273,7 @@ LIMIT 10;
 
 ---
 
-## 9. Migration des anciens médias vers R2
+## 10. Migration des anciens médias vers R2
 
 ### Vérifier les objets dans un bucket
 
@@ -299,7 +312,7 @@ Les tokens temporaires affichés ou utilisés pour la migration doivent être su
 
 ---
 
-## 10. SQL utiles pour la prod
+## 11. SQL utiles pour la prod
 
 ### Vérifier les résidus staging en prod
 
@@ -364,7 +377,7 @@ WHERE sizes_og_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
 
 ---
 
-## 11. Import map Payload
+## 12. Import map Payload
 
 Après ajout du plugin S3/R2, il faut régénérer l’import map :
 
@@ -378,7 +391,22 @@ Sinon l’admin peut casser avec une erreur de type :
 
 ---
 
-## 12. Cron Facebook sécurisé
+## 13. Refactor Facebook Sync
+
+La logique métier Facebook est centralisée dans :
+
+- `src/lib/facebook/syncFacebook.ts`
+
+Elle est utilisée par :
+- `src/app/api/cron/facebook-sync/route.ts`
+- `src/app/(payload)/api/sync-facebook/route.ts`
+- `src/app/api/webhooks/facebook/route.ts`
+
+Cela évite les appels HTTP internes entre routes.
+
+---
+
+## 14. Cron Facebook sécurisé
 
 ### Route
 - `/api/cron/facebook-sync`
@@ -392,6 +420,8 @@ Les cron jobs Vercel s’exécutent uniquement en **Production**, pas en Preview
 
 ### Test manuel avec bypass Vercel
 
+Toujours utiliser le domaine final direct :
+
 ```bash
 touch /tmp/vercel-cookie.txt
 
@@ -399,7 +429,7 @@ curl -v -L -c /tmp/vercel-cookie.txt -b /tmp/vercel-cookie.txt \
   -H "Authorization: Bearer TON_CRON_SECRET" \
   -H "x-vercel-protection-bypass: TON_BYPASS_SECRET" \
   -H "x-vercel-set-bypass-cookie: true" \
-  "https://tahitizoom.pf/api/cron/facebook-sync"
+  "https://www.tahitizoom.pf/api/cron/facebook-sync"
 ```
 
 Réponse attendue :
@@ -410,7 +440,53 @@ Réponse attendue :
 
 ---
 
-## 13. Déploiement
+## 15. Webhook Facebook / Meta
+
+### Route
+- `/api/webhooks/facebook`
+
+### Vérification
+Meta appelle :
+
+```text
+GET /api/webhooks/facebook?hub.mode=subscribe&hub.verify_token=...&hub.challenge=...
+```
+
+La route doit répondre exactement avec la valeur de `hub.challenge`.
+
+### Variable d’environnement
+
+```env
+FB_WEBHOOK_VERIFY_TOKEN=...
+```
+
+### Test manuel de vérification
+
+```bash
+curl "https://www.tahitizoom.pf/api/webhooks/facebook?hub.mode=subscribe&hub.verify_token=TON_VERIFY_TOKEN&hub.challenge=123456"
+```
+
+Réponse attendue :
+
+```text
+123456
+```
+
+### Configuration Meta Developers
+- **Callback URL** : `https://www.tahitizoom.pf/api/webhooks/facebook`
+- **Verify token** : valeur de `FB_WEBHOOK_VERIFY_TOKEN`
+- **Objet** : `Page`
+- **Champ** : `feed`
+
+### Comportement
+Lorsqu’un événement `feed` est reçu, le webhook déclenche une synchro courte via la logique partagée `syncFacebook(...)`.
+
+### Recommandation
+Garder aussi le cron Vercel comme mécanisme de rattrapage.
+
+---
+
+## 16. Déploiement
 
 ### Staging
 ```bash
@@ -435,7 +511,7 @@ git push origin main
 
 ---
 
-## 14. Vérifications post-déploiement
+## 17. Vérifications post-déploiement
 
 ### Staging
 - `https://staging.tahitizoom.pf`
@@ -445,20 +521,88 @@ git push origin main
 - aperçu media
 
 ### Production
-- `https://tahitizoom.pf`
-- `https://tahitizoom.pf/admin`
+- `https://www.tahitizoom.pf`
+- `https://www.tahitizoom.pf/admin`
 - anciens posts avec images
 - nouveaux uploads
 - import Facebook
+- cron Facebook
+- webhook Facebook
 - aperçus media
 
 ### Important
-Après corrections thumbnails ou URLs :
+Après corrections thumbnails, favicon, branding ou URLs :
 - faire un **hard refresh** du navigateur
 
 ---
 
-## 15. Pièges rencontrés
+## 18. Branding admin Payload
+
+Dans `src/payload.config.ts`, `admin.meta.titleSuffix` est utilisé pour personnaliser le titre d’onglet.
+
+Exemple :
+
+```ts
+meta: {
+  titleSuffix: ' - Tahiti Zoom',
+},
+```
+
+Important :
+- `admin.meta.favicon` n’est pas supporté dans cette version de Payload
+- le favicon doit être fourni par Next.js / le site, ici :
+  - `public/favicon.ico`
+
+Après changement de favicon :
+- faire un hard refresh
+- si nécessaire tester en navigation privée
+
+---
+
+## 19. Images frontend / cover image des posts
+
+Le détail d’un post utilise `PostHero` puis le composant `Media`, lui-même basé sur `next/image`.
+
+Comme les médias sont servis depuis :
+- `https://media.tahitizoom.pf`
+- `https://media-staging.tahitizoom.pf`
+
+il faut les autoriser dans `next.config.ts` via `images.remotePatterns`.
+
+Exemple attendu :
+
+```ts
+images: {
+  localPatterns: [
+    {
+      pathname: '/api/media/file/**',
+    },
+  ],
+  qualities: [100],
+  remotePatterns: [
+    ...[
+      NEXT_PUBLIC_SERVER_URL,
+      'https://www.tahitizoom.pf',
+      'https://tahitizoom.pf',
+      'https://media.tahitizoom.pf',
+      'https://media-staging.tahitizoom.pf',
+    ].map((item) => {
+      const url = new URL(item)
+
+      return {
+        hostname: url.hostname,
+        protocol: url.protocol.replace(':', '') as 'http' | 'https',
+      }
+    }),
+  ],
+},
+```
+
+Sans cela, les images peuvent s’afficher dans les listes mais pas dans les pages détail utilisant `next/image`.
+
+---
+
+## 20. Pièges rencontrés
 
 ### 1. Production branchée sur la base staging
 Cause :
@@ -510,9 +654,31 @@ Fix :
 - retéléverser
 - cliquer une seule fois sur `Save`
 
+### 6. `Authorization` perdu pendant une redirection
+Cause :
+- test manuel fait sur `https://tahitizoom.pf/...`
+- redirection vers `https://www.tahitizoom.pf/...`
+
+Effet :
+- le header `Authorization` peut disparaître au follow redirect
+
+Fix :
+- viser directement `https://www.tahitizoom.pf/...` dans les tests `curl`
+
+### 7. `admin.meta.favicon` non supporté
+Cause :
+- tentative de personnalisation du favicon dans `src/payload.config.ts`
+
+Effet :
+- erreur TypeScript / build
+
+Fix :
+- garder seulement `titleSuffix`
+- fournir le favicon via `public/favicon.ico`
+
 ---
 
-## 16. Commandes utiles
+## 21. Commandes utiles
 
 ### Vérifier les bases Turso
 ```bash
@@ -536,12 +702,23 @@ grep -n -A25 -B2 "hooks:" src/collections/Media.ts
 grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL" src/collections/Media.ts
 ```
 
+### Vérifier la config Next image
+```bash
+sed -n '1,240p' next.config.ts
+```
+
+### Vérifier le branding admin
+```bash
+sed -n '39,95p' ./src/payload.config.ts
+find src/app public -maxdepth 3 \( -iname "favicon.ico" -o -iname "icon.*" -o -iname "apple-icon.*" \) 2>/dev/null
+```
+
 ---
 
-## 17. État final attendu
+## 22. État final attendu
 
 ### Production
-- `tahitizoom.pf` sur Vercel
+- `www.tahitizoom.pf` sur Vercel
 - base Turso `tahitizoom`
 - bucket `tahitizoom-media-prod`
 - domaine média `media.tahitizoom.pf`
@@ -549,6 +726,8 @@ grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL" src/collections/
 - aperçus OK
 - import Facebook OK
 - cron OK
+- webhook OK
+- branding admin OK
 
 ### Staging
 - `staging.tahitizoom.pf` sur Vercel
@@ -559,7 +738,7 @@ grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL" src/collections/
 
 ---
 
-## 18. Recommandation finale
+## 23. Recommandation finale
 
 Ne pas modifier directement la prod sans passer par :
 1. `staging`
