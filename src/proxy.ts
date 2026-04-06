@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
   }
 
   try {
-    const serverUrl = 'http://127.0.0.1:3000'
+    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://www.tahitizoom.pf'
     const res = await fetch(`${serverUrl}/api/globals/settings?depth=0`, {
       cache: 'no-store',
     })
