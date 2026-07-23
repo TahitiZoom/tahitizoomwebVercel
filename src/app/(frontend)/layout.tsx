@@ -67,7 +67,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
     template: '%s | Tahiti Zoom',
-    default: 'Tahiti Zoom — Stéphane Sayeb Photographe & Développeur Full Stack',
+    default: 'Tahiti Zoom, Stéphane Sayeb Photographe & Développeur Full Stack',
   },
   description: 'Reporter photographe et développeur full stack basé en Polynésie française.',
   openGraph: mergeOpenGraph(),

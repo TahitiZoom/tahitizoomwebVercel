@@ -18,7 +18,7 @@ export default function MaintenancePage() {
         <div style={{ border: '1px solid rgba(201,169,110,0.3)', padding: '0.8rem 2rem',
           display: 'inline-block', letterSpacing: '0.4em', fontSize: '0.65rem',
           textTransform: 'uppercase', color: '#c9a96e' }}>
-          Bientôt — votre nouveau site web arrive
+          Bientôt, votre nouveau site web arrive
         </div>
         <p style={{ marginTop: '3rem', fontSize: '0.65rem', letterSpacing: '0.2em', color: '#555' }}>
           Polynésie française ·{' '}

@@ -15,7 +15,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { s3Storage } from '@payloadcms/storage-s3'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Tahiti Zoom — Stéphane Sayeb` : 'Tahiti Zoom — Stéphane Sayeb'
+  return doc?.title ? `${doc.title} | Tahiti Zoom, Stéphane Sayeb` : 'Tahiti Zoom, Stéphane Sayeb'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {

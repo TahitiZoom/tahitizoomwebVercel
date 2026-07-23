@@ -7,7 +7,7 @@ const servicesData = {
     hero_desc: "Photographe reporter et développeur full stack basé en Polynésie française, je vous accompagne dans vos projets visuels et digitaux.",
     cta_desc: "Discutons de votre projet ensemble. Je vous réponds rapidement.",
     sections: [
-      { n: '01', t: 'Photographie', desc: "Avec plus de 30 ans d'expérience en Polynésie française, je capture l'essence du Fenua — ses gens, sa culture, ses paysages.", items: [
+      { n: '01', t: 'Photographie', desc: "Avec plus de 30 ans d'expérience en Polynésie française, je capture l'essence du Fenua, ses gens, sa culture, ses paysages.", items: [
         { t: 'Reportage documentaire', d: 'Immersion dans la culture polynésienne, événements sociaux et culturels.' },
         { t: 'Portrait', d: 'Portraits individuels, familiaux et corporate en studio ou en extérieur.' },
         { t: 'Événementiel', d: "Mariages, cérémonies, conférences, soirées d'entreprise." },
@@ -16,7 +16,7 @@ const servicesData = {
         { t: 'Photographie aérienne', d: 'Vues drone pour immobilier, tourisme et publicité.' },
       ]},
       { n: '02', t: 'Développement', desc: "Développeur full stack spécialisé Next.js et Payload CMS, je conçois des applications web performantes et sur mesure.", items: [
-        { t: 'Sites web sur mesure', d: 'Next.js, React, TypeScript — interfaces modernes et performantes.' },
+        { t: 'Sites web sur mesure', d: 'Next.js, React, TypeScript, interfaces modernes et performantes.' },
         { t: 'CMS Payload', d: 'Administration de contenu sur mesure, collections et globals personnalisés.' },
         { t: 'Applications web', d: 'APIs REST, back-end Node.js, bases de données SQLite / PostgreSQL.' },
         { t: 'Hébergement', d: 'Déploiement sur infrastructure propre Proxmox ou cloud, avec Cloudflare.' },
@@ -45,7 +45,7 @@ const servicesData = {
     hero_desc: "Photojournalist and full stack developer based in French Polynesia, I support you in your visual and digital projects.",
     cta_desc: "Let's discuss your project together. I'll get back to you quickly.",
     sections: [
-      { n: '01', t: 'Photography', desc: "With over 30 years of experience in French Polynesia, I capture the essence of the Fenua — its people, culture, and landscapes.", items: [
+      { n: '01', t: 'Photography', desc: "With over 30 years of experience in French Polynesia, I capture the essence of the Fenua, its people, culture, and landscapes.", items: [
         { t: 'Documentary reporting', d: 'Immersion in Polynesian culture, social and cultural events.' },
         { t: 'Portrait', d: 'Individual, family and corporate portraits in studio or outdoors.' },
         { t: 'Events', d: 'Weddings, ceremonies, conferences, corporate events.' },
@@ -54,7 +54,7 @@ const servicesData = {
         { t: 'Aerial photography', d: 'Drone views for real estate, tourism and advertising.' },
       ]},
       { n: '02', t: 'Development', desc: "Full stack developer specializing in Next.js and Payload CMS, I design high-performance, custom web applications.", items: [
-        { t: 'Custom websites', d: 'Next.js, React, TypeScript — modern and performant interfaces.' },
+        { t: 'Custom websites', d: 'Next.js, React, TypeScript, modern and performant interfaces.' },
         { t: 'Payload CMS', d: 'Custom content management, personalized collections and globals.' },
         { t: 'Web applications', d: 'REST APIs, Node.js backend, SQLite / PostgreSQL databases.' },
         { t: 'Hosting', d: 'Deployment on own Proxmox infrastructure or cloud, with Cloudflare.' },

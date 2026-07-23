@@ -477,7 +477,7 @@ export async function syncFacebook(options: SyncOptions = {}): Promise<SyncResul
         publishedAt: fbPost.created_time,
         _status: 'published',
         meta: {
-          title: `${title} | Tahiti Zoom — Stephane Sayeb`,
+          title: `${title} | Tahiti Zoom, Stephane Sayeb`,
         },
       }
 

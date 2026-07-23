@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       from: `"Tahiti Zoom" <${process.env.SMTP_FROM}>`,
       to: process.env.SMTP_USER,
       replyTo: email,
-      subject: `[Contact] ${subject || 'Nouveau message'} — ${name}`,
+      subject: `[Contact] ${subject || 'Nouveau message'}, ${name}`,
       html: `
         <h2>Nouveau message depuis tahitizoom.pf</h2>
         <p><strong>Nom :</strong> ${name}</p>

@@ -18,7 +18,7 @@ export default function AProposPage() {
           paragraphs: [
             "Papeete m'a appris le tempo. Celui des marchés à l'aube, des vieux quartiers qui respirent lentement, des visages que l'on croise une fois et que l'on n'oublie plus. Je me suis fondu dans ce flot comme on entre dans un morceau de jazz, sans partition, juste à l'écoute.",
             "D'abord sur Fuji, puis sur Leica, je suis devenu photographe de rue. La couleur Velvia est mon langage, une saturation de vivre, une façon de dire que la lumière polynésienne ne se laisse pas dompter, elle se négocie. Mon œuvre oscille entre deux pôles : l'anecdote narrative des scènes de rue de Papeete, et l'épure picturale des paysages de Moorea et Tahiti, où je ne retiens que la vibration de la lumière.",
-            "Grand témoin de mon époque, je photographie chaque année les festivités du Tiurai, ce juillet polynésien qui embrase le Fenua, autant que les servitudes silencieuses des bas quartiers, les artisans traditionnels à l'œuvre, les visages que l'histoire ne retient jamais. En 2014, après une retraite anticipée, je me suis lancé en free-lance. Non pas comme une rupture, mais comme un aboutissement.",
+            "Grand témoin de mon époque, je photographie chaque année les festivités du Heiva, ce juillet polynésien qui embrase le Fenua, autant que les servitudes silencieuses des bas quartiers, les artisans traditionnels à l'œuvre, les visages que l'histoire ne retient jamais. En 2014, après une retraite anticipée, je me suis lancé en free-lance. Non pas comme une rupture, mais comme un aboutissement.",
           ],
         },
         {
@@ -49,7 +49,7 @@ export default function AProposPage() {
           paragraphs: [
             "Papeete taught me rhythm: dawn markets, old neighborhoods that breathe slowly, faces you meet once and never forget. I blended into that flow the way one enters a jazz piece, without score, simply listening.",
             "First with Fuji, then Leica, I became a street photographer. Velvia color is my language, a saturation of life, a way of saying Polynesian light cannot be controlled; it must be negotiated. My work moves between two poles: the narrative anecdote of Papeete street scenes, and the pictorial purity of Moorea and Tahiti landscapes, where I keep only the vibration of light.",
-            'A witness to my era, I photograph each year the Tiurai celebrations, Polynesian July set ablaze across the Fenua, as well as the silent burdens of working-class districts, traditional artisans at work, and faces history never keeps. In 2014, after early retirement, I started freelancing. Not as a break, but as an achievement.',
+            'A witness to my era, I photograph each year the Heiva celebrations, Polynesian July set ablaze across the Fenua, as well as the silent burdens of working-class districts, traditional artisans at work, and faces history never keeps. In 2014, after early retirement, I started freelancing. Not as a break, but as an achievement.',
           ],
         },
         {
