@@ -38,8 +38,8 @@ export default function MentionsLegalesPage() {
             title: locale === 'en' ? 'Intellectual Property' : 'Propriété intellectuelle',
             content: [
               locale === 'en'
-                ? 'All content on this site (texts, photographs, graphics, logos) is the exclusive property of Tahiti Zoom — Stéphane Sayeb and is protected by French and international intellectual property laws. Any reproduction, even partial, is strictly prohibited without prior written authorization.'
-                : 'L\'ensemble des contenus présents sur ce site (textes, photographies, graphismes, logos) est la propriété exclusive de Tahiti Zoom — Stéphane Sayeb et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle. Toute reproduction, même partielle, est strictement interdite sans autorisation écrite préalable.',
+                ? 'All content on this site (texts, photographs, graphics, logos) is the exclusive property of Tahiti Zoom, Stéphane Sayeb and is protected by French and international intellectual property laws. Any reproduction, even partial, is strictly prohibited without prior written authorization.'
+                : 'L\'ensemble des contenus présents sur ce site (textes, photographies, graphismes, logos) est la propriété exclusive de Tahiti Zoom, Stéphane Sayeb et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle. Toute reproduction, même partielle, est strictement interdite sans autorisation écrite préalable.',
             ]
           },
           {

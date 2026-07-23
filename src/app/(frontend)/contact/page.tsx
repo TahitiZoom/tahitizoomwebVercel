@@ -41,7 +41,7 @@ export default function ContactPage() {
             </p>
             {[
               { label: 'Email', value: 'contact@tahitizoom.pf', href: 'mailto:contact@tahitizoom.pf' },
-              { label: 'Localisation', value: 'Faaa, Tahiti — Polynésie française', href: null },
+              { label: 'Localisation', value: 'Faaa, Tahiti, Polynésie française', href: null },
               { label: 'Facebook', value: 'facebook.com/TahitiZoom', href: 'https://facebook.com/TahitiZoom' },
               { label: 'Instagram', value: '@tahitizoom', href: 'https://instagram.com/tahitizoom' },
             ].map((item) => (

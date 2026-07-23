@@ -22,10 +22,10 @@ export function FooterClient({ navItems }: { navItems: any[] }) {
     },
     navigation: { fr: 'Navigation', en: 'Navigation' },
     contact: { fr: 'Contact', en: 'Contact' },
-    location: { fr: 'Faa\'a, Tahiti — Polynésie française', en: 'Faa\'a, Tahiti — French Polynesia' },
+    location: { fr: 'Faa\'a, Tahiti, Polynésie française', en: 'Faa\'a, Tahiti, French Polynesia' },
     copyright: {
-      fr: `© ${new Date().getFullYear()} Tahiti Zoom — Made with love by Stéphane Sayeb`,
-      en: `© ${new Date().getFullYear()} Tahiti Zoom — Made with love by Stéphane Sayeb`,
+      fr: `© ${new Date().getFullYear()} Tahiti Zoom, Made with love by Stéphane Sayeb`,
+      en: `© ${new Date().getFullYear()} Tahiti Zoom, Made with love by Stéphane Sayeb`,
     },
     legal: { fr: 'Mentions légales', en: 'Legal Notice' },
     privacy: { fr: 'Confidentialité', en: 'Privacy' },

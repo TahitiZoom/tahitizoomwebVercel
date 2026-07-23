@@ -8,24 +8,24 @@ export default function AProposPage() {
   const content = {
     fr: {
       quote:
-        "Il n'est pas toujours évident de ne pas attacher de valeur morale aux événements — rester factuel et objectif, parce que tombé amoureux il y a plus de 50 ans de ce si attachant fenua et de son peuple, le Nuna'a, reste un challenge pour moi, photographe documentaire et éditorial.",
+        "Il n'est pas toujours évident de ne pas attacher de valeur morale aux événements, rester factuel et objectif, parce que tombé amoureux il y a plus de 50 ans de ce si attachant fenua et de son peuple, le Nuna'a, reste un challenge pour moi, photographe documentaire et éditorial.",
       intro: [
-        "Né en 1960 à Argenteuil, de parents franco-arabes, j'ai grandi entre deux rives avant de choisir la plus lointaine — Tahiti, à la fin des années soixante-dix. C'est là, dans les ateliers culturels de mon lycée, que j'ai posé les yeux sur un viseur pour la première fois. Ce geste ne m'a plus quitté.",
+        "Né en 1960 à Argenteuil, de parents franco-arabes, j'ai grandi entre deux rives avant de choisir la plus lointaine, Tahiti, à la fin des années soixante-dix. C'est là, dans les ateliers culturels de mon lycée, que j'ai posé les yeux sur un viseur pour la première fois. Ce geste ne m'a plus quitté.",
       ],
       sections: [
         {
           title: "L'Œil",
           paragraphs: [
-            "Papeete m'a appris le tempo. Celui des marchés à l'aube, des vieux quartiers qui respirent lentement, des visages que l'on croise une fois et que l'on n'oublie plus. Je me suis fondu dans ce flot comme on entre dans un morceau de jazz — sans partition, juste à l'écoute.",
-            "D'abord sur Fuji, puis sur Leica, je suis devenu photographe de rue. La couleur Velvia est mon langage — une saturation de vivre, une façon de dire que la lumière polynésienne ne se laisse pas dompter, elle se négocie. Mon œuvre oscille entre deux pôles : l'anecdote narrative des scènes de rue de Papeete, et l'épure picturale des paysages de Moorea et Tahiti, où je ne retiens que la vibration de la lumière.",
-            "Grand témoin de mon époque, je photographie chaque année les festivités du Tiurai — ce juillet polynésien qui embrase le Fenua — autant que les servitudes silencieuses des bas quartiers, les artisans traditionnels à l'œuvre, les visages que l'histoire ne retient jamais. En 2014, après une retraite anticipée, je me suis lancé en free-lance. Non pas comme une rupture, mais comme un aboutissement.",
+            "Papeete m'a appris le tempo. Celui des marchés à l'aube, des vieux quartiers qui respirent lentement, des visages que l'on croise une fois et que l'on n'oublie plus. Je me suis fondu dans ce flot comme on entre dans un morceau de jazz, sans partition, juste à l'écoute.",
+            "D'abord sur Fuji, puis sur Leica, je suis devenu photographe de rue. La couleur Velvia est mon langage, une saturation de vivre, une façon de dire que la lumière polynésienne ne se laisse pas dompter, elle se négocie. Mon œuvre oscille entre deux pôles : l'anecdote narrative des scènes de rue de Papeete, et l'épure picturale des paysages de Moorea et Tahiti, où je ne retiens que la vibration de la lumière.",
+            "Grand témoin de mon époque, je photographie chaque année les festivités du Heiva, ce juillet polynésien qui embrase le Fenua, autant que les servitudes silencieuses des bas quartiers, les artisans traditionnels à l'œuvre, les visages que l'histoire ne retient jamais. En 2014, après une retraite anticipée, je me suis lancé en free-lance. Non pas comme une rupture, mais comme un aboutissement.",
           ],
         },
         {
           title: 'Le Code',
           paragraphs: [
-            "L'informatique est entrée dans ma vie par une autre porte — celle de l'université Saint-Charles de Marseille, où j'ai étudié la programmation. Deux disciplines en apparence opposées, mais qui partagent la même exigence : la précision du geste, la patience de la composition, l'œil qui sait où poser le point.",
-            "Aujourd'hui, sous la marque Tahiti Zoom, je conçois et développe des expériences web — de l'architecture technique à l'interface — avec la même rigueur que j'apporte à une prise de vue. Parce qu'un site bien construit, comme une bonne photographie, ne se remarque pas. Il se ressent.",
+            "L'informatique est entrée dans ma vie par une autre porte, celle de l'université Saint-Charles de Marseille, où j'ai étudié la programmation. Deux disciplines en apparence opposées, mais qui partagent la même exigence : la précision du geste, la patience de la composition, l'œil qui sait où poser le point.",
+            "Aujourd'hui, sous la marque Tahiti Zoom, je conçois et développe des expériences web, de l'architecture technique à l'interface, avec la même rigueur que j'apporte à une prise de vue. Parce qu'un site bien construit, comme une bonne photographie, ne se remarque pas. Il se ressent.",
           ],
         },
         {
@@ -39,24 +39,24 @@ export default function AProposPage() {
     },
     en: {
       quote:
-        "It is not always easy to avoid attaching moral value to events — staying factual and objective. Having fallen in love more than 50 years ago with this deeply endearing fenua and its people, the Nuna'a, remains an ongoing challenge for me as a documentary and editorial photographer.",
+        "It is not always easy to avoid attaching moral value to events, staying factual and objective. Having fallen in love more than 50 years ago with this deeply endearing fenua and its people, the Nuna'a, remains an ongoing challenge for me as a documentary and editorial photographer.",
       intro: [
-        'Born in 1960 in Argenteuil to Franco-Arab parents, I grew up between two shores before choosing the farthest one — Tahiti, in the late seventies. There, in my high school cultural workshops, I looked through a viewfinder for the first time. That gesture has never left me.',
+        'Born in 1960 in Argenteuil to Franco-Arab parents, I grew up between two shores before choosing the farthest one, Tahiti, in the late seventies. There, in my high school cultural workshops, I looked through a viewfinder for the first time. That gesture has never left me.',
       ],
       sections: [
         {
           title: 'The Eye',
           paragraphs: [
-            "Papeete taught me rhythm: dawn markets, old neighborhoods that breathe slowly, faces you meet once and never forget. I blended into that flow the way one enters a jazz piece — without score, simply listening.",
-            "First with Fuji, then Leica, I became a street photographer. Velvia color is my language — a saturation of life, a way of saying Polynesian light cannot be controlled; it must be negotiated. My work moves between two poles: the narrative anecdote of Papeete street scenes, and the pictorial purity of Moorea and Tahiti landscapes, where I keep only the vibration of light.",
-            'A witness to my era, I photograph each year the Tiurai celebrations — Polynesian July set ablaze across the Fenua — as well as the silent burdens of working-class districts, traditional artisans at work, and faces history never keeps. In 2014, after early retirement, I started freelancing. Not as a break, but as an achievement.',
+            "Papeete taught me rhythm: dawn markets, old neighborhoods that breathe slowly, faces you meet once and never forget. I blended into that flow the way one enters a jazz piece, without score, simply listening.",
+            "First with Fuji, then Leica, I became a street photographer. Velvia color is my language, a saturation of life, a way of saying Polynesian light cannot be controlled; it must be negotiated. My work moves between two poles: the narrative anecdote of Papeete street scenes, and the pictorial purity of Moorea and Tahiti landscapes, where I keep only the vibration of light.",
+            'A witness to my era, I photograph each year the Heiva celebrations, Polynesian July set ablaze across the Fenua, as well as the silent burdens of working-class districts, traditional artisans at work, and faces history never keeps. In 2014, after early retirement, I started freelancing. Not as a break, but as an achievement.',
           ],
         },
         {
           title: 'The Code',
           paragraphs: [
-            'Computing entered my life through another door — Saint-Charles University in Marseille, where I studied programming. Two disciplines that seem opposite, yet share the same demand: precision of gesture, patience in composition, and an eye that knows where to place focus.',
-            'Today, under the Tahiti Zoom name, I design and build web experiences — from technical architecture to interface — with the same rigor I bring to photography. Because a well-built website, like a good photograph, does not call attention to itself. It is felt.',
+            'Computing entered my life through another door, Saint-Charles University in Marseille, where I studied programming. Two disciplines that seem opposite, yet share the same demand: precision of gesture, patience in composition, and an eye that knows where to place focus.',
+            'Today, under the Tahiti Zoom name, I design and build web experiences, from technical architecture to interface, with the same rigor I bring to photography. Because a well-built website, like a good photograph, does not call attention to itself. It is felt.',
           ],
         },
         {
