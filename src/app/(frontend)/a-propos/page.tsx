@@ -5,46 +5,72 @@ import { useLocale } from '@/components/LocaleProvider'
 export default function AProposPage() {
   const { t, locale } = useLocale()
 
-  const skills = {
-    fr: [
-      { t: 'Photographie', items: ['Reportage documentaire', 'Portrait', 'Événementiel', 'Photojournalisme', 'Post-traitement'] },
-      { t: 'Développement', items: ['Next.js / React', 'Node.js / TypeScript', 'Payload CMS', 'SQLite / Turso', 'Proxmox / Cloudflare'] },
-      { t: 'Design', items: ['UI/UX Design', 'Identité visuelle', 'Typographie', 'Figma', 'Motion design'] },
-    ],
-    en: [
-      { t: 'Photography', items: ['Documentary reporting', 'Portrait', 'Events', 'Photojournalism', 'Post-processing'] },
-      { t: 'Development', items: ['Next.js / React', 'Node.js / TypeScript', 'Payload CMS', 'SQLite / Turso', 'Proxmox / Cloudflare'] },
-      { t: 'Design', items: ['UI/UX Design', 'Visual identity', 'Typography', 'Figma', 'Motion design'] },
-    ],
+  const content = {
+    fr: {
+      quote:
+        "Il n'est pas toujours évident de ne pas attacher de valeur morale aux événements — rester factuel et objectif, parce que tombé amoureux il y a plus de 50 ans de ce si attachant fenua et de son peuple, le Nuna'a, reste un challenge pour moi, photographe documentaire et éditorial.",
+      intro: [
+        "Né en 1960 à Argenteuil, de parents franco-arabes, j'ai grandi entre deux rives avant de choisir la plus lointaine — Tahiti, à la fin des années soixante-dix. C'est là, dans les ateliers culturels de mon lycée, que j'ai posé les yeux sur un viseur pour la première fois. Ce geste ne m'a plus quitté.",
+      ],
+      sections: [
+        {
+          title: "L'Œil",
+          paragraphs: [
+            "Papeete m'a appris le tempo. Celui des marchés à l'aube, des vieux quartiers qui respirent lentement, des visages que l'on croise une fois et que l'on n'oublie plus. Je me suis fondu dans ce flot comme on entre dans un morceau de jazz — sans partition, juste à l'écoute.",
+            "D'abord sur Fuji, puis sur Leica, je suis devenu photographe de rue. La couleur Velvia est mon langage — une saturation de vivre, une façon de dire que la lumière polynésienne ne se laisse pas dompter, elle se négocie. Mon œuvre oscille entre deux pôles : l'anecdote narrative des scènes de rue de Papeete, et l'épure picturale des paysages de Moorea et Tahiti, où je ne retiens que la vibration de la lumière.",
+            "Grand témoin de mon époque, je photographie chaque année les festivités du Tiurai — ce juillet polynésien qui embrase le Fenua — autant que les servitudes silencieuses des bas quartiers, les artisans traditionnels à l'œuvre, les visages que l'histoire ne retient jamais. En 2014, après une retraite anticipée, je me suis lancé en free-lance. Non pas comme une rupture, mais comme un aboutissement.",
+          ],
+        },
+        {
+          title: 'Le Code',
+          paragraphs: [
+            "L'informatique est entrée dans ma vie par une autre porte — celle de l'université Saint-Charles de Marseille, où j'ai étudié la programmation. Deux disciplines en apparence opposées, mais qui partagent la même exigence : la précision du geste, la patience de la composition, l'œil qui sait où poser le point.",
+            "Aujourd'hui, sous la marque Tahiti Zoom, je conçois et développe des expériences web — de l'architecture technique à l'interface — avec la même rigueur que j'apporte à une prise de vue. Parce qu'un site bien construit, comme une bonne photographie, ne se remarque pas. Il se ressent.",
+          ],
+        },
+        {
+          title: 'Entre deux rives',
+          paragraphs: [
+            'Je partage ma vie entre Tahiti et la France, fidèle à moi-même : entre témoignage et contemplation, entre le code et la lumière, entre le bruit vivant des rues de Papeete et le silence habité des lagons de Moorea.',
+            'Toujours au bord de quelque chose.',
+          ],
+        },
+      ],
+    },
+    en: {
+      quote:
+        "It is not always easy to avoid attaching moral value to events — staying factual and objective. Having fallen in love more than 50 years ago with this deeply endearing fenua and its people, the Nuna'a, remains an ongoing challenge for me as a documentary and editorial photographer.",
+      intro: [
+        'Born in 1960 in Argenteuil to Franco-Arab parents, I grew up between two shores before choosing the farthest one — Tahiti, in the late seventies. There, in my high school cultural workshops, I looked through a viewfinder for the first time. That gesture has never left me.',
+      ],
+      sections: [
+        {
+          title: 'The Eye',
+          paragraphs: [
+            "Papeete taught me rhythm: dawn markets, old neighborhoods that breathe slowly, faces you meet once and never forget. I blended into that flow the way one enters a jazz piece — without score, simply listening.",
+            "First with Fuji, then Leica, I became a street photographer. Velvia color is my language — a saturation of life, a way of saying Polynesian light cannot be controlled; it must be negotiated. My work moves between two poles: the narrative anecdote of Papeete street scenes, and the pictorial purity of Moorea and Tahiti landscapes, where I keep only the vibration of light.",
+            'A witness to my era, I photograph each year the Tiurai celebrations — Polynesian July set ablaze across the Fenua — as well as the silent burdens of working-class districts, traditional artisans at work, and faces history never keeps. In 2014, after early retirement, I started freelancing. Not as a break, but as an achievement.',
+          ],
+        },
+        {
+          title: 'The Code',
+          paragraphs: [
+            'Computing entered my life through another door — Saint-Charles University in Marseille, where I studied programming. Two disciplines that seem opposite, yet share the same demand: precision of gesture, patience in composition, and an eye that knows where to place focus.',
+            'Today, under the Tahiti Zoom name, I design and build web experiences — from technical architecture to interface — with the same rigor I bring to photography. Because a well-built website, like a good photograph, does not call attention to itself. It is felt.',
+          ],
+        },
+        {
+          title: 'Between two shores',
+          paragraphs: [
+            'I share my life between Tahiti and France, true to myself: between testimony and contemplation, between code and light, between the vivid noise of Papeete streets and the inhabited silence of Moorea lagoons.',
+            'Always on the edge of something.',
+          ],
+        },
+      ],
+    },
   }
-
-  const timeline = {
-    fr: [
-      { year: '2024 —', title: 'Développeur Full Stack indépendant', desc: 'Conception et développement de sites et applications web sur mesure.' },
-      { year: '2015 —', title: 'Photographe reporter indépendant', desc: 'Reportages documentaires en Polynésie française. Collaborations avec médias locaux et internationaux.' },
-      { year: '1995 —', title: 'Résident permanent en Polynésie française', desc: "Installé définitivement à Tahiti depuis 1995, après une première découverte du Fenua à la fin des années 70." },
-    ],
-    en: [
-      { year: '2024 —', title: 'Independent Full Stack Developer', desc: 'Design and development of custom websites and web applications.' },
-      { year: '2015 —', title: 'Independent Photojournalist', desc: 'Documentary reports in French Polynesia. Collaborations with local and international media.' },
-      { year: '1995 —', title: 'Permanent resident in French Polynesia', desc: "Settled permanently in Tahiti since 1995, after first discovering the Fenua in the late 70s." },
-    ],
-  }
-
-  const equipment = {
-    fr: [
-      { cat: 'Boîtiers', items: ['Fujifilm X-T3', 'Leica Q3 43'] },
-      { cat: 'Optiques', items: ['Fish-eye 8mm', "Gamme complète jusqu'au 400mm"] },
-      { cat: 'Éclairage', items: ['Flashs Godox studio', 'Flashs Cobra', 'Softbox', 'Location de studio photo'] },
-      { cat: 'Post-production', items: ['Adobe Lightroom Classic', 'Adobe Photoshop'] },
-    ],
-    en: [
-      { cat: 'Bodies', items: ['Fujifilm X-T3', 'Leica Q3 43'] },
-      { cat: 'Lenses', items: ['8mm fish-eye', 'Full range up to 400mm'] },
-      { cat: 'Lighting', items: ['Godox studio flashes', 'Cobra flashes', 'Softbox', 'Photo studio rental'] },
-      { cat: 'Post-production', items: ['Adobe Lightroom Classic', 'Adobe Photoshop'] },
-    ],
-  }
+  const localeKey = locale === 'en' ? 'en' : 'fr'
+  const currentContent = content[localeKey]
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
@@ -79,11 +105,16 @@ export default function AProposPage() {
               letterSpacing: '0.03em', marginBottom: '2.5rem' }}>
               Stéphane<br />Sayeb
             </h1>
+            <blockquote style={{ margin: 0, borderLeft: '2px solid rgba(0,0,0,0.2)', paddingLeft: '1rem' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.8', color: '#555' }}>
+                « {currentContent.quote} »
+              </p>
+            </blockquote>
             <div style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-              lineHeight: '1.8', color: '#555', display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
-              <p>{t('about.bio1')}</p>
-              <p>{t('about.bio2')}</p>
-              <p>{t('about.bio3')}</p>
+              lineHeight: '1.8', color: '#555', display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1.5rem' }}>
+              {currentContent.intro.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
             <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
               <Link href="/editorial" style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
@@ -101,82 +132,22 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Compétences */}
-      <section style={{ padding: '6rem 2rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
-            textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
-            {t('about.skills')}
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem' }}>
-            {(skills[locale] || skills.fr).map((cat) => (
-              <div key={cat.t}>
-                <h3 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.2rem',
-                  fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.08em',
-                  marginBottom: '1.5rem', color: '#111' }}>{cat.t}</h3>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  {cat.items.map((item) => (
-                    <li key={item} style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-                      color: '#777', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <span style={{ width: '20px', height: '1px', background: '#ccc', flexShrink: 0 }} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Parcours */}
-      <section style={{ padding: '6rem 2rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
-            textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
-            {t('about.timeline')}
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {(timeline[locale] || timeline.fr).map((item, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: 'auto 1fr',
-                gap: '1.5rem', padding: '2rem 0', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem',
-                  letterSpacing: '0.15em', color: '#bbb', paddingTop: '0.2rem' }}>{item.year}</span>
-                <div>
-                  <h4 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.1rem',
-                    fontWeight: 400, marginBottom: '0.5rem', color: '#111' }}>{item.title}</h4>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-                    color: '#777', lineHeight: '1.6' }}>{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Équipements */}
       <section style={{ padding: '6rem 2rem' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', letterSpacing: '0.35em',
-            textTransform: 'uppercase', color: '#999', marginBottom: '4rem' }}>
-            {t('about.equipment')}
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '2rem' }}>
-            {(equipment[locale] || equipment.fr).map((cat) => (
-              <div key={cat.cat} style={{ padding: '2rem', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '4px' }}>
-                <h4 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '0.9rem',
-                  fontWeight: 400, textTransform: 'uppercase', letterSpacing: '0.1em',
-                  marginBottom: '1.2rem', color: '#111' }}>{cat.cat}</h4>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {cat.items.map((item) => (
-                    <li key={item} style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#777' }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gap: '4rem' }}>
+          {currentContent.sections.map((section) => (
+            <div key={section.title} style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '2rem' }}>
+              <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.4rem,2.5vw,2rem)',
+                fontWeight: 300, letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+                {section.title}
+              </h2>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.9', color: '#555',
+                display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '1000px' }}>
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
