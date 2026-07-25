@@ -15,17 +15,17 @@ const expertisesData = {
   fr: {
     heading: '3 expertises pour immortaliser, raconter, développer',
     items: [
-      { n: '01', t: 'Photographie',  d: 'Reportages documentaires, portraits et événements culturels en Polynésie française.' },
-      { n: '02', t: 'Développement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.' },
-      { n: '03', t: 'Brand content', d: 'Identité visuelle, web design, supports print et contenus de marque.' },
+      { n: '01', t: 'Photographie',  href: '/services#photographie',  d: 'Reportages documentaires, portraits et événements culturels en Polynésie française.' },
+      { n: '02', t: 'Développement', href: '/services#developpement', d: 'Applications web Next.js, APIs REST, CMS Payload sur mesure et hébergement.' },
+      { n: '03', t: 'Brand content', href: '/services#brand-content', d: 'Identité visuelle, web design, supports print et contenus de marque.' },
     ],
   },
   en: {
     heading: '3 areas of expertise to capture, tell, build',
     items: [
-      { n: '01', t: 'Photography',   d: 'Documentary reports, portraits and cultural events in French Polynesia.' },
-      { n: '02', t: 'Development',   d: 'Next.js web apps, REST APIs, custom Payload CMS and hosting.' },
-      { n: '03', t: 'Brand content', d: 'Visual identity, web design, print materials and brand content.' },
+      { n: '01', t: 'Photography',   href: '/services#photographie',  d: 'Documentary reports, portraits and cultural events in French Polynesia.' },
+      { n: '02', t: 'Development',   href: '/services#developpement', d: 'Next.js web apps, REST APIs, custom Payload CMS and hosting.' },
+      { n: '03', t: 'Brand content', href: '/services#brand-content', d: 'Visual identity, web design, print materials and brand content.' },
     ],
   },
 }
@@ -70,7 +70,7 @@ export function ServicesMenu() {
 
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.25)' }}>
           {data.items.map((s, i) => (
-            <Link key={s.n} href="/services"
+            <Link key={s.n} href={s.href}
               onMouseEnter={() => setActive(i)}
               onMouseLeave={() => setActive(null)}
               style={{
