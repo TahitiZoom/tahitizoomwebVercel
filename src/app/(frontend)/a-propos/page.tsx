@@ -74,7 +74,7 @@ export default function AProposPage() {
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <section style={{ paddingTop: '120px', paddingBottom: '6rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+      <section style={{ paddingTop: '184px', paddingBottom: '6rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem',
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
           <div style={{ position: 'relative' }}>

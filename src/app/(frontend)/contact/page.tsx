@@ -7,7 +7,7 @@ export default function ContactPage() {
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <section style={{ paddingTop: '100px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+      <section style={{ paddingTop: '164px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
             letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>

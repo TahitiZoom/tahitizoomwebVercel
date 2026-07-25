@@ -24,17 +24,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         maxWidth: '1400px', margin: '0 auto',
         padding: '0 1rem',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '64px',
+        height: '128px',
       }}>
         {/* Logo */}
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
           {/* Mobile : favicon */}
           <img src="/Logo-Tahiti-Zoom-144x144.webp" alt="Tahiti Zoom"
-            style={{ height: '40px', width: '40px', objectFit: 'contain' }}
+            style={{ height: '80px', width: '80px', objectFit: 'contain' }}
             className="block md:hidden" />
           {/* Desktop : logo signature */}
           <img src="/logo.webp" alt="Tahiti Zoom"
-            style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
+            style={{ height: '100px', width: 'auto', objectFit: 'contain' }}
             className="hidden md:block" />
         </Link>
         {/* Nav desktop */}
