@@ -14,8 +14,14 @@ const translations: Record<string, Record<string, string>> = {
   'Contact':   { fr: 'Contact',   en: 'Contact'   },
 }
 
-/* Couleurs pastel de survol, une par rubrique (cycle si plus d'items) */
-const pastels = ['#BFE6E2', '#F9C6D0', '#F9E0A9', '#D9CFEC', '#F6B29E']
+/* Couleurs pastel de survol (semi-transparentes), une par rubrique */
+const pastels = [
+  'rgba(191, 230, 226, 0.6)',
+  'rgba(249, 198, 208, 0.6)',
+  'rgba(249, 224, 169, 0.6)',
+  'rgba(217, 207, 236, 0.6)',
+  'rgba(246, 178, 158, 0.6)',
+]
 
 const navStyle = {
   fontFamily: 'var(--font-body)',
@@ -30,7 +36,7 @@ const navStyle = {
 const pillStyle = (hovered: boolean, color: string): React.CSSProperties => ({
   display: 'inline-block',
   padding: '0.45rem 0.95rem',
-  borderRadius: '999px',
+  borderRadius: '0',
   background: hovered ? color : 'transparent',
   transition: 'background 0.25s ease',
 })
