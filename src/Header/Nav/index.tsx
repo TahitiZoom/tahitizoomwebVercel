@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
@@ -23,23 +23,20 @@ const navStyle = {
   textDecoration: 'none',
 }
 
-/* Soulignement fin qui se déploie sous la rubrique au survol */
-const itemStyle = (hovered: boolean): React.CSSProperties => ({
-  ...navStyle,
-  lineHeight: 1.2,
-  display: 'inline-block',
-  paddingBottom: '3px',
-  backgroundImage: 'linear-gradient(#111, #111)',
-  backgroundPosition: hovered ? 'left bottom' : 'right bottom',
-  backgroundSize: hovered ? '100% 1px' : '0 1px',
-  backgroundRepeat: 'no-repeat',
-  transition: 'background-size 0.3s ease',
-})
+/* Libellé dupliqué dans un masque : au survol il roule vers le haut
+   pendant que sa copie entre par le bas. */
+const RollLabel: React.FC<{ text: string }> = ({ text }) => (
+  <span className="tz-roll">
+    <span className="tz-roll__inner">
+      <span className="tz-roll__line">{text}</span>
+      <span className="tz-roll__line" aria-hidden="true">{text}</span>
+    </span>
+  </span>
+)
 
 export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
   const navItems = data?.navItems || []
   const { locale } = useLocale()
-  const [hovered, setHovered] = useState<number | null>(null)
 
   const homeLabel = locale === 'en' ? 'Home' : 'Accueil'
 
@@ -63,21 +60,19 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
 
   return (
     <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
-      <span
-        style={itemStyle(hovered === 0)}
-        onMouseEnter={() => setHovered(0)}
-        onMouseLeave={() => setHovered(null)}>
-        <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>{homeLabel}</Link>
+      <span className="tz-nav-item" style={navStyle}>
+        <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <RollLabel text={homeLabel} />
+        </Link>
       </span>
       {navItems.map(({ link }, i) => {
         const label = link.label || ''
         const translated = translations[label]?.[locale] || label
         return (
-          <span key={i}
-            style={itemStyle(hovered === i + 1)}
-            onMouseEnter={() => setHovered(i + 1)}
-            onMouseLeave={() => setHovered(null)}>
-            <CMSLink {...link} label={translated} appearance="inline" />
+          <span key={i} className="tz-nav-item" style={navStyle}>
+            <CMSLink {...link} label={null} appearance="inline">
+              <RollLabel text={translated} />
+            </CMSLink>
           </span>
         )
       })}

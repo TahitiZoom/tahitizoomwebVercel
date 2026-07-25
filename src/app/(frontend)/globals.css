@@ -239,6 +239,26 @@ html[data-theme='light'] {
   text-decoration: none !important;
 }
 
+/* Menu : roulement du libellé dans un masque au survol (façon site de référence) */
+.tz-roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  height: 1.2em;
+}
+.tz-roll__inner {
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tz-roll__line {
+  display: block;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+.tz-nav-item:hover .tz-roll__inner {
+  transform: translateY(-1.2em);
+}
+
 /* Hamburger mobile uniquement */
 @media (min-width: 768px) {
   .hamburger-mobile { display: none !important; }
