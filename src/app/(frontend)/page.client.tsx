@@ -119,41 +119,14 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
         </div>
       </section>
 
-      {/* ── Éditorial ────────────────────────────────────────────── */}
+      {/* ── Univers : diaporama horizontal, collé au hero ────────── */}
       {posts.length > 0 && (
-        <section style={{ padding: '5rem 0' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', marginBottom: '2.5rem' }}>
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: '#999',
-            }}>
-              {t('editorial.title')}
-            </p>
-          </div>
+        <section style={{ padding: 0, lineHeight: 0 }}>
           <EditorialCarousel posts={posts} />
         </section>
       )}
 
-      <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: '#999',
-              marginBottom: '4rem',
-            }}
-          >
-            {t('home.services')}
-          </p>
-          <ServicesMenu />
-        </div>
-      </section>
+      <ServicesMenu />
 
       <section style={{ padding: '6rem 2rem', background: '#f5f5f5', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
