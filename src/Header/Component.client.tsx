@@ -5,20 +5,24 @@ import type { Header } from '@/payload-types'
 import { HeaderNav } from './Nav'
 interface HeaderClientProps { data: Header }
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  /* Le header s'efface vers le haut dès que l'on quitte le sommet de la page */
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
+    const fn = () => setHidden(window.scrollY > 80)
+    fn()
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
+
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
       background: 'white',
       borderBottom: '1px solid rgba(0,0,0,0.06)',
-      boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
-      transition: 'box-shadow 0.3s',
+      transform: hidden && !menuOpen ? 'translateY(-100%)' : 'translateY(0)',
+      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
     }}>
       <div style={{
         maxWidth: '1400px', margin: '0 auto',
