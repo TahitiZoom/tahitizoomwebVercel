@@ -1,25 +1,23 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
 import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { LocaleSwitcher } from '@/components/LocaleSwitcher'
 import { useLocale } from '@/components/LocaleProvider'
 
 const translations: Record<string, Record<string, string>> = {
-  'Éditorial': { fr: 'Éditorial', en: 'Editorial' },
-  'Editorial': { fr: 'Éditorial', en: 'Editorial' },
-  'Services':  { fr: 'Services',  en: 'Services'  },
-  'À propos':  { fr: 'À propos',  en: 'About'     },
+  'Éditorial': { fr: 'Univers',   en: 'Universe'  },
+  'Editorial': { fr: 'Univers',   en: 'Universe'  },
+  'Services':  { fr: 'Expertise', en: 'Expertise' },
+  'À propos':  { fr: 'Agence',    en: 'Agency'    },
   'Contact':   { fr: 'Contact',   en: 'Contact'   },
 }
 
-const navStyle = {
+const baseNavStyle = {
   fontFamily: 'var(--font-body)',
   fontSize: '1.05rem',
   fontWeight: 400,
   letterSpacing: '0.02em',
-  color: '#111',
   textDecoration: 'none',
 }
 
@@ -34,17 +32,19 @@ const RollLabel: React.FC<{ text: string }> = ({ text }) => (
   </span>
 )
 
-export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
+export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean; light?: boolean }> = ({
+  data,
+  mobile,
+  light,
+}) => {
   const navItems = data?.navItems || []
   const { locale } = useLocale()
 
-  const homeLabel = locale === 'en' ? 'Home' : 'Accueil'
+  const navStyle = { ...baseNavStyle, color: light ? 'white' : '#111' }
 
   if (mobile) return (
-    <nav className="mobile-nav" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <span style={{ ...navStyle, fontSize: '1.1rem' }}>
-        <Link href="/">{homeLabel}</Link>
-      </span>
+    <nav className={light ? 'mobile-nav mobile-nav--light' : 'mobile-nav'}
+      style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {navItems.map(({ link }, i) => {
         const label = link.label || ''
         const translated = translations[label]?.[locale] || label
@@ -54,17 +54,12 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
           </span>
         )
       })}
-      <LocaleSwitcher />
+      <LocaleSwitcher light={light} />
     </nav>
   )
 
   return (
     <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
-      <span className="tz-nav-item" style={navStyle}>
-        <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-          <RollLabel text={homeLabel} />
-        </Link>
-      </span>
       {navItems.map(({ link }, i) => {
         const label = link.label || ''
         const translated = translations[label]?.[locale] || label
@@ -77,7 +72,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
         )
       })}
       <div style={{ marginTop: '0.3rem' }}>
-        <LocaleSwitcher />
+        <LocaleSwitcher light={light} />
       </div>
     </nav>
   )

@@ -1,8 +1,12 @@
 'use client'
 import { useLocale } from './LocaleProvider'
 
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ light }: { light?: boolean }) {
   const { locale, setLocale } = useLocale()
+
+  const activeColor = light ? 'white' : '#111'
+  const idleColor = light ? 'rgba(255,255,255,0.6)' : '#999'
+  const dividerColor = light ? 'rgba(255,255,255,0.45)' : '#ccc'
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -14,7 +18,7 @@ export function LocaleSwitcher() {
           fontWeight: locale === 'fr' ? 700 : 400,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
-          color: locale === 'fr' ? '#111' : '#999',
+          color: locale === 'fr' ? activeColor : idleColor,
           background: 'none',
           border: 'none',
           cursor: 'pointer',
@@ -23,7 +27,7 @@ export function LocaleSwitcher() {
         }}>
         FR
       </button>
-      <span style={{ color: '#ccc', fontSize: '0.7rem' }}>|</span>
+      <span style={{ color: dividerColor, fontSize: '0.7rem' }}>|</span>
       <button
         onClick={() => setLocale('en')}
         style={{
@@ -32,7 +36,7 @@ export function LocaleSwitcher() {
           fontWeight: locale === 'en' ? 700 : 400,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
-          color: locale === 'en' ? '#111' : '#999',
+          color: locale === 'en' ? activeColor : idleColor,
           background: 'none',
           border: 'none',
           cursor: 'pointer',
