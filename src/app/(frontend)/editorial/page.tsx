@@ -72,12 +72,12 @@ export default function EditorialPage() {
   }
 
   return (
-    <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--tz-sand)', color: 'var(--tz-ink)', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '8rem 2rem 4rem' }}>
         <div className="mb-16">
-          <p className="text-xs tracking-widest uppercase text-black/40 mb-4">{t('editorial.subtitle')}</p>
-          <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black">{t('editorial.title')}</h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: '#777',
+          <p className="tz-chip mb-6" style={{ background: 'var(--tz-lilac-soft)', color: 'var(--tz-lilac-deep)' }}>{t('editorial.subtitle')}</p>
+          <h1 className="text-6xl md:text-8xl uppercase" style={{ fontFamily: 'var(--font-display)', color: 'var(--tz-ink)', letterSpacing: '0.03em' }}>{t('editorial.title')}</h1>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--tz-ink-soft)',
             maxWidth: '600px', lineHeight: '1.8', marginTop: '1.5rem' }}>
             {t('editorial.description')}
           </p>
@@ -88,11 +88,11 @@ export default function EditorialPage() {
           <div className="mb-8 flex flex-wrap items-center gap-2">
             <button
               onClick={() => selectYear(null)}
-              className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200"
+              className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200 rounded-full"
               style={{
-                background: selectedYear === null ? '#111' : 'transparent',
-                color: selectedYear === null ? '#fff' : '#999',
-                border: selectedYear === null ? '1px solid #111' : '1px solid #ddd',
+                background: selectedYear === null ? 'var(--tz-lagoon-deep)' : 'var(--tz-cream)',
+                color: selectedYear === null ? '#fff' : 'var(--tz-ink-soft)',
+                border: '1px solid ' + (selectedYear === null ? 'var(--tz-lagoon-deep)' : 'rgba(47,109,117,0.2)'),
               }}
             >
               {t('editorial.filterAll') || 'Toutes'}
@@ -101,11 +101,11 @@ export default function EditorialPage() {
               <button
                 key={year}
                 onClick={() => selectYear(year)}
-                className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200"
+                className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200 rounded-full"
                 style={{
-                  background: selectedYear === year ? '#111' : 'transparent',
-                  color: selectedYear === year ? '#fff' : '#999',
-                  border: selectedYear === year ? '1px solid #111' : '1px solid #ddd',
+                  background: selectedYear === year ? 'var(--tz-lagoon-deep)' : 'var(--tz-cream)',
+                  color: selectedYear === year ? '#fff' : 'var(--tz-ink-soft)',
+                  border: '1px solid ' + (selectedYear === year ? 'var(--tz-lagoon-deep)' : 'rgba(47,109,117,0.2)'),
                 }}
               >
                 {year}
@@ -116,7 +116,7 @@ export default function EditorialPage() {
 
         {loading ? (
           <div className="text-center py-32">
-            <p className="text-black/40 text-xl">Chargement...</p>
+            <p className="text-xl" style={{ color: 'var(--tz-ink-soft)' }}>Chargement...</p>
           </div>
         ) : posts.length > 0 ? (
           <>
@@ -134,7 +134,7 @@ export default function EditorialPage() {
                   : null
                 return (
                   <Link key={post.id} href={`/posts/${post.slug}`}
-                    className="group block break-inside-avoid mb-4 relative overflow-hidden bg-black/5">
+                    className="group block break-inside-avoid mb-4 relative overflow-hidden rounded-3xl" style={{ background: 'var(--tz-lagoon-soft)', boxShadow: '0 4px 14px rgba(30,66,73,0.08)' }}>
                     {img && (
                       <div className="relative w-full">
                         <Image
@@ -147,7 +147,7 @@ export default function EditorialPage() {
                         />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to top, rgba(30,66,73,0.85), transparent 60%)' }} />
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                       {date && <p className="text-xs text-white/60 tracking-widest mb-1">{date}</p>}
                       <h2 className="text-base font-light text-white">{post.title}</h2>
@@ -204,7 +204,7 @@ export default function EditorialPage() {
           </>
         ) : (
           <div className="text-center py-32">
-            <p className="text-black/20 text-3xl font-light">
+            <p className="text-3xl font-light" style={{ color: 'var(--tz-ink-soft)' }}>
               {selectedYear
                 ? `${t('editorial.noPostsYear') || 'Aucun article en'} ${selectedYear}`
                 : (t('editorial.noPosts') || 'Aucun article')}

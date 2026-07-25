@@ -2,6 +2,12 @@
 import Link from 'next/link'
 import { useLocale } from '@/components/LocaleProvider'
 
+const sectionAccents = [
+  { soft: 'var(--tz-coral-soft)',  deep: 'var(--tz-coral-deep)' },
+  { soft: 'var(--tz-lagoon-soft)', deep: 'var(--tz-lagoon-deep)' },
+  { soft: 'var(--tz-lilac-soft)',  deep: 'var(--tz-lilac-deep)' },
+]
+
 export default function AProposPage() {
   const { t, locale } = useLocale()
 
@@ -73,58 +79,63 @@ export default function AProposPage() {
   const currentContent = content[localeKey]
 
   return (
-    <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <section style={{ paddingTop: '120px', paddingBottom: '6rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+    <div style={{ background: 'var(--tz-sand)', color: 'var(--tz-ink)', minHeight: '100vh' }}>
+      <section style={{ paddingTop: '120px', paddingBottom: '6rem',
+        background: 'linear-gradient(180deg, var(--tz-hibiscus-soft) 0%, var(--tz-sand) 100%)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem',
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
           <div style={{ position: 'relative' }}>
+            <div style={{ position: 'absolute', inset: '-14px -14px 14px 14px',
+              background: 'linear-gradient(135deg, var(--tz-lagoon) 0%, var(--tz-hibiscus) 100%)',
+              borderRadius: '2rem', zIndex: 0 }} aria-hidden="true" />
             <img src="/images/portrait-stephane.webp" alt="Stéphane Sayeb"
-              style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', borderRadius: '4px', filter: 'grayscale(20%)' }} />
-            <div style={{ position: 'absolute', bottom: '-1.5rem', right: '-1.5rem',
-              background: 'white', padding: '1rem 1.5rem', border: '1px solid rgba(0,0,0,0.08)' }}>
+              style={{ position: 'relative', zIndex: 1, width: '100%', aspectRatio: '3/4',
+                objectFit: 'cover', borderRadius: '1.75rem' }} />
+            <div style={{ position: 'absolute', bottom: '-1.5rem', right: '-0.5rem', zIndex: 2,
+              background: 'var(--tz-cream)', padding: '0.9rem 1.4rem', borderRadius: '999px',
+              boxShadow: '0 8px 20px rgba(30,66,73,0.12)' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                letterSpacing: '0.2em', textTransform: 'uppercase', color: '#999' }}>
+                letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-lagoon-deep)' }}>
                 {t('about.location')}
               </p>
             </div>
-            <div style={{ position: 'absolute', bottom: '1rem', left: '1rem',
+            <div style={{ position: 'absolute', bottom: '1rem', left: '1.6rem', zIndex: 2,
               writingMode: 'vertical-rl', textOrientation: 'mixed', transform: 'rotate(180deg)',
               fontFamily: 'var(--font-body)', fontSize: '0.6rem', letterSpacing: '0.15em',
-              color: 'rgba(255,255,255,0.6)', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+              color: 'rgba(255,255,255,0.7)', textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
               © Kevin Manhein
             </div>
           </div>
 
           <div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
-              letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1.5rem' }}>
+            <p className="tz-chip" style={{ background: 'var(--tz-hibiscus-soft)',
+              color: 'var(--tz-hibiscus-deep)', marginBottom: '1.5rem' }}>
               {t('about.subtitle')}
             </p>
-            <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2.5rem,5vw,4rem)',
-              fontWeight: 300, textTransform: 'uppercase', lineHeight: 1.0,
-              letterSpacing: '0.03em', marginBottom: '2.5rem' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem,6vw,5rem)',
+              fontWeight: 400, textTransform: 'uppercase', lineHeight: 0.95,
+              letterSpacing: '0.03em', marginBottom: '2.5rem', color: 'var(--tz-ink)' }}>
               Stéphane<br />Sayeb
             </h1>
-            <blockquote style={{ margin: 0, borderLeft: '2px solid rgba(0,0,0,0.2)', paddingLeft: '1rem' }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.8', color: '#555' }}>
+            <blockquote style={{ margin: 0, background: 'var(--tz-lagoon-soft)',
+              borderLeft: '4px solid var(--tz-lagoon-deep)', borderRadius: '0 1.25rem 1.25rem 0',
+              padding: '1.4rem 1.6rem' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.8',
+                color: 'var(--tz-lagoon-deep)', fontStyle: 'italic' }}>
                 « {currentContent.quote} »
               </p>
             </blockquote>
             <div style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-              lineHeight: '1.8', color: '#555', display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1.5rem' }}>
+              lineHeight: '1.8', color: 'var(--tz-ink-soft)', display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1.5rem' }}>
               {currentContent.intro.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
-            <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
-              <Link href="/editorial" style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                letterSpacing: '0.3em', textTransform: 'uppercase', border: '1px solid #111',
-                padding: '0.8rem 2rem', color: '#111', textDecoration: 'none' }}>
+            <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <Link href="/editorial" className="tz-btn">
                 {t('about.see_editorial')}
               </Link>
-              <Link href="/contact" style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                letterSpacing: '0.3em', textTransform: 'uppercase', color: '#999',
-                textDecoration: 'none', alignSelf: 'center' }}>
+              <Link href="/contact" className="tz-btn-ghost">
                 {t('about.contact')}
               </Link>
             </div>
@@ -132,22 +143,29 @@ export default function AProposPage() {
         </div>
       </section>
 
-      <section style={{ padding: '6rem 2rem' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gap: '4rem' }}>
-          {currentContent.sections.map((section) => (
-            <div key={section.title} style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '2rem' }}>
-              <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.4rem,2.5vw,2rem)',
-                fontWeight: 300, letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+      <section style={{ padding: '4rem 2rem 6rem' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gap: '2.5rem' }}>
+          {currentContent.sections.map((section, idx) => {
+            const accent = sectionAccents[idx % sectionAccents.length]
+            return (
+            <div key={section.title} style={{ background: accent.soft, borderRadius: '2rem',
+              padding: 'clamp(2rem,4vw,3.5rem)' }}>
+              <span style={{ display: 'block', width: '42px', height: '6px',
+                borderRadius: '999px', background: accent.deep, marginBottom: '1.2rem', opacity: 0.7 }} />
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem,3vw,2.6rem)',
+                fontWeight: 400, letterSpacing: '0.04em', textTransform: 'uppercase',
+                marginBottom: '1.5rem', color: accent.deep }}>
                 {section.title}
               </h2>
-              <div style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.9', color: '#555',
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', lineHeight: '1.9', color: 'var(--tz-ink-soft)',
                 display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '1000px' }}>
                 {section.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </section>
     </div>

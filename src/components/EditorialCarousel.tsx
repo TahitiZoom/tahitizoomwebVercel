@@ -42,7 +42,7 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
         setActiveIndex(null)
       }}
     >
-      <div ref={trackRef} className="flex" style={{ willChange: 'transform' }}>
+      <div ref={trackRef} className="flex" style={{ willChange: 'transform', gap: '0.75rem', padding: '0.5rem 0' }}>
         {doubled.map((post, i) => {
           const img =
             post.coverImage?.sizes?.medium?.url ||
@@ -63,6 +63,8 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
               style={{
                 width: isActive ? '340px' : '200px',
                 height: '480px',
+                borderRadius: '1.5rem',
+                boxShadow: isActive ? '0 16px 40px rgba(30,66,73,0.25)' : '0 4px 14px rgba(30,66,73,0.10)',
                 transition: 'width 0.6s cubic-bezier(0.22,1,0.36,1)',
               }}
             >
@@ -91,8 +93,8 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
                 className="absolute inset-0"
                 style={{
                   background: isActive
-                    ? 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)'
-                    : 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%)',
+                    ? 'linear-gradient(to top, rgba(30,66,73,0.88) 0%, transparent 60%)'
+                    : 'linear-gradient(to top, rgba(30,66,73,0.55) 0%, transparent 40%)',
                   transition: 'background 0.4s',
                 }}
               />
@@ -105,11 +107,11 @@ export function EditorialCarousel({ posts }: { posts: any[] }) {
                   transition: 'all 0.4s cubic-bezier(0.22,1,0.36,1)',
                 }}
               >
-                <p className="text-xs tracking-widest uppercase text-white/50 mb-1">
+                <p className="text-xs tracking-widest uppercase mb-1" style={{ color: 'var(--tz-frangipani)' }}>
                   /{String(idx + 1).padStart(2, '0')}
                 </p>
                 <h3 className="text-base font-light text-white leading-snug mb-2">{post.title}</h3>
-                <span className="text-xs tracking-widest uppercase text-white/60 flex items-center gap-1">
+                <span className="text-xs tracking-widest uppercase flex items-center gap-1" style={{ color: 'var(--tz-coral)' }}>
                   Lire
                   <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
                     <path

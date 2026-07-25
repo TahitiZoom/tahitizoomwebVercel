@@ -15,9 +15,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: 'white',
-      borderBottom: '1px solid rgba(0,0,0,0.06)',
-      boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
+      background: 'rgba(250,246,239,0.88)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(47,109,117,0.12)',
+      boxShadow: scrolled ? '0 8px 24px rgba(47,109,117,0.08)' : 'none',
       transition: 'box-shadow 0.3s',
     }}>
       <div style={{
@@ -51,16 +53,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           }}
           className="hamburger-mobile">
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: '#111',
+            display: 'block', width: '22px', height: '2px', background: 'var(--tz-ink)',
             transition: 'all 0.3s',
             transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'
           }} />
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: '#111',
+            display: 'block', width: '22px', height: '2px', background: 'var(--tz-coral-deep)',
             transition: 'all 0.3s', opacity: menuOpen ? 0 : 1
           }} />
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: '#111',
+            display: 'block', width: '22px', height: '2px', background: 'var(--tz-ink)',
             transition: 'all 0.3s',
             transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'
           }} />
@@ -69,8 +71,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* Menu mobile déroulant */}
       <div className="md:hidden"
         style={{
-          background: 'white',
-          borderTop: '1px solid rgba(0,0,0,0.06)',
+          background: 'rgba(250,246,239,0.97)',
+          borderTop: '1px solid rgba(47,109,117,0.12)',
           overflow: 'hidden',
           maxHeight: menuOpen ? '400px' : '0',
           transition: 'max-height 0.3s ease',

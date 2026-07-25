@@ -18,6 +18,13 @@ const servicesData = {
   ],
 }
 
+const accents = [
+  { soft: 'var(--tz-coral-soft)',      deep: 'var(--tz-coral-deep)' },
+  { soft: 'var(--tz-lagoon-soft)',     deep: 'var(--tz-lagoon-deep)' },
+  { soft: 'var(--tz-lilac-soft)',      deep: 'var(--tz-lilac-deep)' },
+  { soft: 'var(--tz-frangipani-soft)', deep: 'var(--tz-frangipani-deep)' },
+]
+
 export function ServicesMenu() {
   const { locale } = useLocale()
   const services = servicesData[locale] || servicesData.fr
@@ -27,18 +34,19 @@ export function ServicesMenu() {
   const handleMove = (e: React.MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
 
   return (
-    <div onMouseMove={handleMove} style={{ position: 'relative' }}>
+    <div onMouseMove={handleMove} style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
       {services.map((s, i) => (
         <Link key={s.n} href="/services"
           onMouseEnter={() => setActive(i)}
           onMouseLeave={() => setActive(null)}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '1.2rem 0.5rem',
-            borderTop: '1px solid rgba(0,0,0,0.08)',
+            padding: '1.2rem 1.5rem',
+            borderRadius: '1.25rem',
             textDecoration: 'none',
-            background: active === i ? 'rgba(0,0,0,0.06)' : 'transparent',
-            transition: 'background 0.3s',
+            background: active === i ? accents[i].soft : 'var(--tz-cream)',
+            transition: 'background 0.3s, transform 0.3s',
+            transform: active === i ? 'translateX(6px)' : 'none',
             position: 'relative',
           }}>
 
@@ -52,7 +60,7 @@ export function ServicesMenu() {
               objectFit: 'cover',
               pointerEvents: 'none',
               zIndex: 100,
-              borderRadius: '4px',
+              borderRadius: '1rem',
               transform: active === i ? 'rotateX(360deg)' : 'rotateX(270deg)',
               opacity: active === i ? 1 : 0,
               transition: '0.15s',
@@ -60,19 +68,19 @@ export function ServicesMenu() {
           />
 
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem',
-              color: active === i ? '#111' : '#ccc', letterSpacing: '0.2em',
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem',
+              color: accents[i].deep, letterSpacing: '0.2em', fontWeight: 600,
               transition: 'color 0.3s' }}>/{s.n}</span>
-            <span style={{ fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(1.4rem,2.8vw,2.4rem)', fontWeight: 300,
-              textTransform: 'uppercase', letterSpacing: '0.05em',
-              color: active === i ? '#111' : '#aaa', transition: 'color 0.4s' }}>
+            <span style={{ fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.6rem,3vw,2.6rem)', fontWeight: 400,
+              textTransform: 'uppercase', letterSpacing: '0.04em',
+              color: active === i ? accents[i].deep : 'var(--tz-ink)', transition: 'color 0.4s' }}>
               {s.t}
             </span>
           </div>
 
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: active === i ? '#555' : '#bbb', maxWidth: '320px',
+            color: active === i ? 'var(--tz-ink-soft)' : '#a8b2b0', maxWidth: '320px',
             textAlign: 'right', lineHeight: '1.6', transition: 'color 0.3s' }}
             className="hidden md:block">{s.d}</span>
 

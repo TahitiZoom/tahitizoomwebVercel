@@ -42,10 +42,9 @@ export function ClientsCarousel() {
   const doubled = [...clients, ...clients]
 
   return (
-    <section style={{ padding: '5rem 0', borderTop: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+    <section style={{ padding: '5rem 0', background: 'var(--tz-cream)', overflow: 'hidden' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', marginBottom: '3rem' }}>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-          letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999' }}>
+        <p className="tz-chip" style={{ background: 'var(--tz-hibiscus-soft)', color: 'var(--tz-hibiscus-deep)' }}>
           {t('home.clients')}
         </p>
       </div>

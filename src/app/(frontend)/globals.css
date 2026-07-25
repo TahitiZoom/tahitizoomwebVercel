@@ -223,19 +223,102 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
-/* Bouton devis — effet inversé au survol */
+/* ─── Palette pastel « Lagon » ─────────────────────────────── */
+:root {
+  --tz-sand: #faf6ef;
+  --tz-cream: #fffdf8;
+  --tz-ink: #2f3b3a;
+  --tz-ink-soft: #5c6b69;
+  --tz-lagoon: #bfe6e2;
+  --tz-lagoon-soft: #e4f4f1;
+  --tz-lagoon-deep: #2f6d75;
+  --tz-coral: #f6b29e;
+  --tz-coral-soft: #fbe4da;
+  --tz-coral-deep: #d96c4f;
+  --tz-hibiscus: #f5c6d6;
+  --tz-hibiscus-soft: #fcecf2;
+  --tz-hibiscus-deep: #c2597f;
+  --tz-frangipani: #f9e0a9;
+  --tz-frangipani-soft: #fdf3d9;
+  --tz-frangipani-deep: #b8862e;
+  --tz-lilac: #d9cfec;
+  --tz-lilac-soft: #f0ebf8;
+  --tz-lilac-deep: #6f5a9e;
+  --tz-night: #1e4249;
+}
+
+::selection {
+  background: var(--tz-coral);
+  color: var(--tz-ink);
+}
+
+/* Bouton devis, effet corail au survol */
 .devis-cta:hover,
 .devis-cta:active {
-  background: #444 !important;
+  background: var(--tz-coral-deep) !important;
   color: white !important;
-  border-color: #444 !important;
+  border-color: var(--tz-coral-deep) !important;
+}
+
+/* Boutons pastel */
+.tz-btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.4rem;
+  border-radius: 999px;
+  background: var(--tz-coral-deep);
+  color: white;
+  border: 1px solid var(--tz-coral-deep);
+  transition: all 0.3s;
+}
+.tz-btn:hover {
+  background: var(--tz-lagoon-deep);
+  border-color: var(--tz-lagoon-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgb(47 109 117 / 25%);
+}
+.tz-btn-ghost {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.4rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tz-lagoon-deep);
+  border: 1px solid var(--tz-lagoon-deep);
+  transition: all 0.3s;
+}
+.tz-btn-ghost:hover {
+  background: var(--tz-lagoon-deep);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Chip / étiquette pastel */
+.tz-chip {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  background: var(--tz-lagoon-soft);
+  color: var(--tz-lagoon-deep);
 }
 
 /* Menu mobile — forcer couleur des liens */
 .mobile-nav a,
 .mobile-nav span,
 .mobile-nav button {
-  color: #111 !important;
+  color: var(--tz-ink) !important;
   text-decoration: none !important;
 }
 
