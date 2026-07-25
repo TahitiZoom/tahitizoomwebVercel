@@ -15,13 +15,11 @@ export function LocaleSwitcher() {
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           color: locale === 'fr' ? '#111' : '#999',
-          background: 'rgba(17,17,17,0.05)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
+          background: 'none',
           border: 'none',
           cursor: 'pointer',
-          padding: '0.16rem 0.45rem',
-          transition: 'color 0.2s, background 0.35s ease',
+          padding: '0',
+          transition: 'color 0.2s',
         }}>
         FR
       </button>
@@ -35,13 +33,11 @@ export function LocaleSwitcher() {
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           color: locale === 'en' ? '#111' : '#999',
-          background: 'rgba(17,17,17,0.05)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
+          background: 'none',
           border: 'none',
           cursor: 'pointer',
-          padding: '0.16rem 0.45rem',
-          transition: 'color 0.2s, background 0.35s ease',
+          padding: '0',
+          transition: 'color 0.2s',
         }}>
         EN
       </button>

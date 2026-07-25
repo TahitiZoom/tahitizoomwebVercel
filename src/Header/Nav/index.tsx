@@ -23,16 +23,17 @@ const navStyle = {
   textDecoration: 'none',
 }
 
-/* Panneau rectangulaire dépoli derrière chaque rubrique, qui se remplit au survol */
+/* Soulignement fin qui se déploie sous la rubrique au survol */
 const itemStyle = (hovered: boolean): React.CSSProperties => ({
   ...navStyle,
   lineHeight: 1.2,
   display: 'inline-block',
-  padding: '0.16rem 0.55rem',
-  background: hovered ? 'rgba(17,17,17,0.13)' : 'rgba(17,17,17,0.05)',
-  backdropFilter: 'blur(6px)',
-  WebkitBackdropFilter: 'blur(6px)',
-  transition: 'background 0.35s ease',
+  paddingBottom: '3px',
+  backgroundImage: 'linear-gradient(#111, #111)',
+  backgroundPosition: hovered ? 'left bottom' : 'right bottom',
+  backgroundSize: hovered ? '100% 1px' : '0 1px',
+  backgroundRepeat: 'no-repeat',
+  transition: 'background-size 0.3s ease',
 })
 
 export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
