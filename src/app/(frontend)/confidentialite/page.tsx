@@ -7,7 +7,7 @@ export default function ConfidentialitePage() {
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '8rem 2rem 6rem' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '15.5rem 2rem 6rem' }}>
         <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2rem,5vw,3.5rem)',
           fontWeight: 300, textTransform: 'uppercase', marginBottom: '1rem' }}>
           {locale === 'en' ? 'Privacy Policy' : 'Politique de Confidentialité'}

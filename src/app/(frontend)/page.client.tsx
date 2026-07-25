@@ -1,118 +1,132 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { EditorialCarousel } from '@/components/EditorialCarousel'
 import { ServicesMenu } from '@/components/ServicesMenu'
 import { ClientsCarousel } from '@/components/ClientsCarousel'
 import { useLocale } from '@/components/LocaleProvider'
 
+/* Fondu enchaîné des photographies de reportage en fond de hero */
+function HeroBackdrop({ posts }: { posts: any[] }) {
+  const [index, setIndex] = useState(0)
+  const images = posts
+    .map((p) =>
+      p.coverImage?.sizes?.large?.url ||
+      p.coverImage?.sizes?.medium?.url ||
+      p.coverImage?.url || null)
+    .filter(Boolean)
+    .slice(0, 5)
+
+  useEffect(() => {
+    if (images.length < 2) return
+    const id = setInterval(() => setIndex((i) => (i + 1) % images.length), 5000)
+    return () => clearInterval(id)
+  }, [images.length])
+
+  if (images.length === 0) return <div style={{ position: 'absolute', inset: 0, background: '#111' }} />
+
+  return (
+    <>
+      {images.map((src, i) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={src} src={src} alt="" aria-hidden="true"
+          style={{
+            position: 'absolute', inset: 0, width: '100%', height: '100%',
+            objectFit: 'cover',
+            opacity: i === index ? 1 : 0,
+            transform: i === index ? 'scale(1.04)' : 'scale(1)',
+            transition: 'opacity 1.6s ease, transform 6s linear',
+          }} />
+      ))}
+    </>
+  )
+}
+
 export default function HomePageClient({ posts }: { posts: any[] }) {
   const { t } = useLocale()
 
   return (
     <div style={{ background: 'white', color: '#111' }}>
-      <section style={{ paddingTop: '100px', overflow: 'hidden' }}>
-        <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.7rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: '#999',
-              marginBottom: '0.75rem',
-            }}
-          >
+      {/* ── Hero plein écran, titres blancs en bas à gauche ─────── */}
+      <section style={{ position: 'relative', height: '100svh', minHeight: '560px', overflow: 'hidden' }}>
+        <HeroBackdrop posts={posts} />
+        <div style={{ position: 'absolute', inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.18) 55%, rgba(0,0,0,0.30) 100%)' }} />
+
+        <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0,
+          maxWidth: '1400px', margin: '0 auto', padding: '0 2rem 3.5rem', zIndex: 2 }}>
+          <p style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.7rem',
+            letterSpacing: '0.35em',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.75)',
+            marginBottom: '1rem',
+          }}>
             {t('home.tagline')}
           </p>
 
-          <h1
-            style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(2.5rem,10vw,76px)',
-              lineHeight: '1.0',
-              fontWeight: 300,
-              textTransform: 'uppercase',
-              color: '#111',
-              marginBottom: '1rem',
-            }}
-          >
+          <h1 style={{
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: 'clamp(2.5rem,10vw,76px)',
+            lineHeight: '1.0',
+            fontWeight: 300,
+            textTransform: 'uppercase',
+            color: 'white',
+            marginBottom: '0.25rem',
+          }}>
             {t('home.slogan1')}
           </h1>
-        </div>
 
-        {posts.length > 0 && (
-          <div style={{ margin: '1rem 0' }}>
-            <EditorialCarousel posts={posts} />
-          </div>
-        )}
-
-        <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
-          <h2
-            style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(2.5rem,10vw,76px)',
-              lineHeight: '1.0',
-              fontWeight: 300,
-              textTransform: 'uppercase',
-              color: '#111',
-              marginBottom: '2.5rem',
-            }}
-          >
+          <h2 style={{
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: 'clamp(2.5rem,10vw,76px)',
+            lineHeight: '1.0',
+            fontWeight: 300,
+            textTransform: 'uppercase',
+            color: 'white',
+            marginBottom: '2.5rem',
+          }}>
             {t('home.slogan2')}
           </h2>
 
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <Link
-              href="/editorial"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.65rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                border: '1px solid #111',
-                padding: '0.8rem 2rem',
-                color: '#111',
-                textDecoration: 'none',
-              }}
-            >
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
+            <Link href="/editorial" style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.65rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              border: '1px solid rgba(255,255,255,0.85)',
+              padding: '0.8rem 2rem',
+              color: 'white',
+              textDecoration: 'none',
+            }}>
               {t('home.editorial')}
             </Link>
 
-            <Link
-              href="/contact"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.65rem',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                color: '#999',
-                textDecoration: 'none',
-              }}
-            >
+            <Link href="/contact" style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.65rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.75)',
+              textDecoration: 'none',
+            }}>
               {t('home.contact')}
             </Link>
           </div>
         </div>
       </section>
 
-      <section id="services" style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
-              color: '#999',
-              marginBottom: '4rem',
-            }}
-          >
-            {t('home.services')}
-          </p>
-          <ServicesMenu />
-        </div>
-      </section>
+      {/* ── Univers : diaporama horizontal, collé au hero ────────── */}
+      {posts.length > 0 && (
+        <section style={{ padding: 0, lineHeight: 0 }}>
+          <EditorialCarousel posts={posts} />
+        </section>
+      )}
+
+      <ServicesMenu />
 
       <section style={{ padding: '6rem 2rem', background: '#f5f5f5', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>

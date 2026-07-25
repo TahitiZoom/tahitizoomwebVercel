@@ -1,8 +1,8 @@
 {
   "nav": {
-    "editorial": "Éditorial",
-    "services": "Services",
-    "about": "À propos",
+    "editorial": "Univers",
+    "services": "Expertise",
+    "about": "Agence",
     "contact": "Contact",
     "login": "Connexion"
   },
@@ -10,7 +10,7 @@
     "tagline": "Reporter Photographe · Polynésie française",
     "slogan1": "LÀ OÙ L'IMAGE",
     "slogan2": "RENCONTRE LE CODE",
-    "editorial": "Éditorial",
+    "editorial": "Univers",
     "contact": "Contact →",
     "clients": "Ils m'ont fait confiance",
     "services": "Ce que je propose",
@@ -18,7 +18,7 @@
     "devis_btn": "Demander un devis →"
   },
   "editorial": {
-    "title": "Éditorial",
+    "title": "Univers",
     "subtitle": "Reportages & Articles",
     "description": "Chaque image raconte une histoire. À travers mes reportages du quotidien polynésien — marchés animés, visages authentiques, instants de grâce — je tisse une narration visuelle du Fenua tel qu'il vit, respire et se transforme.",
     "read": "Lire →"

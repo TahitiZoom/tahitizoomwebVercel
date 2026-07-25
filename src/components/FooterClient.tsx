@@ -4,12 +4,12 @@ import { useLocale } from './LocaleProvider'
 import { CMSLink } from './Link'
 
 const navTranslations: Record<string, Record<string, string>> = {
-  'Éditorial': { fr: 'Éditorial', en: 'Editorial' },
-  'Editorial': { fr: 'Éditorial', en: 'Editorial' },
-  'Services':  { fr: 'Services',  en: 'Services'  },
-  'À propos':  { fr: 'À propos',  en: 'About'     },
+  'Éditorial': { fr: 'Univers',   en: 'Universe'  },
+  'Editorial': { fr: 'Univers',   en: 'Universe'  },
+  'Services':  { fr: 'Expertise', en: 'Expertise' },
+  'À propos':  { fr: 'Agence',    en: 'Agency'    },
   'Contact':   { fr: 'Contact',   en: 'Contact'   },
-  'Admin':     { fr: 'Admin',     en: 'Admin'      },
+  'Admin':     { fr: 'Admin',     en: 'Admin'     },
 }
 
 export function FooterClient({ navItems }: { navItems: any[] }) {

@@ -239,6 +239,51 @@ html[data-theme='light'] {
   text-decoration: none !important;
 }
 
+.mobile-nav--light a,
+.mobile-nav--light span,
+.mobile-nav--light button {
+  color: white !important;
+}
+
+/* Menu : roulement du libellé dans un masque au survol (façon site de référence) */
+.tz-roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  height: 1.2em;
+}
+.tz-roll__inner {
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tz-roll__line {
+  display: block;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+.tz-nav-item:hover .tz-roll__inner {
+  transform: translateY(-1.2em);
+}
+
+/* Effet Ken Burns pour les fonds photographiques */
+@keyframes tz-kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to   { transform: scale(1.18) translate3d(-2%, -2%, 0); }
+}
+.tz-kb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+.tz-kb--on {
+  opacity: 1;
+  animation: tz-kenburns 9s ease-out forwards;
+}
+
 /* Hamburger mobile uniquement */
 @media (min-width: 768px) {
   .hamburger-mobile { display: none !important; }
