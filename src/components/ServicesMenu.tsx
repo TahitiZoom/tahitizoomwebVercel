@@ -27,18 +27,18 @@ export function ServicesMenu() {
   const handleMove = (e: React.MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
 
   return (
-    <div onMouseMove={handleMove} style={{ position: 'relative', borderBottom: '1px solid var(--tz-line)' }}>
+    <div onMouseMove={handleMove} style={{ position: 'relative' }}>
       {services.map((s, i) => (
         <Link key={s.n} href="/services"
           onMouseEnter={() => setActive(i)}
           onMouseLeave={() => setActive(null)}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '1.6rem 0.5rem',
-            borderTop: '1px solid var(--tz-line)',
+            padding: '1.2rem 0.5rem',
+            borderTop: '1px solid rgba(0,0,0,0.08)',
             textDecoration: 'none',
-            transition: 'padding 0.3s',
-            paddingLeft: active === i ? '1.5rem' : '0.5rem',
+            background: active === i ? 'rgba(0,0,0,0.06)' : 'transparent',
+            transition: 'background 0.3s',
             position: 'relative',
           }}>
 
@@ -52,27 +52,27 @@ export function ServicesMenu() {
               objectFit: 'cover',
               pointerEvents: 'none',
               zIndex: 100,
-              transform: active === i ? 'rotate(3deg) scale(1)' : 'rotate(-3deg) scale(0.9)',
+              borderRadius: '4px',
+              transform: active === i ? 'rotateX(360deg)' : 'rotateX(270deg)',
               opacity: active === i ? 1 : 0,
-              transition: 'opacity 0.2s, transform 0.3s',
+              transition: '0.15s',
             }}
           />
 
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.8rem' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-              color: active === i ? 'var(--tz-accent)' : 'var(--tz-paper-faint)',
-              letterSpacing: '0.2em', transition: 'color 0.3s' }}>({s.n})</span>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem',
+              color: active === i ? '#111' : '#ccc', letterSpacing: '0.2em',
+              transition: 'color 0.3s' }}>/{s.n}</span>
             <span style={{ fontFamily: 'Manrope, sans-serif',
-              fontSize: 'clamp(1.6rem,3.2vw,2.8rem)', fontWeight: 300,
-              textTransform: 'uppercase', letterSpacing: '0.03em',
-              color: active === i ? 'var(--tz-paper)' : 'var(--tz-paper-dim)',
-              transition: 'color 0.4s' }}>
+              fontSize: 'clamp(1.4rem,2.8vw,2.4rem)', fontWeight: 300,
+              textTransform: 'uppercase', letterSpacing: '0.05em',
+              color: active === i ? '#111' : '#aaa', transition: 'color 0.4s' }}>
               {s.t}
             </span>
           </div>
 
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem',
-            color: active === i ? 'var(--tz-paper-dim)' : 'var(--tz-paper-faint)', maxWidth: '320px',
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
+            color: active === i ? '#555' : '#bbb', maxWidth: '320px',
             textAlign: 'right', lineHeight: '1.6', transition: 'color 0.3s' }}
             className="hidden md:block">{s.d}</span>
 

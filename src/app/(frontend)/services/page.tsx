@@ -86,49 +86,50 @@ export default function ServicesPage() {
   const data = servicesData[locale] || servicesData.fr
 
   return (
-    <div style={{ background: 'var(--tz-bg)', color: 'var(--tz-paper)', minHeight: '100vh' }}>
-      <section style={{ paddingTop: '140px', paddingBottom: '5rem', borderBottom: '1px solid var(--tz-line)' }}>
+    <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
+      <section style={{ paddingTop: '120px', paddingBottom: '6rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
-          <p className="tz-chip" style={{ marginBottom: '1.5rem' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+            letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999', marginBottom: '1rem' }}>
             {t('services.subtitle')}
           </p>
-          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,9vw,8rem)',
+          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,8vw,7rem)',
             fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
-            letterSpacing: '0.02em', marginBottom: '2rem', color: 'var(--tz-paper)' }}>
+            letterSpacing: '0.03em', marginBottom: '2rem' }}>
             {t('services.title')}
           </h1>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem',
-            color: 'var(--tz-paper-dim)', maxWidth: '600px', lineHeight: '1.7' }}>
+            color: '#777', maxWidth: '600px', lineHeight: '1.7' }}>
             {data.hero_desc}
           </p>
         </div>
       </section>
 
-      {data.sections.map((section) => (
-        <section key={section.n} style={{ padding: '6rem 2rem', borderBottom: '1px solid var(--tz-line)' }}>
+      {data.sections.map((section, idx) => (
+        <section key={section.n} style={{ padding: '6rem 2rem', borderBottom: '1px solid rgba(0,0,0,0.08)',
+          background: idx % 2 === 1 ? '#fafafa' : 'white' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto',
             display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
             <div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',
-                letterSpacing: '0.2em', color: 'var(--tz-accent)', marginBottom: '1rem' }}>({section.n})</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem',
+                letterSpacing: '0.2em', color: '#ccc', marginBottom: '1rem' }}>/{section.n}</p>
               <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.8rem,3vw,2.8rem)',
-                fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--tz-paper)' }}>
+                fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#111' }}>
                 {section.t}
               </h2>
             </div>
             <div>
-              <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem',
-                color: 'var(--tz-paper-dim)', lineHeight: '1.7', marginBottom: '3rem' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
+                color: '#555', lineHeight: '1.8', marginBottom: '3rem' }}>
                 {section.desc}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
                 {section.items.map((s) => (
-                  <div key={s.t} style={{ borderTop: '1px solid var(--tz-line)', paddingTop: '1.2rem' }}>
+                  <div key={s.t} style={{ borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '1.2rem' }}>
                     <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                      fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
-                      color: 'var(--tz-paper)', marginBottom: '0.4rem' }}>{s.t}</h4>
+                      fontWeight: 600, color: '#111', marginBottom: '0.4rem' }}>{s.t}</h4>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                      color: 'var(--tz-paper-dim)', lineHeight: '1.5' }}>{s.d}</p>
+                      color: '#888', lineHeight: '1.5' }}>{s.d}</p>
                   </div>
                 ))}
               </div>
@@ -137,18 +138,20 @@ export default function ServicesPage() {
         </section>
       ))}
 
-      <section style={{ padding: '7rem 2rem', textAlign: 'center' }}>
+      <section style={{ padding: '6rem 2rem', textAlign: 'center' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400,
-            fontSize: 'clamp(2rem,4.5vw,3.2rem)', textTransform: 'lowercase',
-            marginBottom: '1.5rem', color: 'var(--tz-paper)' }}>
+          <h3 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.5rem,3vw,2.5rem)',
+            fontWeight: 300, textTransform: 'uppercase', marginBottom: '1.5rem' }}>
             {t('services.cta')}
           </h3>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: 'var(--tz-paper-dim)', lineHeight: '1.7', marginBottom: '2.5rem' }}>
+            color: '#777', lineHeight: '1.7', marginBottom: '2.5rem' }}>
             {data.cta_desc}
           </p>
-          <Link href="/contact" className="tz-btn">
+          <Link href="/contact" style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
+            letterSpacing: '0.3em', textTransform: 'uppercase', border: '1px solid #111',
+            padding: '1rem 3rem', color: '#111', textDecoration: 'none', display: 'inline-block' }}
+            className="hover:bg-black hover:text-white transition-all duration-300">
             {t('services.cta_btn')}
           </Link>
         </div>
