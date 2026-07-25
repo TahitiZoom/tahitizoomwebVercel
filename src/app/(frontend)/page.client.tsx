@@ -11,7 +11,7 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
 
   return (
     <div style={{ background: 'white', color: '#111' }}>
-      <section style={{ paddingTop: '220px', overflow: 'hidden' }}>
+      <section style={{ paddingTop: '245px', overflow: 'hidden' }}>
         <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'left' }}>
           <p
             style={{

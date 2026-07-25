@@ -73,7 +73,7 @@ export default function EditorialPage() {
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '14rem 2rem 4rem' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '15.5rem 2rem 4rem' }}>
         <div className="mb-16">
           <p className="text-xs tracking-widest uppercase text-black/40 mb-4">{t('editorial.subtitle')}</p>
           <h1 className="text-5xl md:text-7xl font-light tracking-tight text-black">{t('editorial.title')}</h1>

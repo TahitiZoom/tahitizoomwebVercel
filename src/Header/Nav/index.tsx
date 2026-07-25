@@ -16,25 +16,23 @@ const translations: Record<string, Record<string, string>> = {
 
 const navStyle = {
   fontFamily: 'var(--font-body)',
-  fontSize: '0.9rem',
+  fontSize: '1.05rem',
   fontWeight: 400,
   letterSpacing: '0.02em',
   color: '#111',
   textDecoration: 'none',
 }
 
-/* Soulignement qui se déploie de la droite vers la gauche au survol */
+/* Panneau rectangulaire dépoli derrière chaque rubrique, qui se remplit au survol */
 const itemStyle = (hovered: boolean): React.CSSProperties => ({
   ...navStyle,
-  lineHeight: 1.15,
-  position: 'relative',
+  lineHeight: 1.2,
   display: 'inline-block',
-  paddingBottom: '3px',
-  backgroundImage: 'linear-gradient(#111, #111)',
-  backgroundPosition: hovered ? 'left bottom' : 'right bottom',
-  backgroundSize: hovered ? '100% 1px' : '0 1px',
-  backgroundRepeat: 'no-repeat',
-  transition: 'background-size 0.3s ease',
+  padding: '0.16rem 0.55rem',
+  background: hovered ? 'rgba(17,17,17,0.13)' : 'rgba(17,17,17,0.05)',
+  backdropFilter: 'blur(6px)',
+  WebkitBackdropFilter: 'blur(6px)',
+  transition: 'background 0.35s ease',
 })
 
 export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
@@ -46,14 +44,14 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
 
   if (mobile) return (
     <nav className="mobile-nav" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <span style={{ ...navStyle, fontSize: '1rem' }}>
+      <span style={{ ...navStyle, fontSize: '1.1rem' }}>
         <Link href="/">{homeLabel}</Link>
       </span>
       {navItems.map(({ link }, i) => {
         const label = link.label || ''
         const translated = translations[label]?.[locale] || label
         return (
-          <span key={i} style={{ ...navStyle, fontSize: '1rem' }}>
+          <span key={i} style={{ ...navStyle, fontSize: '1.1rem' }}>
             <CMSLink {...link} label={translated} appearance="inline" />
           </span>
         )
@@ -63,7 +61,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
   )
 
   return (
-    <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.45rem' }}>
+    <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.35rem' }}>
       <span
         style={itemStyle(hovered === 0)}
         onMouseEnter={() => setHovered(0)}
@@ -82,7 +80,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
           </span>
         )
       })}
-      <div style={{ marginTop: '0.35rem' }}>
+      <div style={{ marginTop: '0.3rem' }}>
         <LocaleSwitcher />
       </div>
     </nav>
