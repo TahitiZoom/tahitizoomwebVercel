@@ -16,12 +16,12 @@ export function FooterClient({ navItems }: { navItems: any[] }) {
   const { locale } = useLocale()
 
   const t = {
-    tagline: {
-      fr: 'Reporter photographe & développeur full stack en Polynésie française.',
-      en: 'Photojournalist & full stack developer in French Polynesia.',
-    },
     navigation: { fr: 'Navigation', en: 'Navigation' },
-    contact: { fr: 'Contact', en: 'Contact' },
+    expertises: { fr: 'Expertises', en: 'Expertise' },
+    expList: {
+      fr: ['Reportage & documentaire', 'Portrait & événementiel', 'Applications métiers'],
+      en: ['Reportage & documentary', 'Portrait & events', 'Business applications'],
+    },
     location: { fr: 'Faa\'a, Tahiti, Polynésie française', en: 'Faa\'a, Tahiti, French Polynesia' },
     copyright: {
       fr: `© ${new Date().getFullYear()} Tahiti Zoom, Made with love by Stéphane Sayeb`,
@@ -31,55 +31,57 @@ export function FooterClient({ navItems }: { navItems: any[] }) {
     privacy: { fr: 'Confidentialité', en: 'Privacy' },
   }
 
+  const linkStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-linka)', fontWeight: 300, fontSize: '0.95rem',
+    letterSpacing: '0.04em', color: 'var(--tz-paper-dim)', textDecoration: 'none',
+  }
+
   return (
-    <footer style={{ background: 'var(--tz-bg)', borderTop: '1px solid var(--tz-line)' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '4rem 2rem 2rem' }}>
+    <footer style={{ position: 'relative', overflow: 'hidden', borderTop: '1px solid var(--tz-line)' }}>
+      {/* Photographie estompée en arrière-plan, façon Linka */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/images/contact-hero.webp" alt="" aria-hidden="true"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%',
+          objectFit: 'cover', opacity: 0.22 }} />
+      <div style={{ position: 'absolute', inset: 0,
+        background: 'linear-gradient(to bottom, rgba(44,41,38,0.92) 0%, rgba(44,41,38,0.65) 100%)' }} />
+
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1500px', margin: '0 auto',
+        padding: '5rem 2rem 2rem' }}>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '3rem', marginBottom: '4rem' }}>
 
-          {/* Wordmark + description */}
+          {/* Wordmark */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <Link href="/" style={{ textDecoration: 'none' }}>
-              <span style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 500,
-                fontSize: '1rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+            <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
+              <svg width="30" height="22" viewBox="0 0 30 22" fill="none" stroke="var(--tz-paper)" strokeWidth="1.3" aria-hidden="true">
+                <rect x="1" y="1" width="28" height="20" />
+                <path d="M1 21 L15 7 L29 21" />
+                <circle cx="22" cy="7" r="2.5" />
+              </svg>
+              <span style={{ fontFamily: 'var(--font-linka)', fontWeight: 300,
+                fontSize: '1.15rem', letterSpacing: '0.42em', textTransform: 'uppercase',
                 color: 'var(--tz-paper)' }}>
-                Tahiti&nbsp;Zoom<span style={{ color: 'var(--tz-accent)' }}>®</span>
+                Tahiti&nbsp;Zoom
               </span>
             </Link>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-              color: 'var(--tz-paper-dim)', lineHeight: '1.6', maxWidth: '220px' }}>
-              {t.tagline[locale]}
+              color: 'var(--tz-paper-dim)', lineHeight: 1.6, maxWidth: '240px' }}>
+              {t.location[locale]}
             </p>
-            <div style={{ display: 'flex', gap: '1.4rem', marginTop: '0.5rem' }}>
-              {[
-                { href: 'https://facebook.com/TahitiZoom', label: 'Facebook' },
-                { href: 'https://instagram.com/tahitizoom', label: 'Instagram' },
-                { href: 'https://linkedin.com/in/tahitizoom', label: 'LinkedIn' },
-              ].map((social) => (
-                <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                    letterSpacing: '0.2em', textTransform: 'uppercase',
-                    color: 'var(--tz-paper-dim)', textDecoration: 'none',
-                    borderBottom: '1px solid var(--tz-line)', paddingBottom: '2px',
-                    transition: 'color 0.2s, border-color 0.2s' }}
-                  className="hover:text-white">
-                  {social.label}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Navigation */}
           <div>
-            <p className="tz-chip" style={{ marginBottom: '1.2rem' }}>{t.navigation[locale]}</p>
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+            <p style={{ fontFamily: 'var(--font-linka)', fontWeight: 400, fontSize: '0.95rem',
+              color: 'var(--tz-paper)', marginBottom: '1.2rem' }}>{t.navigation[locale]}</p>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
               {navItems.map(({ link }, i) => {
                 const label = link.label || ''
                 const translated = navTranslations[label]?.[locale] || label
                 return (
-                  <span key={i} style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                    color: 'var(--tz-paper-dim)' }}>
+                  <span key={i} style={linkStyle}>
                     <CMSLink {...link} label={translated} />
                   </span>
                 )
@@ -87,55 +89,61 @@ export function FooterClient({ navItems }: { navItems: any[] }) {
             </nav>
           </div>
 
-          {/* Contact */}
+          {/* Expertises */}
           <div>
-            <p className="tz-chip" style={{ marginBottom: '1.2rem' }}>{t.contact[locale]}</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              <a href="mailto:contact@tahitizoom.pf"
-                style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                  color: 'var(--tz-paper-dim)', textDecoration: 'none' }}
-                className="hover:text-white transition-colors">
-                contact@tahitizoom.pf
-              </a>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                color: 'var(--tz-paper-faint)' }}>
-                {t.location[locale]}
-              </p>
+            <p style={{ fontFamily: 'var(--font-linka)', fontWeight: 400, fontSize: '0.95rem',
+              color: 'var(--tz-paper)', marginBottom: '1.2rem' }}>{t.expertises[locale]}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem' }}>
+              {t.expList[locale].map((e) => (
+                <Link key={e} href="/services" style={linkStyle} className="hover:text-white transition-colors">
+                  {e}
+                </Link>
+              ))}
             </div>
           </div>
 
-        </div>
+          {/* Contact */}
+          <div>
+            <a href="mailto:contact@tahitizoom.pf"
+              style={{ ...linkStyle, color: 'var(--tz-paper)', fontSize: '1.05rem' }}
+              className="hover:opacity-70 transition-opacity">
+              contact@tahitizoom.pf
+            </a>
+            <div style={{ display: 'flex', gap: '1.3rem', marginTop: '1.4rem' }}>
+              {[
+                { href: 'https://facebook.com/TahitiZoom', label: 'Facebook' },
+                { href: 'https://instagram.com/tahitizoom', label: 'Instagram' },
+                { href: 'https://linkedin.com/in/tahitizoom', label: 'LinkedIn' },
+              ].map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{ ...linkStyle, fontSize: '0.85rem', borderBottom: '1px solid var(--tz-line)', paddingBottom: '2px' }}
+                  className="hover:text-white transition-colors">
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
 
-        {/* Grand wordmark éditorial */}
-        <div aria-hidden="true" style={{ overflow: 'hidden', marginBottom: '2rem' }}>
-          <p style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 300,
-            fontSize: 'clamp(3rem,11vw,10rem)', lineHeight: 0.9, textTransform: 'uppercase',
-            letterSpacing: '0.02em', color: 'var(--tz-paper)', opacity: 0.08,
-            whiteSpace: 'nowrap', margin: 0 }}>
-            Tahiti Zoom
-          </p>
         </div>
 
         {/* Bas de page */}
         <div style={{ borderTop: '1px solid var(--tz-line)', paddingTop: '1.5rem',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           flexWrap: 'wrap', gap: '1rem' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-            letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-paper-faint)' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+            letterSpacing: '0.06em', color: 'var(--tz-paper-faint)' }}>
             {t.copyright[locale]}
           </p>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             <Link href="/mentions-legales"
-              style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: 'var(--tz-paper-faint)', textDecoration: 'none' }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+                letterSpacing: '0.06em', color: 'var(--tz-paper-faint)', textDecoration: 'none' }}
               className="hover:text-white transition-colors">
               {t.legal[locale]}
             </Link>
             <Link href="/confidentialite"
-              style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-                letterSpacing: '0.15em', textTransform: 'uppercase',
-                color: 'var(--tz-paper-faint)', textDecoration: 'none' }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: '0.7rem',
+                letterSpacing: '0.06em', color: 'var(--tz-paper-faint)', textDecoration: 'none' }}
               className="hover:text-white transition-colors">
               {t.privacy[locale]}
             </Link>

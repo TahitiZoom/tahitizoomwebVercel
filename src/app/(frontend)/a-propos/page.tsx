@@ -80,7 +80,7 @@ export default function AProposPage() {
           <div style={{ position: 'relative' }}>
             <img src="/images/portrait-stephane.webp" alt="Stéphane Sayeb"
               style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover',
-                borderRadius: '2px', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }} />
+                filter: 'grayscale(100%)', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }} />
             <div style={{ position: 'absolute', bottom: '-1.2rem', right: '-0.8rem',
               background: 'var(--tz-bg)', border: '1px solid var(--tz-line)', padding: '0.9rem 1.4rem' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',

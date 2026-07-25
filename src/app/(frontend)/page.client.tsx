@@ -11,6 +11,11 @@ const content = {
     heroTitle: ['Reporter photographe', '& créateur digital'],
     heroCta: 'Éditorial',
     universLabel: 'Univers',
+    universHeading: "4 univers comme terrains d'expression de mon regard",
+    universIntro: [
+      "Chaque univers est un terrain d'observation à explorer avec curiosité. J'en ai appris les codes, les rythmes et les enjeux.",
+      "Du marché de Papeete au back-office d'une application métier, un fil rouge les relie : l'humain.",
+    ],
     univers: [
       { title: 'Photographie',  baseline: "L'instant décisif",         img: '/images/service-photo.webp',       bg: 'var(--tz-muted-1)' },
       { title: 'Développement', baseline: 'Le code comme composition', img: '/images/service-dev.webp',         bg: 'var(--tz-muted-2)' },
@@ -20,12 +25,18 @@ const content = {
     discover: 'Découvrir',
     expertisesLabel: 'Expertises',
     expertises: [
-      { title: 'Reportage & documentaire', desc: "Le Fenua tel qu'il vit : marchés à l'aube, Heiva, artisans à l'œuvre, visages que l'histoire ne retient jamais.", img: '/images/service-photo.webp', href: '/editorial' },
-      { title: 'Portrait & événementiel', desc: 'Portraits en studio ou en extérieur, mariages, cérémonies et événements culturels en Polynésie française.', img: '/images/contact-hero.webp', href: '/services' },
-      { title: 'Applications métiers', desc: 'Sites et applications web sur mesure, Next.js et Payload CMS, de l’architecture technique à l’interface.', img: '/images/service-dev.webp', href: '/services' },
+      { title: 'Reportage & documentaire', tagline: 'Raconter le Fenua, inspirer le regard',
+        desc: "Le Fenua tel qu'il vit : marchés à l'aube, Heiva, artisans à l'œuvre, visages que l'histoire ne retient jamais.",
+        img: '/images/service-photo.webp', href: '/editorial' },
+      { title: 'Portrait & événementiel', tagline: "L'émotion à hauteur d'homme",
+        desc: 'Portraits en studio ou en extérieur, mariages, cérémonies et événements culturels en Polynésie française.',
+        img: '/images/contact-hero.webp', href: '/services' },
+      { title: 'Applications métiers', tagline: 'Le code au service du récit',
+        desc: "Sites et applications web sur mesure, Next.js et Payload CMS, de l'architecture technique à l'interface.",
+        img: '/images/service-dev.webp', href: '/services' },
     ],
     editorialLabel: 'Éditorial',
-    editorialCta: "Voir tous les reportages",
+    editorialCta: 'Voir tous les reportages',
     agencyLabel: 'Agence',
     agencyText: "Tahiti Zoom, c'est un œil et du code : plus de trente ans de photographie documentaire en Polynésie française, et la même exigence portée aux expériences web, de l'architecture technique à l'interface.",
     agencyCta: "Découvrir l'agence",
@@ -35,18 +46,29 @@ const content = {
     heroTitle: ['Photojournalist', '& digital creator'],
     heroCta: 'Editorial',
     universLabel: 'Universe',
+    universHeading: '4 universes as fields of expression for my eye',
+    universIntro: [
+      'Each universe is a field of observation to explore with curiosity. I have learned its codes, rhythms and stakes.',
+      'From the Papeete market to the back office of a business application, one thread connects them: the human.',
+    ],
     univers: [
-      { title: 'Photography',  baseline: 'The decisive moment',    img: '/images/service-photo.webp',       bg: 'var(--tz-muted-1)' },
-      { title: 'Development',  baseline: 'Code as composition',    img: '/images/service-dev.webp',         bg: 'var(--tz-muted-2)' },
-      { title: 'Web Design',   baseline: 'Functional elegance',    img: '/images/service-design.webp',      bg: 'var(--tz-muted-4)' },
-      { title: 'Infographics', baseline: 'Identity in pictures',   img: '/images/service-infographie.webp', bg: 'var(--tz-muted-3)' },
+      { title: 'Photography',  baseline: 'The decisive moment',  img: '/images/service-photo.webp',       bg: 'var(--tz-muted-1)' },
+      { title: 'Development',  baseline: 'Code as composition',  img: '/images/service-dev.webp',         bg: 'var(--tz-muted-2)' },
+      { title: 'Web Design',   baseline: 'Functional elegance',  img: '/images/service-design.webp',      bg: 'var(--tz-muted-4)' },
+      { title: 'Infographics', baseline: 'Identity in pictures', img: '/images/service-infographie.webp', bg: 'var(--tz-muted-3)' },
     ],
     discover: 'Discover',
     expertisesLabel: 'Expertise',
     expertises: [
-      { title: 'Reportage & documentary', desc: 'The Fenua as it lives: dawn markets, Heiva, artisans at work, faces history never keeps.', img: '/images/service-photo.webp', href: '/editorial' },
-      { title: 'Portrait & events', desc: 'Studio or outdoor portraits, weddings, ceremonies and cultural events in French Polynesia.', img: '/images/contact-hero.webp', href: '/services' },
-      { title: 'Business applications', desc: 'Custom websites and web apps, Next.js and Payload CMS, from technical architecture to interface.', img: '/images/service-dev.webp', href: '/services' },
+      { title: 'Reportage & documentary', tagline: 'Telling the Fenua, inspiring the eye',
+        desc: 'The Fenua as it lives: dawn markets, Heiva, artisans at work, faces history never keeps.',
+        img: '/images/service-photo.webp', href: '/editorial' },
+      { title: 'Portrait & events', tagline: 'Emotion at human height',
+        desc: 'Studio or outdoor portraits, weddings, ceremonies and cultural events in French Polynesia.',
+        img: '/images/contact-hero.webp', href: '/services' },
+      { title: 'Business applications', tagline: 'Code in the service of the story',
+        desc: 'Custom websites and web apps, Next.js and Payload CMS, from technical architecture to interface.',
+        img: '/images/service-dev.webp', href: '/services' },
     ],
     editorialLabel: 'Editorial',
     editorialCta: 'See all stories',
@@ -125,78 +147,120 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
         </div>
       </section>
 
-      {/* ── Univers : slider horizontal de cartes ────────────────── */}
+      {/* ── Univers : intro + slider de bandes à fond sourd ──────── */}
       <section style={{ padding: '7rem 0 6rem' }}>
-        <div style={{ maxWidth: '1500px', margin: '0 auto', padding: '0 2rem' }}>
-          <p className="tz-chip" style={{ marginBottom: '3rem' }}>{c.universLabel}</p>
+        <div style={{ maxWidth: '1500px', margin: '0 auto', padding: '0 2rem',
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '3rem', alignItems: 'start', marginBottom: '4rem' }}>
+          <div>
+            <p className="tz-chip" style={{ marginBottom: '2rem' }}>{c.universLabel}</p>
+            <h2 style={{ fontFamily: 'var(--font-linka)', fontWeight: 200,
+              fontSize: 'clamp(1.9rem,3.6vw,3rem)', lineHeight: 1.2,
+              color: 'var(--tz-paper)', margin: 0, maxWidth: '560px' }}>
+              {c.universHeading}
+            </h2>
+          </div>
+          <div style={{ borderLeft: '1px solid var(--tz-line)', paddingLeft: '2rem',
+            display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: '360px',
+            justifySelf: 'end' }}>
+            {c.universIntro.map((p) => (
+              <p key={p} style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem',
+                color: 'var(--tz-paper-dim)', lineHeight: 1.65, margin: 0 }}>{p}</p>
+            ))}
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', padding: '0 2rem 1.5rem',
-          scrollSnapType: 'x mandatory' }}>
+
+        <div style={{ display: 'flex', gap: '2rem', overflowX: 'auto',
+          padding: '2.5rem 2rem 2rem', scrollSnapType: 'x mandatory' }}>
           {c.univers.map((u) => (
             <Link key={u.title} href="/services"
-              style={{ flexShrink: 0, scrollSnapAlign: 'start', width: 'min(420px, 82vw)',
-                background: u.bg, color: 'var(--tz-bg)', textDecoration: 'none',
-                display: 'flex', flexDirection: 'column' }}>
-              <div style={{ overflow: 'hidden' }}>
+              style={{ flexShrink: 0, scrollSnapAlign: 'start',
+                width: 'min(920px, 88vw)', textDecoration: 'none',
+                position: 'relative', display: 'block' }}>
+              {/* bande de couleur sourde */}
+              <div style={{ position: 'absolute', left: 0, right: 0, top: '3rem', bottom: 0,
+                background: u.bg }} />
+              {/* image décalée sur la bande */}
+              <div style={{ position: 'relative', margin: '0 3rem 0 4rem', overflow: 'hidden' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={u.img} alt={u.title}
-                  style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block',
-                    transition: 'transform 0.6s cubic-bezier(0.22,1,0.36,1)' }}
-                  className="hover:scale-105" />
+                  style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
+                <p style={{ position: 'absolute', left: '1.4rem', bottom: '1.2rem',
+                  fontFamily: 'var(--font-body)', fontSize: '0.9rem',
+                  color: 'rgba(255,255,255,0.92)', textShadow: '0 1px 6px rgba(0,0,0,0.5)', margin: 0 }}>
+                  {u.baseline}
+                </p>
               </div>
-              <div style={{ padding: '1.6rem 1.6rem 1.8rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem',
-                  color: 'rgba(44,41,38,0.75)', margin: 0 }}>{u.baseline}</p>
-                <h2 style={{ fontFamily: 'var(--font-linka)', fontWeight: 300,
-                  fontSize: 'clamp(1.6rem,2.6vw,2.2rem)', lineHeight: 1.1, margin: 0 }}>
-                  {u.title}
-                </h2>
-                <span className="tz-discover" style={{ color: 'var(--tz-bg)', marginTop: '0.4rem' }}>
-                  {c.discover}
-                </span>
-              </div>
+              {/* titre géant chevauchant bande et image */}
+              <h3 style={{ position: 'relative', fontFamily: 'var(--font-linka)', fontWeight: 200,
+                fontSize: 'clamp(2.6rem,6vw,4.8rem)', lineHeight: 1, color: 'var(--tz-paper)',
+                margin: '-2.2rem 0 0 1.2rem', paddingBottom: '2rem',
+                textShadow: '0 2px 12px rgba(44,41,38,0.35)' }}>
+                {u.title}
+              </h3>
+              <span className="tz-discover" style={{ position: 'absolute', right: '1.5rem', bottom: '1.6rem',
+                color: 'var(--tz-bg)' }}>
+                {c.discover}
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ── Expertises : trois blocs à vignettes ─────────────────── */}
-      <section style={{ padding: '5rem 2rem 6rem', borderTop: '1px solid var(--tz-line)' }}>
-        <div style={{ maxWidth: '1500px', margin: '0 auto' }}>
-          <p className="tz-chip" style={{ marginBottom: '3.5rem' }}>{c.expertisesLabel}</p>
-          <div style={{ display: 'grid', gap: '3.5rem' }}>
-            {c.expertises.map((e, i) => (
-              <Link key={e.title} href={e.href}
-                style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: '2.5rem', alignItems: 'center', textDecoration: 'none',
-                  borderTop: '1px solid var(--tz-line)', paddingTop: '2.5rem' }}>
-                <div style={{ order: i % 2 === 0 ? 0 : 1 }}>
-                  <h3 style={{ fontFamily: 'var(--font-linka)', fontWeight: 200,
-                    fontSize: 'clamp(1.9rem,4vw,3.2rem)', lineHeight: 1.1,
-                    color: 'var(--tz-paper)', marginBottom: '1.2rem' }}>
-                    {e.title}
-                  </h3>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-                    color: 'var(--tz-paper-dim)', lineHeight: 1.7, maxWidth: '480px',
-                    marginBottom: '1.4rem' }}>
-                    {e.desc}
-                  </p>
-                  <span className="tz-discover">{c.discover}</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={e.img} alt={e.title}
-                    style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', display: 'block' }} />
-                </div>
-              </Link>
-            ))}
-          </div>
+      {/* ── Expertises : sections immersives ─────────────────────── */}
+      <section style={{ borderTop: '1px solid var(--tz-line)' }}>
+        <div style={{ maxWidth: '1500px', margin: '0 auto', padding: '5rem 2rem 0' }}>
+          <p className="tz-chip">{c.expertisesLabel}</p>
         </div>
+        {c.expertises.map((e) => (
+          <Link key={e.title} href={e.href}
+            style={{ position: 'relative', display: 'block', minHeight: '78vh',
+              overflow: 'hidden', textDecoration: 'none',
+              borderBottom: '1px solid var(--tz-line)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={e.img} alt=""
+              aria-hidden="true"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%',
+                objectFit: 'cover', opacity: 0.38,
+                transition: 'opacity 0.6s, transform 1.2s ease' }}
+              className="hover:opacity-55" />
+            <div style={{ position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(44,41,38,0.85) 0%, rgba(44,41,38,0.25) 60%)' }} />
+
+            {/* tagline centrée + colonne de texte à droite */}
+            <div style={{ position: 'relative', zIndex: 2, maxWidth: '1500px', margin: '0 auto',
+              padding: '7rem 2rem 0', display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '3rem' }}>
+              <p style={{ fontFamily: 'var(--font-linka)', fontWeight: 300,
+                fontSize: 'clamp(1.3rem,2.4vw,1.9rem)', lineHeight: 1.35,
+                color: 'var(--tz-paper)', margin: '3rem 0 0', maxWidth: '460px' }}>
+                {e.tagline}
+              </p>
+              <div style={{ borderLeft: '1px solid var(--tz-line)', paddingLeft: '2rem',
+                maxWidth: '340px', justifySelf: 'end' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem',
+                  color: 'var(--tz-paper-dim)', lineHeight: 1.65, margin: '0 0 1.6rem' }}>
+                  {e.desc}
+                </p>
+                <span className="tz-discover">{c.discover}</span>
+              </div>
+            </div>
+
+            {/* mot géant en bas */}
+            <h3 style={{ position: 'absolute', left: '2rem', right: '2rem', bottom: '1.5rem', zIndex: 2,
+              fontFamily: 'var(--font-linka)', fontWeight: 200,
+              fontSize: 'clamp(2.4rem,7vw,6rem)', lineHeight: 1,
+              color: 'var(--tz-paper)', margin: 0, whiteSpace: 'nowrap',
+              overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {e.title}
+            </h3>
+          </Link>
+        ))}
       </section>
 
       {/* ── Éditorial : bande de reportages ──────────────────────── */}
       {posts.length > 0 && (
-        <section style={{ padding: '5rem 0 6rem', borderTop: '1px solid var(--tz-line)' }}>
+        <section style={{ padding: '5rem 0 6rem' }}>
           <div style={{ maxWidth: '1500px', margin: '0 auto', padding: '0 2rem',
             display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
             flexWrap: 'wrap', gap: '1rem', marginBottom: '3rem' }}>
