@@ -42,10 +42,9 @@ export function ClientsCarousel() {
   const doubled = [...clients, ...clients]
 
   return (
-    <section style={{ padding: '5rem 0', borderTop: '1px solid rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+    <section style={{ padding: '5rem 0', borderTop: '1px solid var(--tz-line)', overflow: 'hidden' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', marginBottom: '3rem' }}>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-          letterSpacing: '0.35em', textTransform: 'uppercase', color: '#999' }}>
+        <p className="tz-chip">
           {t('home.clients')}
         </p>
       </div>
@@ -59,18 +58,18 @@ export function ClientsCarousel() {
               justifyContent: 'center', padding: '0.5rem 1rem', minWidth: '140px' }}>
               <img src={client.logo} alt={client.name}
                 style={{ height: '60px', width: 'auto', objectFit: 'contain',
-                  filter: 'grayscale(100%)', opacity: 0.5, transition: 'opacity 0.3s, filter 0.3s' }}
+                  filter: 'grayscale(100%) brightness(0) invert(1)', opacity: 0.45, transition: 'opacity 0.3s, filter 0.3s' }}
                 onError={(e) => {
                   const parent = (e.target as HTMLImageElement).parentElement
-                  if (parent) parent.innerHTML = `<span style="font-family:var(--font-body);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;white-space:nowrap">${client.name}</span>`
+                  if (parent) parent.innerHTML = `<span style="font-family:var(--font-body);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(236,233,226,0.4);white-space:nowrap">${client.name}</span>`
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLImageElement).style.filter = 'grayscale(0%)'
+                  (e.target as HTMLImageElement).style.filter = 'none'
                   ;(e.target as HTMLImageElement).style.opacity = '1'
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLImageElement).style.filter = 'grayscale(100%)'
-                  ;(e.target as HTMLImageElement).style.opacity = '0.5'
+                  (e.target as HTMLImageElement).style.filter = 'grayscale(100%) brightness(0) invert(1)'
+                  ;(e.target as HTMLImageElement).style.opacity = '0.45'
                 }}
               />
             </div>

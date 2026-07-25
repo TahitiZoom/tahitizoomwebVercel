@@ -29,24 +29,24 @@ export function ContactForm() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '0.8rem 0',
-    fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#111',
+    fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--tz-paper)',
     background: 'transparent', border: 'none',
-    borderBottom: '1px solid rgba(0,0,0,0.15)', outline: 'none',
+    borderBottom: '1px solid var(--tz-line)', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
     fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-    letterSpacing: '0.2em', textTransform: 'uppercase', color: '#999',
+    letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-paper-faint)',
     display: 'block', marginBottom: '0.5rem',
   }
 
   if (status === 'sent') return (
     <div style={{ padding: '3rem 0' }}>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: '#111', marginBottom: '0.5rem' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: 'var(--tz-paper)', marginBottom: '0.5rem' }}>
         {t('contact.sent_title')}
       </p>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#999' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--tz-paper-dim)' }}>
         {t('contact.sent_desc')}
       </p>
     </div>
@@ -72,20 +72,15 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#c00' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--tz-accent)' }}>
           {t('contact.error')}
         </p>
       )}
 
-      <button type="submit" disabled={status === 'sending'}
+      <button type="submit" disabled={status === 'sending'} className="tz-btn"
         style={{ alignSelf: 'flex-start', marginTop: '1rem',
-          fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-          letterSpacing: '0.3em', textTransform: 'uppercase',
-          border: '1px solid #111', padding: '0.9rem 2.5rem',
-          background: status === 'sending' ? '#111' : 'transparent',
-          color: status === 'sending' ? 'white' : '#111',
           cursor: status === 'sending' ? 'not-allowed' : 'pointer',
-          transition: 'all 0.3s' }}>
+          opacity: status === 'sending' ? 0.6 : 1 }}>
         {status === 'sending' ? t('contact.sending') : t('contact.send')}
       </button>
     </form>

@@ -223,19 +223,114 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
-/* Bouton devis — effet inversé au survol */
+/* ─── Palette « Éditorial Noir » ───────────────────────────────
+   Fond charbon immersif : seules les photographies portent la
+   couleur. Typographie éditoriale, un seul accent Velvia. */
+:root {
+  --tz-bg: #101113;
+  --tz-bg-soft: #17181b;
+  --tz-paper: #ece9e2;
+  --tz-paper-dim: rgb(236 233 226 / 60%);
+  --tz-paper-faint: rgb(236 233 226 / 35%);
+  --tz-line: rgb(236 233 226 / 14%);
+  --tz-accent: #ff5a36;
+}
+
+::selection {
+  background: var(--tz-accent);
+  color: var(--tz-bg);
+}
+
+/* Le site vit sur fond charbon, articles et recherche compris */
+body {
+  background: var(--tz-bg);
+  color: var(--tz-paper);
+}
+
+/* Bouton devis, inversion au survol */
 .devis-cta:hover,
 .devis-cta:active {
-  background: #444 !important;
-  color: white !important;
-  border-color: #444 !important;
+  background: var(--tz-paper) !important;
+  color: var(--tz-bg) !important;
+  border-color: var(--tz-paper) !important;
 }
+
+/* Bouton éditorial : filet clair, inversion au survol */
+.tz-btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.6rem;
+  background: var(--tz-paper);
+  color: var(--tz-bg);
+  border: 1px solid var(--tz-paper);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.tz-btn:hover {
+  background: var(--tz-accent);
+  border-color: var(--tz-accent);
+  color: var(--tz-bg);
+}
+.tz-btn-ghost {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.6rem;
+  background: transparent;
+  color: var(--tz-paper);
+  border: 1px solid var(--tz-line);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.tz-btn-ghost:hover {
+  border-color: var(--tz-paper);
+}
+
+/* Méta-label éditorial : (parenthèses) et petites capitales */
+.tz-chip {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tz-paper-dim);
+}
+.tz-chip::before { content: '( '; color: var(--tz-accent); }
+.tz-chip::after  { content: ' )'; color: var(--tz-accent); }
+
+/* Mot accentué en serif italique dans les grands titres */
+.tz-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Bandeau défilant */
+@keyframes tz-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.tz-marquee {
+  display: flex;
+  width: max-content;
+  animation: tz-marquee 28s linear infinite;
+}
+.tz-marquee:hover { animation-play-state: paused; }
 
 /* Menu mobile — forcer couleur des liens */
 .mobile-nav a,
 .mobile-nav span,
 .mobile-nav button {
-  color: #111 !important;
+  color: var(--tz-paper) !important;
   text-decoration: none !important;
 }
 

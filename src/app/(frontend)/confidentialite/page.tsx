@@ -6,13 +6,13 @@ export default function ConfidentialitePage() {
   const { locale } = useLocale()
 
   return (
-    <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--tz-bg)', color: 'var(--tz-paper)', minHeight: '100vh' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '8rem 2rem 6rem' }}>
         <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2rem,5vw,3.5rem)',
           fontWeight: 300, textTransform: 'uppercase', marginBottom: '1rem' }}>
           {locale === 'en' ? 'Privacy Policy' : 'Politique de Confidentialité'}
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#999',
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--tz-paper-faint)',
           marginBottom: '3rem' }}>
           {locale === 'en' ? 'Last updated: March 31, 2026' : 'Dernière mise à jour : 31 mars 2026'}
         </p>
@@ -58,19 +58,19 @@ export default function ConfidentialitePage() {
           <section key={section.title} style={{ marginBottom: '2.5rem' }}>
             <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.1rem',
               fontWeight: 400, textTransform: 'uppercase', letterSpacing: '0.1em',
-              color: '#111', marginBottom: '1rem',
+              color: 'var(--tz-paper)', marginBottom: '1rem',
               borderBottom: '1px solid rgba(0,0,0,0.08)', paddingBottom: '0.5rem' }}>
               {section.title}
             </h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem',
-              color: '#555', lineHeight: '1.8' }}>
+              color: 'var(--tz-paper-dim)', lineHeight: '1.8' }}>
               {section.content}
             </p>
           </section>
         ))}
 
         <Link href="/" style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem',
-          letterSpacing: '0.2em', textTransform: 'uppercase', color: '#999',
+          letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-paper-faint)',
           textDecoration: 'none' }}>
           ← {locale === 'en' ? 'Back to home' : 'Retour à l\'accueil'}
         </Link>
