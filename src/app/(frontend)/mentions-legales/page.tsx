@@ -7,7 +7,7 @@ export default function MentionsLegalesPage() {
 
   return (
     <div style={{ background: 'white', color: '#111', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '12rem 2rem 6rem' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '14rem 2rem 6rem' }}>
         <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2rem,5vw,3.5rem)',
           fontWeight: 300, textTransform: 'uppercase', marginBottom: '3rem' }}>
           {locale === 'en' ? 'Legal Notice' : 'Mentions Légales'}

@@ -22,9 +22,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     }}>
       <div style={{
         maxWidth: '1400px', margin: '0 auto',
-        padding: '0 1rem',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '128px',
+        padding: '1.4rem 1.5rem 1.2rem',
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+        minHeight: '128px',
       }}>
         {/* Logo */}
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>

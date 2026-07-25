@@ -16,10 +16,9 @@ const translations: Record<string, Record<string, string>> = {
 
 const navStyle = {
   fontFamily: 'var(--font-body)',
-  fontSize: '0.76rem',
-  fontWeight: 500,
-  letterSpacing: '0.12em',
-  textTransform: 'uppercase' as const,
+  fontSize: '0.9rem',
+  fontWeight: 400,
+  letterSpacing: '0.02em',
   color: '#111',
   textDecoration: 'none',
 }
@@ -64,7 +63,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
   )
 
   return (
-    <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.32rem' }}>
+    <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.45rem' }}>
       <span
         style={itemStyle(hovered === 0)}
         onMouseEnter={() => setHovered(0)}
@@ -83,7 +82,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
           </span>
         )
       })}
-      <div style={{ marginTop: '0.15rem' }}>
+      <div style={{ marginTop: '0.35rem' }}>
         <LocaleSwitcher />
       </div>
     </nav>
