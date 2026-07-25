@@ -22,7 +22,7 @@ const display = Bebas_Neue({
 
 const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['200', '300', '400', '500'],
+  weight: ['300', '400', '500'],
   variable: '--font-manrope',
   display: 'swap',
 })
