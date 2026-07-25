@@ -12,7 +12,7 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
   return (
     <div style={{ background: 'white', color: '#111' }}>
       <section style={{ paddingTop: '164px', overflow: 'hidden' }}>
-        <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
+        <div style={{ padding: '2rem 2rem 0', maxWidth: '1400px', margin: '0 auto', textAlign: 'left' }}>
           <p
             style={{
               fontFamily: 'var(--font-body)',
@@ -47,7 +47,7 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
           </div>
         )}
 
-        <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'right' }}>
+        <div style={{ padding: '0.75rem 2rem 4rem', maxWidth: '1400px', margin: '0 auto', textAlign: 'left' }}>
           <h2
             style={{
               fontFamily: 'Manrope, sans-serif',
@@ -62,7 +62,7 @@ export default function HomePageClient({ posts }: { posts: any[] }) {
             {t('home.slogan2')}
           </h2>
 
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-start' }}>
             <Link
               href="/editorial"
               style={{

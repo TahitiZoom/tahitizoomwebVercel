@@ -14,18 +14,9 @@ const translations: Record<string, Record<string, string>> = {
   'Contact':   { fr: 'Contact',   en: 'Contact'   },
 }
 
-/* Couleurs pastel de survol (semi-transparentes), une par rubrique */
-const pastels = [
-  'rgba(191, 230, 226, 0.6)',
-  'rgba(249, 198, 208, 0.6)',
-  'rgba(249, 224, 169, 0.6)',
-  'rgba(217, 207, 236, 0.6)',
-  'rgba(246, 178, 158, 0.6)',
-]
-
 const navStyle = {
   fontFamily: 'var(--font-body)',
-  fontSize: '0.82rem',
+  fontSize: '0.76rem',
   fontWeight: 500,
   letterSpacing: '0.12em',
   textTransform: 'uppercase' as const,
@@ -33,12 +24,18 @@ const navStyle = {
   textDecoration: 'none',
 }
 
-const pillStyle = (hovered: boolean, color: string): React.CSSProperties => ({
+/* Soulignement qui se déploie de la droite vers la gauche au survol */
+const itemStyle = (hovered: boolean): React.CSSProperties => ({
+  ...navStyle,
+  lineHeight: 1.15,
+  position: 'relative',
   display: 'inline-block',
-  padding: '0.45rem 0.95rem',
-  borderRadius: '0',
-  background: hovered ? color : 'transparent',
-  transition: 'background 0.25s ease',
+  paddingBottom: '3px',
+  backgroundImage: 'linear-gradient(#111, #111)',
+  backgroundPosition: hovered ? 'left bottom' : 'right bottom',
+  backgroundSize: hovered ? '100% 1px' : '0 1px',
+  backgroundRepeat: 'no-repeat',
+  transition: 'background-size 0.3s ease',
 })
 
 export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ data, mobile }) => {
@@ -67,9 +64,9 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
   )
 
   return (
-    <nav style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+    <nav style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.32rem' }}>
       <span
-        style={{ ...navStyle, ...pillStyle(hovered === 0, pastels[0]) }}
+        style={itemStyle(hovered === 0)}
         onMouseEnter={() => setHovered(0)}
         onMouseLeave={() => setHovered(null)}>
         <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>{homeLabel}</Link>
@@ -79,14 +76,16 @@ export const HeaderNav: React.FC<{ data: HeaderType; mobile?: boolean }> = ({ da
         const translated = translations[label]?.[locale] || label
         return (
           <span key={i}
-            style={{ ...navStyle, ...pillStyle(hovered === i + 1, pastels[(i + 1) % pastels.length]) }}
+            style={itemStyle(hovered === i + 1)}
             onMouseEnter={() => setHovered(i + 1)}
             onMouseLeave={() => setHovered(null)}>
             <CMSLink {...link} label={translated} appearance="inline" />
           </span>
         )
       })}
-      <LocaleSwitcher />
+      <div style={{ marginTop: '0.15rem' }}>
+        <LocaleSwitcher />
+      </div>
     </nav>
   )
 }
