@@ -8,38 +8,39 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
+    const fn = () => setScrolled(window.scrollY > 80)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: 'rgba(16,17,19,0.82)',
-      backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
-      borderBottom: '1px solid var(--tz-line)',
-      boxShadow: scrolled ? '0 8px 24px rgba(0,0,0,0.35)' : 'none',
-      transition: 'box-shadow 0.3s',
+      background: scrolled ? 'rgba(44,41,38,0.9)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(10px)' : 'none',
+      WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
+      borderBottom: scrolled ? '1px solid var(--tz-line)' : '1px solid transparent',
+      transition: 'background 0.4s, border-color 0.4s',
     }}>
       <div style={{
-        maxWidth: '1400px', margin: '0 auto',
-        padding: '0 1rem',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '64px',
+        maxWidth: '1500px', margin: '0 auto',
+        padding: '1.4rem 2rem',
+        display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
       }}>
-        {/* Wordmark */}
-        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'baseline',
-          gap: '0.4rem', textDecoration: 'none' }}>
-          <span style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 500,
-            fontSize: '0.95rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+        {/* Wordmark, pictogramme géométrique + capitales espacées façon Linka */}
+        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center',
+          gap: '0.7rem', textDecoration: 'none' }}>
+          <svg width="30" height="22" viewBox="0 0 30 22" fill="none" stroke="var(--tz-paper)" strokeWidth="1.3" aria-hidden="true">
+            <rect x="1" y="1" width="28" height="20" />
+            <path d="M1 21 L15 7 L29 21" />
+            <circle cx="22" cy="7" r="2.5" />
+          </svg>
+          <span style={{ fontFamily: 'var(--font-linka)', fontWeight: 300,
+            fontSize: '1.25rem', letterSpacing: '0.42em', textTransform: 'uppercase',
             color: 'var(--tz-paper)' }}>
             Tahiti&nbsp;Zoom
           </span>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem',
-            color: 'var(--tz-accent)', letterSpacing: '0.1em' }}>®</span>
         </Link>
-        {/* Nav desktop */}
+        {/* Nav desktop, empilée verticalement à droite */}
         <div className="hidden md:flex">
           <HeaderNav data={data} />
         </div>
@@ -71,7 +72,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* Menu mobile déroulant */}
       <div className="md:hidden"
         style={{
-          background: 'rgba(16,17,19,0.97)',
+          background: 'rgba(44,41,38,0.97)',
           borderTop: '1px solid var(--tz-line)',
           overflow: 'hidden',
           maxHeight: menuOpen ? '400px' : '0',

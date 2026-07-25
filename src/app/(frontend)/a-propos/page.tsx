@@ -100,14 +100,14 @@ export default function AProposPage() {
             <p className="tz-chip" style={{ marginBottom: '1.5rem' }}>
               {t('about.subtitle')}
             </p>
-            <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2.8rem,6vw,4.8rem)',
-              fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.95,
-              letterSpacing: '0.02em', marginBottom: '2.5rem', color: 'var(--tz-paper)' }}>
+            <h1 style={{ fontFamily: 'var(--font-linka)', fontSize: 'clamp(2.8rem,6vw,4.8rem)',
+              fontWeight: 200, lineHeight: 1.02,
+              letterSpacing: '0.01em', marginBottom: '2.5rem', color: 'var(--tz-paper)' }}>
               Stéphane<br />Sayeb
             </h1>
             <blockquote style={{ margin: 0, borderLeft: '2px solid var(--tz-accent)', paddingLeft: '1.4rem' }}>
-              <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem',
-                lineHeight: '1.7', color: 'var(--tz-paper-dim)' }}>
+              <p style={{ fontFamily: 'var(--font-linka)', fontWeight: 300, fontStyle: 'italic',
+                fontSize: '1.2rem', lineHeight: '1.7', color: 'var(--tz-paper-dim)' }}>
                 « {currentContent.quote} »
               </p>
             </blockquote>
@@ -142,7 +142,7 @@ export default function AProposPage() {
                   letterSpacing: '0.2em', color: 'var(--tz-accent)', marginBottom: '1rem' }}>
                   ({String(idx + 1).padStart(2, '0')})
                 </p>
-                <h2 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400,
+                <h2 style={{ fontFamily: 'var(--font-linka)', fontWeight: 200,
                   fontSize: 'clamp(1.8rem,3vw,2.6rem)', color: 'var(--tz-paper)' }}>
                   {section.title}
                 </h2>

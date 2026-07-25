@@ -12,9 +12,10 @@ export default function ContactPage() {
           <p className="tz-chip" style={{ marginBottom: '1.5rem' }}>
             {t('contact.subtitle')}
           </p>
-          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(2.5rem,6vw,5.5rem)',
-            fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.95,
-            letterSpacing: '0.02em', marginBottom: '3rem', whiteSpace: 'pre-line', color: 'var(--tz-paper)' }}>
+          <h1 style={{ fontFamily: 'var(--font-linka)', fontSize: 'clamp(2.5rem,6vw,5rem)',
+            fontWeight: 200, lineHeight: 1.05, textTransform: 'none',
+            letterSpacing: '0.01em', marginBottom: '3rem', whiteSpace: 'pre-line', color: 'var(--tz-paper)' }}>
+            
             {t('contact.title')}
           </h1>
         </div>

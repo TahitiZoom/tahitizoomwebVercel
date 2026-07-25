@@ -76,8 +76,8 @@ export default function EditorialPage() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '8rem 2rem 4rem' }}>
         <div className="mb-16">
           <p className="tz-chip mb-6">{t('editorial.subtitle')}</p>
-          <h1 className="text-5xl md:text-7xl font-light uppercase" style={{ fontFamily: 'Manrope, sans-serif', color: 'var(--tz-paper)', letterSpacing: '0.02em' }}>{t('editorial.title')}</h1>
-          <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem', color: 'var(--tz-paper-dim)',
+          <h1 className="text-5xl md:text-7xl" style={{ fontFamily: 'var(--font-linka)', fontWeight: 200, color: 'var(--tz-paper)', letterSpacing: '0.01em' }}>{t('editorial.title')}</h1>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--tz-paper-dim)',
             maxWidth: '600px', lineHeight: '1.7', marginTop: '1.5rem' }}>
             {t('editorial.description')}
           </p>

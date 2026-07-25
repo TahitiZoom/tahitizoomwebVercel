@@ -92,9 +92,9 @@ export default function ServicesPage() {
           <p className="tz-chip" style={{ marginBottom: '1.5rem' }}>
             {t('services.subtitle')}
           </p>
-          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,9vw,8rem)',
-            fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
-            letterSpacing: '0.02em', marginBottom: '2rem', color: 'var(--tz-paper)' }}>
+          <h1 style={{ fontFamily: 'var(--font-linka)', fontSize: 'clamp(3rem,8vw,7rem)',
+            fontWeight: 200, lineHeight: 1,
+            letterSpacing: '0.01em', marginBottom: '2rem', color: 'var(--tz-paper)' }}>
             {t('services.title')}
           </h1>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem',
@@ -111,21 +111,21 @@ export default function ServicesPage() {
             <div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',
                 letterSpacing: '0.2em', color: 'var(--tz-accent)', marginBottom: '1rem' }}>({section.n})</p>
-              <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.8rem,3vw,2.8rem)',
-                fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--tz-paper)' }}>
+              <h2 style={{ fontFamily: 'var(--font-linka)', fontSize: 'clamp(1.8rem,3vw,2.8rem)',
+                fontWeight: 200, letterSpacing: '0.01em', color: 'var(--tz-paper)' }}>
                 {section.t}
               </h2>
             </div>
             <div>
-              <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem',
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem',
                 color: 'var(--tz-paper-dim)', lineHeight: '1.7', marginBottom: '3rem' }}>
                 {section.desc}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
                 {section.items.map((s) => (
                   <div key={s.t} style={{ borderTop: '1px solid var(--tz-line)', paddingTop: '1.2rem' }}>
-                    <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                      fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    <h4 style={{ fontFamily: 'var(--font-linka)', fontSize: '1.05rem',
+                      fontWeight: 400, letterSpacing: '0.02em',
                       color: 'var(--tz-paper)', marginBottom: '0.4rem' }}>{s.t}</h4>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
                       color: 'var(--tz-paper-dim)', lineHeight: '1.5' }}>{s.d}</p>
@@ -139,8 +139,8 @@ export default function ServicesPage() {
 
       <section style={{ padding: '7rem 2rem', textAlign: 'center' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400,
-            fontSize: 'clamp(2rem,4.5vw,3.2rem)', textTransform: 'lowercase',
+          <h3 style={{ fontFamily: 'var(--font-linka)', fontWeight: 200,
+            fontSize: 'clamp(2rem,4.5vw,3.2rem)',
             marginBottom: '1.5rem', color: 'var(--tz-paper)' }}>
             {t('services.cta')}
           </h3>

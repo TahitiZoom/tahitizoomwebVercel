@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, DM_Sans, Instrument_Serif, Manrope } from 'next/font/google'
+import { Bebas_Neue, DM_Sans, Instrument_Serif, Jost, Manrope } from 'next/font/google'
 import React from 'react'
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
@@ -34,6 +34,13 @@ const body = DM_Sans({
   display: 'swap',
 })
 
+const linka = Jost({
+  subsets: ['latin'],
+  weight: ['200', '300', '400'],
+  variable: '--font-linka',
+  display: 'swap',
+})
+
 const serif = Instrument_Serif({
   subsets: ['latin'],
   weight: ['400'],
@@ -46,7 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={`${display.variable} ${body.variable} ${manrope.variable} ${serif.variable}`} lang="fr" suppressHydrationWarning>
+    <html className={`${display.variable} ${body.variable} ${manrope.variable} ${serif.variable} ${linka.variable}`} lang="fr" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
