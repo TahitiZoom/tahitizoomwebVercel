@@ -15,11 +15,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   return (
     <header style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: 'rgba(250,246,239,0.88)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(47,109,117,0.12)',
-      boxShadow: scrolled ? '0 8px 24px rgba(47,109,117,0.08)' : 'none',
+      background: 'rgba(16,17,19,0.82)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      borderBottom: '1px solid var(--tz-line)',
+      boxShadow: scrolled ? '0 8px 24px rgba(0,0,0,0.35)' : 'none',
       transition: 'box-shadow 0.3s',
     }}>
       <div style={{
@@ -28,16 +28,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         height: '64px',
       }}>
-        {/* Logo */}
-        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          {/* Mobile : favicon */}
-          <img src="/Logo-Tahiti-Zoom-144x144.webp" alt="Tahiti Zoom"
-            style={{ height: '40px', width: '40px', objectFit: 'contain' }}
-            className="block md:hidden" />
-          {/* Desktop : logo signature */}
-          <img src="/logo.webp" alt="Tahiti Zoom"
-            style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
-            className="hidden md:block" />
+        {/* Wordmark */}
+        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'baseline',
+          gap: '0.4rem', textDecoration: 'none' }}>
+          <span style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 500,
+            fontSize: '0.95rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+            color: 'var(--tz-paper)' }}>
+            Tahiti&nbsp;Zoom
+          </span>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.55rem',
+            color: 'var(--tz-accent)', letterSpacing: '0.1em' }}>®</span>
         </Link>
         {/* Nav desktop */}
         <div className="hidden md:flex">
@@ -53,16 +53,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           }}
           className="hamburger-mobile">
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: 'var(--tz-ink)',
+            display: 'block', width: '22px', height: '1.5px', background: 'var(--tz-paper)',
             transition: 'all 0.3s',
             transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none'
           }} />
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: 'var(--tz-coral-deep)',
+            display: 'block', width: '22px', height: '1.5px', background: 'var(--tz-accent)',
             transition: 'all 0.3s', opacity: menuOpen ? 0 : 1
           }} />
           <span style={{
-            display: 'block', width: '22px', height: '2px', background: 'var(--tz-ink)',
+            display: 'block', width: '22px', height: '1.5px', background: 'var(--tz-paper)',
             transition: 'all 0.3s',
             transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none'
           }} />
@@ -71,8 +71,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {/* Menu mobile déroulant */}
       <div className="md:hidden"
         style={{
-          background: 'rgba(250,246,239,0.97)',
-          borderTop: '1px solid rgba(47,109,117,0.12)',
+          background: 'rgba(16,17,19,0.97)',
+          borderTop: '1px solid var(--tz-line)',
           overflow: 'hidden',
           maxHeight: menuOpen ? '400px' : '0',
           transition: 'max-height 0.3s ease',

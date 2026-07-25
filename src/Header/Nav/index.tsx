@@ -19,7 +19,7 @@ const navStyle = {
   fontWeight: 500,
   letterSpacing: '0.12em',
   textTransform: 'uppercase' as const,
-  color: 'var(--tz-ink)',
+  color: 'var(--tz-paper)',
   textDecoration: 'none',
 }
 

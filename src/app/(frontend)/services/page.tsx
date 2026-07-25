@@ -81,84 +81,71 @@ const servicesData = {
   },
 }
 
-const accents = [
-  { soft: 'var(--tz-coral-soft)',      deep: 'var(--tz-coral-deep)' },
-  { soft: 'var(--tz-lagoon-soft)',     deep: 'var(--tz-lagoon-deep)' },
-  { soft: 'var(--tz-lilac-soft)',      deep: 'var(--tz-lilac-deep)' },
-  { soft: 'var(--tz-frangipani-soft)', deep: 'var(--tz-frangipani-deep)' },
-]
-
 export default function ServicesPage() {
   const { t, locale } = useLocale()
   const data = servicesData[locale] || servicesData.fr
 
   return (
-    <div style={{ background: 'var(--tz-sand)', color: 'var(--tz-ink)', minHeight: '100vh' }}>
-      <section style={{ paddingTop: '120px', paddingBottom: '5rem',
-        background: 'linear-gradient(180deg, var(--tz-lagoon-soft) 0%, var(--tz-sand) 100%)' }}>
+    <div style={{ background: 'var(--tz-bg)', color: 'var(--tz-paper)', minHeight: '100vh' }}>
+      <section style={{ paddingTop: '140px', paddingBottom: '5rem', borderBottom: '1px solid var(--tz-line)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem' }}>
           <p className="tz-chip" style={{ marginBottom: '1.5rem' }}>
             {t('services.subtitle')}
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem,9vw,8rem)',
-            fontWeight: 400, textTransform: 'uppercase', lineHeight: 0.9,
-            letterSpacing: '0.03em', marginBottom: '2rem', color: 'var(--tz-ink)' }}>
+          <h1 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(3rem,9vw,8rem)',
+            fontWeight: 300, textTransform: 'uppercase', lineHeight: 0.9,
+            letterSpacing: '0.02em', marginBottom: '2rem', color: 'var(--tz-paper)' }}>
             {t('services.title')}
           </h1>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem',
-            color: 'var(--tz-ink-soft)', maxWidth: '600px', lineHeight: '1.7' }}>
+            color: 'var(--tz-paper-dim)', maxWidth: '600px', lineHeight: '1.7' }}>
             {data.hero_desc}
           </p>
         </div>
       </section>
 
-      {data.sections.map((section, idx) => {
-        const accent = accents[idx % accents.length]
-        return (
-        <section key={section.n} style={{ padding: '4rem 2rem' }}>
+      {data.sections.map((section) => (
+        <section key={section.n} style={{ padding: '6rem 2rem', borderBottom: '1px solid var(--tz-line)' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto',
-            background: accent.soft, borderRadius: '2rem', padding: 'clamp(2rem,5vw,4rem)',
             display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', alignItems: 'start' }}>
             <div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', fontWeight: 600,
-                letterSpacing: '0.2em', color: accent.deep, marginBottom: '1rem' }}>/{section.n}</p>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,3.5vw,3.2rem)',
-                fontWeight: 400, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--tz-ink)' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',
+                letterSpacing: '0.2em', color: 'var(--tz-accent)', marginBottom: '1rem' }}>({section.n})</p>
+              <h2 style={{ fontFamily: 'Manrope, sans-serif', fontSize: 'clamp(1.8rem,3vw,2.8rem)',
+                fontWeight: 300, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--tz-paper)' }}>
                 {section.t}
               </h2>
             </div>
             <div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-                color: 'var(--tz-ink-soft)', lineHeight: '1.8', marginBottom: '3rem' }}>
+              <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem',
+                color: 'var(--tz-paper-dim)', lineHeight: '1.7', marginBottom: '3rem' }}>
                 {section.desc}
               </p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.2rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
                 {section.items.map((s) => (
-                  <div key={s.t} style={{ background: 'var(--tz-cream)', borderRadius: '1.25rem',
-                    padding: '1.4rem 1.5rem', boxShadow: '0 3px 12px rgba(30,66,73,0.06)' }}>
-                    <span style={{ display: 'block', width: '26px', height: '5px',
-                      borderRadius: '999px', background: accent.deep, marginBottom: '0.9rem', opacity: 0.7 }} />
-                    <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem',
-                      fontWeight: 600, color: 'var(--tz-ink)', marginBottom: '0.4rem' }}>{s.t}</h4>
+                  <div key={s.t} style={{ borderTop: '1px solid var(--tz-line)', paddingTop: '1.2rem' }}>
+                    <h4 style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
+                      fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
+                      color: 'var(--tz-paper)', marginBottom: '0.4rem' }}>{s.t}</h4>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem',
-                      color: 'var(--tz-ink-soft)', lineHeight: '1.5' }}>{s.d}</p>
+                      color: 'var(--tz-paper-dim)', lineHeight: '1.5' }}>{s.d}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </section>
-        )
-      })}
+      ))}
 
-      <section style={{ padding: '6rem 2rem', textAlign: 'center' }}>
+      <section style={{ padding: '7rem 2rem', textAlign: 'center' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem,4vw,3rem)',
-            fontWeight: 400, textTransform: 'uppercase', marginBottom: '1.5rem', color: 'var(--tz-ink)' }}>
+          <h3 style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400,
+            fontSize: 'clamp(2rem,4.5vw,3.2rem)', textTransform: 'lowercase',
+            marginBottom: '1.5rem', color: 'var(--tz-paper)' }}>
             {t('services.cta')}
           </h3>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: 'var(--tz-ink-soft)', lineHeight: '1.7', marginBottom: '2.5rem' }}>
+            color: 'var(--tz-paper-dim)', lineHeight: '1.7', marginBottom: '2.5rem' }}>
             {data.cta_desc}
           </p>
           <Link href="/contact" className="tz-btn">

@@ -18,13 +18,6 @@ const servicesData = {
   ],
 }
 
-const accents = [
-  { soft: 'var(--tz-coral-soft)',      deep: 'var(--tz-coral-deep)' },
-  { soft: 'var(--tz-lagoon-soft)',     deep: 'var(--tz-lagoon-deep)' },
-  { soft: 'var(--tz-lilac-soft)',      deep: 'var(--tz-lilac-deep)' },
-  { soft: 'var(--tz-frangipani-soft)', deep: 'var(--tz-frangipani-deep)' },
-]
-
 export function ServicesMenu() {
   const { locale } = useLocale()
   const services = servicesData[locale] || servicesData.fr
@@ -34,19 +27,18 @@ export function ServicesMenu() {
   const handleMove = (e: React.MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
 
   return (
-    <div onMouseMove={handleMove} style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+    <div onMouseMove={handleMove} style={{ position: 'relative', borderBottom: '1px solid var(--tz-line)' }}>
       {services.map((s, i) => (
         <Link key={s.n} href="/services"
           onMouseEnter={() => setActive(i)}
           onMouseLeave={() => setActive(null)}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '1.2rem 1.5rem',
-            borderRadius: '1.25rem',
+            padding: '1.6rem 0.5rem',
+            borderTop: '1px solid var(--tz-line)',
             textDecoration: 'none',
-            background: active === i ? accents[i].soft : 'var(--tz-cream)',
-            transition: 'background 0.3s, transform 0.3s',
-            transform: active === i ? 'translateX(6px)' : 'none',
+            transition: 'padding 0.3s',
+            paddingLeft: active === i ? '1.5rem' : '0.5rem',
             position: 'relative',
           }}>
 
@@ -60,27 +52,27 @@ export function ServicesMenu() {
               objectFit: 'cover',
               pointerEvents: 'none',
               zIndex: 100,
-              borderRadius: '1rem',
-              transform: active === i ? 'rotateX(360deg)' : 'rotateX(270deg)',
+              transform: active === i ? 'rotate(3deg) scale(1)' : 'rotate(-3deg) scale(0.9)',
               opacity: active === i ? 1 : 0,
-              transition: '0.15s',
+              transition: 'opacity 0.2s, transform 0.3s',
             }}
           />
 
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.5rem' }}>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.6rem',
-              color: accents[i].deep, letterSpacing: '0.2em', fontWeight: 600,
-              transition: 'color 0.3s' }}>/{s.n}</span>
-            <span style={{ fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(1.6rem,3vw,2.6rem)', fontWeight: 400,
-              textTransform: 'uppercase', letterSpacing: '0.04em',
-              color: active === i ? accents[i].deep : 'var(--tz-ink)', transition: 'color 0.4s' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '1.8rem' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem',
+              color: active === i ? 'var(--tz-accent)' : 'var(--tz-paper-faint)',
+              letterSpacing: '0.2em', transition: 'color 0.3s' }}>({s.n})</span>
+            <span style={{ fontFamily: 'Manrope, sans-serif',
+              fontSize: 'clamp(1.6rem,3.2vw,2.8rem)', fontWeight: 300,
+              textTransform: 'uppercase', letterSpacing: '0.03em',
+              color: active === i ? 'var(--tz-paper)' : 'var(--tz-paper-dim)',
+              transition: 'color 0.4s' }}>
               {s.t}
             </span>
           </div>
 
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '1rem',
-            color: active === i ? 'var(--tz-ink-soft)' : '#a8b2b0', maxWidth: '320px',
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem',
+            color: active === i ? 'var(--tz-paper-dim)' : 'var(--tz-paper-faint)', maxWidth: '320px',
             textAlign: 'right', lineHeight: '1.6', transition: 'color 0.3s' }}
             className="hidden md:block">{s.d}</span>
 

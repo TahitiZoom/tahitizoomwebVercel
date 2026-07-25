@@ -20,7 +20,7 @@ export const PostHero: React.FC<{
       {coverImage && typeof coverImage !== 'string' && (
         <div
           className="w-full flex items-center justify-center"
-          style={{ backgroundColor: '#f5f5f5' }}
+          style={{ backgroundColor: 'var(--tz-bg-soft)' }}
         >
           <Media
             priority
@@ -35,7 +35,7 @@ export const PostHero: React.FC<{
         <div className="max-w-4xl mx-auto">
           {/* Categories */}
           {categories && categories.length > 0 && (
-            <div className="uppercase text-sm mb-4 text-gray-500">
+            <div className="uppercase text-sm mb-4" style={{ color: 'var(--tz-paper-faint)', letterSpacing: '0.2em' }}>
               {categories.map((category, index) => {
                 if (typeof category === 'object' && category !== null) {
                   const { title: categoryTitle } = category
@@ -55,19 +55,19 @@ export const PostHero: React.FC<{
           )}
 
           {/* Title */}
-          <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl text-gray-900">{title}</h1>
+          <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl" style={{ color: 'var(--tz-paper)', fontFamily: 'Manrope, sans-serif', fontWeight: 300 }}>{title}</h1>
 
           {/* Meta info */}
-          <div className="flex flex-col md:flex-row gap-4 md:gap-16 text-gray-600">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-16" style={{ color: 'var(--tz-paper-dim)' }}>
             {hasAuthors && (
               <div className="flex flex-col gap-1">
-                <p className="text-sm text-gray-400">Auteur</p>
+                <p className="text-sm" style={{ color: 'var(--tz-paper-faint)' }}>Auteur</p>
                 <p>{formatAuthors(populatedAuthors)}</p>
               </div>
             )}
             {publishedAt && (
               <div className="flex flex-col gap-1">
-                <p className="text-sm text-gray-400">Date de publication</p>
+                <p className="text-sm" style={{ color: 'var(--tz-paper-faint)' }}>Date de publication</p>
                 <time dateTime={publishedAt}>{formatDateTime(publishedAt)}</time>
               </div>
             )}

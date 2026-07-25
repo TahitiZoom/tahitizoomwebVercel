@@ -28,25 +28,25 @@ export function ContactForm() {
   }
 
   const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '0.9rem 1.2rem',
-    fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--tz-ink)',
-    background: 'var(--tz-sand)', border: '1px solid rgba(47,109,117,0.15)',
-    borderRadius: '1rem', outline: 'none',
+    width: '100%', padding: '0.8rem 0',
+    fontFamily: 'var(--font-body)', fontSize: '1rem', color: 'var(--tz-paper)',
+    background: 'transparent', border: 'none',
+    borderBottom: '1px solid var(--tz-line)', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
     fontFamily: 'var(--font-body)', fontSize: '0.65rem',
-    letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-lagoon-deep)',
+    letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--tz-paper-faint)',
     display: 'block', marginBottom: '0.5rem',
   }
 
   if (status === 'sent') return (
     <div style={{ padding: '3rem 0' }}>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: 'var(--tz-lagoon-deep)', marginBottom: '0.5rem' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', color: 'var(--tz-paper)', marginBottom: '0.5rem' }}>
         {t('contact.sent_title')}
       </p>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--tz-ink-soft)' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: 'var(--tz-paper-dim)' }}>
         {t('contact.sent_desc')}
       </p>
     </div>
@@ -72,7 +72,7 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--tz-coral-deep)' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--tz-accent)' }}>
           {t('contact.error')}
         </p>
       )}

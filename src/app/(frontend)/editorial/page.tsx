@@ -72,13 +72,13 @@ export default function EditorialPage() {
   }
 
   return (
-    <div style={{ background: 'var(--tz-sand)', color: 'var(--tz-ink)', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--tz-bg)', color: 'var(--tz-paper)', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '8rem 2rem 4rem' }}>
         <div className="mb-16">
-          <p className="tz-chip mb-6" style={{ background: 'var(--tz-lilac-soft)', color: 'var(--tz-lilac-deep)' }}>{t('editorial.subtitle')}</p>
-          <h1 className="text-6xl md:text-8xl uppercase" style={{ fontFamily: 'var(--font-display)', color: 'var(--tz-ink)', letterSpacing: '0.03em' }}>{t('editorial.title')}</h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', color: 'var(--tz-ink-soft)',
-            maxWidth: '600px', lineHeight: '1.8', marginTop: '1.5rem' }}>
+          <p className="tz-chip mb-6">{t('editorial.subtitle')}</p>
+          <h1 className="text-5xl md:text-7xl font-light uppercase" style={{ fontFamily: 'Manrope, sans-serif', color: 'var(--tz-paper)', letterSpacing: '0.02em' }}>{t('editorial.title')}</h1>
+          <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.25rem', color: 'var(--tz-paper-dim)',
+            maxWidth: '600px', lineHeight: '1.7', marginTop: '1.5rem' }}>
             {t('editorial.description')}
           </p>
         </div>
@@ -88,11 +88,11 @@ export default function EditorialPage() {
           <div className="mb-8 flex flex-wrap items-center gap-2">
             <button
               onClick={() => selectYear(null)}
-              className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200 rounded-full"
+              className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200"
               style={{
-                background: selectedYear === null ? 'var(--tz-lagoon-deep)' : 'var(--tz-cream)',
-                color: selectedYear === null ? '#fff' : 'var(--tz-ink-soft)',
-                border: '1px solid ' + (selectedYear === null ? 'var(--tz-lagoon-deep)' : 'rgba(47,109,117,0.2)'),
+                background: selectedYear === null ? 'var(--tz-paper)' : 'transparent',
+                color: selectedYear === null ? 'var(--tz-bg)' : 'var(--tz-paper-dim)',
+                border: '1px solid ' + (selectedYear === null ? 'var(--tz-paper)' : 'var(--tz-line)'),
               }}
             >
               {t('editorial.filterAll') || 'Toutes'}
@@ -101,11 +101,11 @@ export default function EditorialPage() {
               <button
                 key={year}
                 onClick={() => selectYear(year)}
-                className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200 rounded-full"
+                className="px-4 py-1.5 text-sm tracking-wide transition-all duration-200"
                 style={{
-                  background: selectedYear === year ? 'var(--tz-lagoon-deep)' : 'var(--tz-cream)',
-                  color: selectedYear === year ? '#fff' : 'var(--tz-ink-soft)',
-                  border: '1px solid ' + (selectedYear === year ? 'var(--tz-lagoon-deep)' : 'rgba(47,109,117,0.2)'),
+                  background: selectedYear === year ? 'var(--tz-paper)' : 'transparent',
+                  color: selectedYear === year ? 'var(--tz-bg)' : 'var(--tz-paper-dim)',
+                  border: '1px solid ' + (selectedYear === year ? 'var(--tz-paper)' : 'var(--tz-line)'),
                 }}
               >
                 {year}
@@ -116,7 +116,7 @@ export default function EditorialPage() {
 
         {loading ? (
           <div className="text-center py-32">
-            <p className="text-xl" style={{ color: 'var(--tz-ink-soft)' }}>Chargement...</p>
+            <p className="text-xl" style={{ color: 'var(--tz-paper-faint)' }}>Chargement...</p>
           </div>
         ) : posts.length > 0 ? (
           <>
@@ -134,7 +134,7 @@ export default function EditorialPage() {
                   : null
                 return (
                   <Link key={post.id} href={`/posts/${post.slug}`}
-                    className="group block break-inside-avoid mb-4 relative overflow-hidden rounded-3xl" style={{ background: 'var(--tz-lagoon-soft)', boxShadow: '0 4px 14px rgba(30,66,73,0.08)' }}>
+                    className="group block break-inside-avoid mb-4 relative overflow-hidden" style={{ background: 'var(--tz-bg-soft)', boxShadow: '0 6px 18px rgba(0,0,0,0.35)' }}>
                     {img && (
                       <div className="relative w-full">
                         <Image
@@ -147,7 +147,7 @@ export default function EditorialPage() {
                         />
                       </div>
                     )}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to top, rgba(30,66,73,0.85), transparent 60%)' }} />
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(to top, rgba(10,10,12,0.9), transparent 60%)' }} />
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                       {date && <p className="text-xs text-white/60 tracking-widest mb-1">{date}</p>}
                       <h2 className="text-base font-light text-white">{post.title}</h2>
@@ -163,14 +163,14 @@ export default function EditorialPage() {
                 <button
                   onClick={() => goToPage(1)}
                   disabled={currentPage === 1}
-                  className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-3 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed" style={{ color: 'var(--tz-paper-dim)' }}
                 >
                   Premiere
                 </button>
                 <button
                   onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 text-sm border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-4 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1" style={{ color: 'var(--tz-paper-dim)', border: '1px solid var(--tz-line)' }}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M15 18l-6-6 6-6" />
@@ -178,14 +178,14 @@ export default function EditorialPage() {
                   Precedent
                 </button>
 
-                <span className="px-4 py-2 text-sm text-gray-600">
+                <span className="px-4 py-2 text-sm" style={{ color: 'var(--tz-paper-faint)' }}>
                   Page {currentPage} sur {totalPages}
                 </span>
 
                 <button
                   onClick={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 text-sm border border-gray-300 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
+                  className="px-4 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1" style={{ color: 'var(--tz-paper-dim)', border: '1px solid var(--tz-line)' }}
                 >
                   Suivant
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -195,7 +195,7 @@ export default function EditorialPage() {
                 <button
                   onClick={() => goToPage(totalPages)}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="px-3 py-2 text-sm disabled:opacity-30 disabled:cursor-not-allowed" style={{ color: 'var(--tz-paper-dim)' }}
                 >
                   Derniere
                 </button>
@@ -204,7 +204,7 @@ export default function EditorialPage() {
           </>
         ) : (
           <div className="text-center py-32">
-            <p className="text-3xl font-light" style={{ color: 'var(--tz-ink-soft)' }}>
+            <p className="text-3xl font-light" style={{ color: 'var(--tz-paper-faint)' }}>
               {selectedYear
                 ? `${t('editorial.noPostsYear') || 'Aucun article en'} ${selectedYear}`
                 : (t('editorial.noPosts') || 'Aucun article')}
