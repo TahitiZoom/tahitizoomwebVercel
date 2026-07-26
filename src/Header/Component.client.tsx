@@ -40,24 +40,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
         minHeight: overHero ? '0' : '128px',
       }}>
-        {/* Logo, passé en blanc lorsqu'il se pose sur l'image */}
+        {/* Logo signature, passé en blanc lorsqu'il se pose sur l'image.
+            Le fichier carré 144x144 n'ayant aucune transparence, il virait à
+            l'aplat blanc une fois inversé : on utilise le logo transparent
+            aux deux tailles. */}
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          {/* Mobile : favicon */}
-          <img src="/Logo-Tahiti-Zoom-144x144.webp" alt="Tahiti Zoom"
-            style={{
-              height: '80px', width: '80px', objectFit: 'contain',
-              opacity: overHero ? 1 : 0.75,
-              filter: overHero ? 'brightness(0) invert(1)' : 'contrast(85%)',
-            }}
-            className="block md:hidden" />
-          {/* Desktop : logo signature */}
           <img src="/logo.webp" alt="Tahiti Zoom"
             style={{
-              height: '100px', width: 'auto', objectFit: 'contain',
+              width: 'auto', objectFit: 'contain',
               opacity: overHero ? 1 : 0.75,
               filter: overHero ? 'brightness(0) invert(1)' : 'contrast(85%)',
             }}
-            className="hidden md:block" />
+            className="h-14 md:h-[100px]" />
         </Link>
         {/* Nav desktop */}
         <div className="hidden md:flex">
